@@ -1,12 +1,6 @@
 package dev.spider.spider.data.update
 
-import dev.spider.spider.platform.AppInfo
 import dev.spider.spider.platform.httpGetViaSocks
-import dev.spider.spider.platform.httpJson
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
 
 object PlayStore {
     const val PACKAGE = "com.spider.vpn"
@@ -19,17 +13,7 @@ object PlayStore {
     const val SIGNING_CERT_SHA256 = "4a54234609158a2cbb07b30f024751c236dbcf55242aed7b0fd1cd3a7d0d98ec"
 }
 
-enum class Distribution { PlayStore, GitHub }
-
-object GitHubReleases {
-    const val REPO = "amirh00sain/spider-client"
-
-    const val PROJECT_URL = "https://github.com/$REPO"
-
-    const val LATEST_URL = "$PROJECT_URL/releases/latest"
-
-    const val LATEST_API = "https://api.github.com/repos/$REPO/releases/latest"
-}
+enum class Distribution { PlayStore, Standalone }
 
 data class UpdateInfo(
     val versionName: String,
@@ -51,55 +35,11 @@ object UpdateChecker {
 
     suspend fun fetchLatest(
         distribution: Distribution,
-        abis: List<String>,
         socksPort: Int?,
         lang: String,
     ): UpdateInfo? = when (distribution) {
         Distribution.PlayStore -> fetchFromPlay(socksPort, lang)
-        Distribution.GitHub -> fetchFromGitHub(abis, socksPort)
-    }
-
-    private suspend fun fetchFromGitHub(abis: List<String>, socksPort: Int?): UpdateInfo? = runCatching {
-        val response = httpJson(
-            method = "GET",
-            url = GitHubReleases.LATEST_API,
-            headers = mapOf(
-                "Accept" to "application/vnd.github+json",
-                "User-Agent" to AppInfo.userAgent,
-                "X-GitHub-Api-Version" to "2022-11-28",
-            ),
-            body = null,
-            connectTimeoutMs = 12_000,
-            readTimeoutMs = 15_000,
-            socksPort = socksPort,
-        )
-        if (response.code !in 200..299) return@runCatching null
-        parseGitHubRelease(response.body, abis)
-    }.getOrNull()
-
-    private val releaseJson = Json { ignoreUnknownKeys = true; isLenient = true }
-
-    fun parseGitHubRelease(body: String, abis: List<String>): UpdateInfo? {
-        val root = releaseJson.parseToJsonElement(body) as? JsonObject ?: return null
-        fun JsonObject.text(key: String) = (this[key] as? JsonPrimitive)?.takeIf { it.isString }?.content
-        val tag = root.text("tag_name") ?: return null
-        val version = Regex("""\d+(?:\.\d+)+""").find(tag)?.value ?: return null
-        val assets = (root["assets"] as? JsonArray).orEmpty().mapNotNull { element ->
-            val asset = element as? JsonObject ?: return@mapNotNull null
-            val name = asset.text("name") ?: return@mapNotNull null
-            val url = asset.text("browser_download_url") ?: return@mapNotNull null
-            name to url
-        }.toMap()
-        val apk = if (abis.isEmpty()) null else {
-            (abis.map { "Spider-$version-$it.apk" } + "Spider-$version-universal.apk")
-                .firstNotNullOfOrNull { assets[it] }
-        }
-        return UpdateInfo(
-            versionName = version,
-            releaseNotes = releaseNotesFrom(root.text("body").orEmpty()),
-            downloadUrl = apk ?: root.text("html_url") ?: GitHubReleases.LATEST_URL,
-            assets = assets,
-        )
+        Distribution.Standalone -> null
     }
 
     fun releaseNotesFrom(markdown: String): String {

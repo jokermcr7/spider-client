@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Spider</string>
+    <string name="app_name">NeonNet</string>
     <string name="brand_tagline">Private. Fast. Yours.</string>
     <string name="home_promo_title">Build a free VPN with Spider Panel</string>
     <string name="home_promo_body">Open Spider Panel for a simple way to create a VPN configuration.</string>
@@ -310,7 +310,7 @@
     <string name="zsx_invalid">Not a valid .zsx file</string>
     <string name="zsx_legacy">This locked config was made by an older version of Spider. Ask whoever shared it for a new copy.</string>
 
-    <string name="cd_app_logo">Spider logo</string>
+    <string name="cd_app_logo">NeonNet app logo</string>
     <string name="cd_connection_status">Connection status</string>
     <string name="cd_settings">Open settings</string>
 

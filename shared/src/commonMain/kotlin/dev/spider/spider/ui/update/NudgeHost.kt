@@ -79,7 +79,6 @@ fun NudgeHost(
         }
         val info = UpdateChecker.fetchLatest(
             platform.distribution,
-            platform.deviceAbis,
             socks,
             settings.language.tag ?: "en",
         ) ?: return@LaunchedEffect
@@ -282,6 +281,10 @@ fun ManualUpdateCheckHost(
 
     LaunchedEffect(trigger) {
         if (trigger == 0) return@LaunchedEffect
+        if (platform.distribution == Distribution.Standalone) {
+            onFinished()
+            return@LaunchedEffect
+        }
         val socks = if (VpnManager.status.value.state == ConnectionState.Connected) {
             VpnManager.activeSocksPort
         } else {
@@ -289,7 +292,6 @@ fun ManualUpdateCheckHost(
         }
         val info = UpdateChecker.fetchLatest(
             platform.distribution,
-            platform.deviceAbis,
             socks,
             settings.language.tag ?: "en",
         )

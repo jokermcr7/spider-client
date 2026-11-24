@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Spider</string>
+    <string name="app_name">NeonNet</string>
     <string name="brand_tagline">Privado. Rápido. Tuyo.</string>
     <string name="nav_home">Inicio</string>
     <string name="nav_servers">Servidores</string>
@@ -250,7 +250,7 @@
     <string name="zsx_imported">Configuración bloqueada importada</string>
     <string name="zsx_invalid">No es un archivo .zsx válido</string>
     <string name="zsx_legacy">Esta configuración bloqueada se creó con una versión antigua de Spider. Pide una copia nueva a quien la compartió.</string>
-    <string name="cd_app_logo">Logotipo de Spider</string>
+    <string name="cd_app_logo">Logotipo de NeonNet</string>
     <string name="cd_connection_status">Estado de la conexión</string>
     <string name="cd_settings">Abrir ajustes</string>
     <string name="manual_encryption">Cifrado</string>

@@ -117,7 +117,7 @@ private fun ExpressivePillBar(tabs: List<TopDestination>, current: TopDestinatio
                 tabs.forEach { dest ->
                     val selected = current == dest
                     val bg by animateColorAsState(
-                        if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainer,
+                        if (selected) androidx.compose.ui.graphics.Color(0xFFFF6A00) else MaterialTheme.colorScheme.surfaceContainer,
                         label = "exp-bg",
                     )
                     val fg by animateColorAsState(
@@ -172,7 +172,10 @@ private fun MaterialBar(
     onSelect: (TopDestination) -> Unit,
     underline: Boolean,
 ) {
-    NavigationBar {
+    NavigationBar(
+        containerColor = androidx.compose.ui.graphics.Color(0xFF18191A),
+        contentColor = androidx.compose.ui.graphics.Color(0xFFF2F0EC),
+    ) {
         tabs.forEach { dest ->
             val selected = current == dest
             NavigationBarItem(
@@ -202,10 +205,20 @@ private fun MaterialBar(
                 label = { Text(stringResource(dest.labelRes), maxLines = 1) },
                 colors = if (underline) {
                     androidx.compose.material3.NavigationBarItemDefaults.colors(
+                        selectedIconColor = androidx.compose.ui.graphics.Color(0xFFFF6A00),
+                        selectedTextColor = androidx.compose.ui.graphics.Color(0xFFFF6A00),
+                        unselectedIconColor = androidx.compose.ui.graphics.Color(0xFFA5A29D),
+                        unselectedTextColor = androidx.compose.ui.graphics.Color(0xFFA5A29D),
                         indicatorColor = androidx.compose.ui.graphics.Color.Transparent,
                     )
                 } else {
-                    androidx.compose.material3.NavigationBarItemDefaults.colors()
+                    androidx.compose.material3.NavigationBarItemDefaults.colors(
+                        selectedIconColor = androidx.compose.ui.graphics.Color(0xFFFF6A00),
+                        selectedTextColor = androidx.compose.ui.graphics.Color(0xFFFF6A00),
+                        unselectedIconColor = androidx.compose.ui.graphics.Color(0xFFA5A29D),
+                        unselectedTextColor = androidx.compose.ui.graphics.Color(0xFFA5A29D),
+                        indicatorColor = androidx.compose.ui.graphics.Color(0xFF3A3028),
+                    )
                 },
             )
         }

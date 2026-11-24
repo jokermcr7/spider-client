@@ -15,7 +15,6 @@ import android.graphics.Bitmap
 import dev.spider.spider.core.platform.ZsxSharing
 import dev.spider.spider.data.assets.GeoAssets
 import dev.spider.spider.data.update.Distribution
-import dev.spider.spider.data.update.GitHubReleases
 import dev.spider.spider.data.update.PlayStore
 import dev.spider.spider.data.assets.GeoAssetsRepository
 import dev.spider.spider.ui.platform.FilePick
@@ -289,7 +288,7 @@ class AndroidPlatform(
     override val supportsNetworkTypeRules: Boolean get() = true
 
     override val distribution: Distribution by lazy {
-        if (signingCertSha256() == PlayStore.SIGNING_CERT_SHA256) Distribution.PlayStore else Distribution.GitHub
+        if (signingCertSha256() == PlayStore.SIGNING_CERT_SHA256) Distribution.PlayStore else Distribution.Standalone
     }
 
     override val deviceAbis: List<String> get() = android.os.Build.SUPPORTED_ABIS.toList()
@@ -310,10 +309,7 @@ class AndroidPlatform(
     }.getOrNull()
 
     override fun openStorePage() {
-        if (distribution != Distribution.PlayStore) {
-            openUri(GitHubReleases.PROJECT_URL)
-            return
-        }
+        if (distribution != Distribution.PlayStore) return
         val opened = runCatching {
             context.startActivity(
                 Intent(Intent.ACTION_VIEW, Uri.parse(PlayStore.MARKET_URL)).apply {

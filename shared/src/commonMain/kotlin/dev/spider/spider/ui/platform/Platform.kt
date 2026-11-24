@@ -3,7 +3,6 @@ package dev.spider.spider.ui.platform
 import androidx.compose.runtime.staticCompositionLocalOf
 import dev.spider.spider.data.assets.GeoAssets
 import dev.spider.spider.data.update.Distribution
-import dev.spider.spider.data.update.GitHubReleases
 
 data class LiveStats(
 
@@ -95,7 +94,7 @@ interface Platform {
 
     fun openBatteryOptimizationSettings() {}
 
-    val distribution: Distribution get() = Distribution.GitHub
+    val distribution: Distribution get() = Distribution.Standalone
 
     val deviceAbis: List<String> get() = emptyList()
 
@@ -105,10 +104,10 @@ interface Platform {
         Result.failure(UnsupportedOperationException("updates install from the store on this platform"))
 
     fun openStorePage() {
-        openUri(
-            if (distribution == Distribution.PlayStore) dev.spider.spider.data.update.PlayStore.WEB_URL
-            else GitHubReleases.PROJECT_URL,
-        )
+        when (distribution) {
+            Distribution.PlayStore -> openUri(dev.spider.spider.data.update.PlayStore.WEB_URL)
+            Distribution.Standalone -> Unit
+        }
     }
 }
 

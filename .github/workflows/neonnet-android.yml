@@ -1,0 +1,130 @@
+name: NeonNet Android APK
+
+on:
+  push:
+    branches:
+      - neonnet/rebrand
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: neonnet-android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  version:
+    runs-on: ubuntu-24.04
+    outputs:
+      name: ${{ steps.version.outputs.name }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Read app version
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(sed -n 's/^spider.versionName=//p' gradle.properties)
+          [[ -n "$version" ]] || { echo "::error::spider.versionName missing"; exit 1; }
+          echo "name=$version" >> "$GITHUB_OUTPUT"
+
+  android-apks:
+    needs: version
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref }}
+      - uses: actions/setup-java@v6
+        with: { distribution: temurin, java-version: "21" }
+      - uses: gradle/actions/setup-gradle@v5
+      - uses: android-actions/setup-android@v4
+      - name: Install Android NDK
+        shell: bash
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "ndk;30.0.16248370"
+          test -d "$ANDROID_HOME/ndk/30.0.16248370/toolchains/llvm/prebuilt"
+          {
+            echo "NDK_HOME=$ANDROID_HOME/ndk/30.0.16248370"
+            echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/30.0.16248370"
+            echo "ANDROID_NDK_ROOT=$ANDROID_HOME/ndk/30.0.16248370"
+          } >> "$GITHUB_ENV"
+          # drop the runner's older NDKs so nothing can pick NDK 27 by accident
+          for d in "$ANDROID_HOME"/ndk/*; do
+            [ "$(basename "$d")" = "30.0.16248370" ] || sudo rm -rf "$d"
+          done
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+          targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android
+      - name: Build Aether for Android
+        run: ./compile-aether.sh
+      - name: Download Android engine builds
+        run: ./tools/get-cores.sh android
+      - name: Check Android native libraries
+        shell: bash
+        run: |
+          set -euo pipefail
+          for abi in arm64-v8a armeabi-v7a x86_64; do
+            test -s "app/src/main/jniLibs/$abi/libaether.so"
+            for lib in libtor libobfs4proxy libsnowflake libconjure libsnispoof libhev-socks5-tunnel libopenconnect libzeptun-jni; do
+              [[ -s "app/src/main/jniLibs/$abi/$lib.so" ]] || echo "::warning::$abi/$lib.so is missing; that engine will be unavailable"
+            done
+            for lib in libhev-socks5-tunnel libopenconnect libzeptun-jni; do
+              so="app/src/main/jniLibs/$abi/$lib.so"
+              [[ ! -s "$so" ]] && continue
+              readelf --dyn-syms -W "$so" | grep -qE ' (JNI_OnLoad|Java_)' || { echo "::error::$abi/$lib.so has no JNI entry point"; exit 1; }
+            done
+          done
+      - name: Generate temporary APK signing key
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          keytool -genkeypair -v \
+            -keystore release.keystore \
+            -storepass android \
+            -keypass android \
+            -alias neonnet-release \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=NeonNet Temporary Build, OU=CI, O=NeonNet, L=Unknown, ST=Unknown, C=US"
+          { echo "storeFile=release.keystore"; echo "storePassword=android"; echo "keyPassword=android"; echo "keyAlias=neonnet-release"; } > keystore.properties
+      - name: Build APKs (temporary signing key)
+        run: ./gradlew --warning-mode all :app:assembleRelease
+      - name: Name and verify APKs
+        env:
+          VERSION: ${{ needs.version.outputs.name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          for abi in arm64-v8a armeabi-v7a x86_64; do
+            src="app/build/outputs/apk/release/app-$abi-release.apk"
+            [[ -s "$src" ]] || { echo "::error::$src was not built"; exit 1; }
+            cp "$src" "dist/NeonNet-$VERSION-$abi.apk"
+          done
+          bt=$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -1)
+          python3 tools/universal-apk.py "dist/NeonNet-$VERSION-arm64-v8a.apk" /tmp/universal.apk "dist/NeonNet-$VERSION-armeabi-v7a.apk"
+          "$bt/zipalign" -f -P 16 4 /tmp/universal.apk /tmp/universal-aligned.apk
+          store_pw=$(sed -n 's/^storePassword=//p' keystore.properties)
+          key_pw=$(sed -n 's/^keyPassword=//p' keystore.properties)
+          alias_name=$(sed -n 's/^keyAlias=//p' keystore.properties)
+          STORE_PW="$store_pw" KEY_PW="$key_pw" "$bt/apksigner" sign --ks release.keystore \
+            --ks-key-alias "$alias_name" --ks-pass env:STORE_PW --key-pass env:KEY_PW \
+            --v1-signing-enabled false --v2-signing-enabled true --v3-signing-enabled false --v4-signing-enabled false \
+            --out "dist/NeonNet-$VERSION-universal.apk" /tmp/universal-aligned.apk
+          rm -f /tmp/universal.apk /tmp/universal-aligned.apk
+          for apk in dist/NeonNet-*.apk; do "$bt/apksigner" verify "$apk"; done
+          "$bt/aapt2" dump badging "dist/NeonNet-$VERSION-universal.apk" | grep -q "native-code: 'arm64-v8a' 'armeabi-v7a'"
+          (cd dist && sha256sum NeonNet-*.apk > SHA256SUMS-android.txt)
+      - name: Remove signing material
+        if: always()
+        run: shred -u release.keystore keystore.properties 2>/dev/null || rm -f release.keystore keystore.properties
+      - uses: actions/upload-artifact@v7
+        with:
+          name: android-apks
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 14

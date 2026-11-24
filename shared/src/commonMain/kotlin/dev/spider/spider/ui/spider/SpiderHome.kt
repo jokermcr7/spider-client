@@ -225,7 +225,7 @@ internal fun SpiderHome(
                 .padding(start = 28.dp, end = 28.dp, top = 24.dp),
         )
         PanelPromo(
-            onClick = { platform.openUri("https://spiderpanel.xfdscscsa.de5.net") },
+            onClick = {},
             onSecretUnlocked = onSecretUnlocked,
             onBurst = onBurst,
             modifier = Modifier
@@ -410,7 +410,7 @@ private fun HomeHero(
         )
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text(modeLabel, style = SpiderType.number(11.sp, FontWeight.Medium).copy(textDirection = TextDirection.Ltr), color = Color(0xFF3B82D4))
+            Text(modeLabel, style = SpiderType.number(11.sp, FontWeight.Medium).copy(textDirection = TextDirection.Ltr), color = c.lime)
             Box(Modifier.width(22.dp).height(1.dp).background(c.line))
             Text(
                 if (live && info.pingMs != null) ltrIsolate("${info.pingMs} ms") else "— ms",
@@ -856,22 +856,28 @@ private fun SpiderGlobeButton(
 ) {
     val c = Spider.colors
     val connected = state == ConnectionState.Connected
-    val connecting = state == ConnectionState.Connecting || state == ConnectionState.Reconnecting
+    val connecting = state == ConnectionState.Connecting ||
+        state == ConnectionState.Reconnecting
     val pointColor = when {
         connected -> c.good
-        connecting -> Color(0xFF6C9DD1)
-        else -> c.bad
+        connecting -> c.lime
+        else -> c.lime
     }
     val rotation = remember { Animatable(0f) }
+
     LaunchedEffect(animate) {
         if (!animate) {
             rotation.snapTo(0f)
         } else {
             while (true) {
-                rotation.animateTo(rotation.value + (2f * kotlin.math.PI.toFloat()), tween(28_000))
+                rotation.animateTo(
+                    rotation.value + (2f * kotlin.math.PI.toFloat()),
+                    tween(28_000)
+                )
             }
         }
     }
+
     Box(
         modifier
             .clip(CircleShape)
@@ -880,32 +886,75 @@ private fun SpiderGlobeButton(
     ) {
         Canvas(Modifier.fillMaxSize()) {
             val center = Offset(size.width / 2f, size.height / 2f)
-            val radius = size.minDimension * .40f
+            val radius = size.minDimension * .39f
             val angle = rotation.value
-            val cy = kotlin.math.cos(angle)
-            val sy = kotlin.math.sin(angle)
-            val goldenAngle = kotlin.math.PI.toFloat() * (3f - kotlin.math.sqrt(5f))
-            val count = 520
-            for (index in 0 until count) {
-                val y = 1f - 2f * (index + .5f) / count
-                val ring = kotlin.math.sqrt((1f - y * y).coerceAtLeast(0f))
-                val theta = goldenAngle * index
-                val x = kotlin.math.cos(theta) * ring
-                val z = kotlin.math.sin(theta) * ring
-                val rotatedX = x * cy + z * sy
-                val depth = -x * sy + z * cy
-                val px = center.x + rotatedX * radius
-                val py = center.y + y * radius
-                val opacity = if (depth > 0f) .35f + depth * .55f else .08f + (depth + 1f) * .12f
-                val dotSize = (.65f + (depth.coerceAtLeast(0f) * .65f)).dp.toPx()
-                drawCircle(pointColor.copy(alpha = opacity), dotSize, Offset(px, py))
+            val orange = pointColor
+            val darkCore = Color(0xFF171513)
+
+            drawCircle(
+                brush = Brush.radialGradient(
+                    listOf(orange.copy(alpha = .20f), orange.copy(alpha = .035f), Color.Transparent),
+                    center,
+                    radius * 1.42f
+                ),
+                radius = radius * 1.42f,
+                center = center
+            )
+            drawCircle(
+                color = orange.copy(alpha = .16f),
+                radius = radius * 1.16f,
+                center = center,
+                style = Stroke(width = 1.dp.toPx())
+            )
+            drawCircle(
+                color = orange.copy(alpha = .72f),
+                radius = radius * 1.04f,
+                center = center,
+                style = Stroke(width = 2.2.dp.toPx())
+            )
+            drawCircle(
+                color = Color(0xFF34302B),
+                radius = radius * .91f,
+                center = center,
+                style = Stroke(width = 5.dp.toPx())
+            )
+            drawCircle(
+                brush = Brush.radialGradient(
+                    listOf(Color(0xFF30271F), darkCore, Color(0xFF0D0D0E)),
+                    center,
+                    radius
+                ),
+                radius = radius * .87f,
+                center = center
+            )
+
+            val orbitRadius = radius * 1.10f
+            for (i in 0 until 4) {
+                val a = angle + i * (kotlin.math.PI.toFloat() / 2f)
+                val x = center.x + kotlin.math.cos(a) * orbitRadius
+                val y = center.y + kotlin.math.sin(a) * orbitRadius
+                drawCircle(
+                    color = orange.copy(alpha = if (i == 0) 1f else .48f),
+                    radius = if (i == 0) 4.dp.toPx() else 2.dp.toPx(),
+                    center = Offset(x, y)
+                )
             }
-            drawCircle(pointColor.copy(alpha = .10f), radius * 1.08f, center, style = Stroke(1.dp.toPx()))
-            drawOval(
-                color = pointColor.copy(alpha = .16f),
-                topLeft = Offset(center.x - radius * .42f, center.y - radius),
-                size = androidx.compose.ui.geometry.Size(radius * .84f, radius * 2f),
-                style = Stroke(1.dp.toPx()),
+
+            val innerRadius = radius * .70f
+            drawCircle(
+                color = orange.copy(alpha = .12f),
+                radius = innerRadius,
+                center = center,
+                style = Stroke(width = 1.dp.toPx())
+            )
+            drawArc(
+                color = orange,
+                startAngle = angle * 57.2958f,
+                sweepAngle = 82f,
+                useCenter = false,
+                topLeft = Offset(center.x - innerRadius, center.y - innerRadius),
+                size = androidx.compose.ui.geometry.Size(innerRadius * 2f, innerRadius * 2f),
+                style = Stroke(width = 2.5.dp.toPx(), cap = StrokeCap.Round)
             )
         }
     }
@@ -931,7 +980,19 @@ private fun ServerCard(
         motif = null,
         contentPadding = PaddingValues(horizontal = 18.dp, vertical = 16.dp),
     ) {
-        Text(stringResource(Res.string.spider_current_server).uppercase(), style = SpiderType.caption(), color = tone.content.copy(alpha = 0.8f))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Box(
+                Modifier.size(7.dp).clip(CircleShape).background(c.lime)
+            )
+            Text(
+                stringResource(Res.string.spider_current_server).uppercase(),
+                style = SpiderType.caption(),
+                color = c.lime,
+            )
+        }
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             val country = (if (live && showInfo) info.countryCode else null) ?: active?.country
@@ -1014,35 +1075,37 @@ private fun SpeedTile(
     live: Boolean,
     modifier: Modifier = Modifier,
 ) {
+    val c = Spider.colors
+    val tileTone = SpiderTone(c.surface2, c.ink)
     val (value, unit) = formatRate(bps)
     Column(
         modifier
             .height(122.dp)
             .clip(SpiderShapes.block())
-            .background(tone.container)
+            .background(tileTone.container)
             .padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 10.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            Icon(painterResource(icon), contentDescription = null, tint = tone.content, modifier = Modifier.size(16.dp))
-            Text(label, style = MaterialTheme.typography.labelLarge.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold), color = tone.content, maxLines = 1)
+            Icon(painterResource(icon), contentDescription = null, tint = c.lime, modifier = Modifier.size(16.dp))
+            Text(label, style = MaterialTheme.typography.labelLarge.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold), color = tileTone.content, maxLines = 1)
         }
         Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             Text(
                 value,
                 style = SpiderType.number(36.sp),
-                color = tone.content.copy(alpha = if (live) 1f else 0.6f),
+                color = tileTone.content.copy(alpha = if (live) 1f else 0.6f),
                 maxLines = 1,
                 modifier = Modifier.alignByBaseline(),
             )
             Text(
                 unit,
                 style = MaterialTheme.typography.labelLarge.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold),
-                color = tone.content.copy(alpha = 0.8f),
+                color = tileTone.content.copy(alpha = 0.8f),
                 modifier = Modifier.alignByBaseline(),
             )
         }
-        Sparkline(history, tone.content, Modifier.fillMaxWidth().height(22.dp))
+        Sparkline(history, c.lime, Modifier.fillMaxWidth().height(22.dp))
     }
 }
 

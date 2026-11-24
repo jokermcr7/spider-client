@@ -231,7 +231,7 @@
     <string name="zsx_invalid">فایل ‎.zsx‎ معتبر نیست</string>
     <string name="zsx_legacy">این کانفیگ قفل‌شده با نسخهٔ قدیمی‌تر Spider ساخته شده است. از فرستنده بخواهید نسخهٔ تازه‌ای بفرستد.</string>
 
-    <string name="cd_app_logo">نشان زدسکیور</string>
+    <string name="cd_app_logo">نشان NeonNet</string>
     <string name="cd_connection_status">وضعیت اتصال</string>
     <string name="cd_settings">باز کردن تنظیمات</string>
 
@@ -604,7 +604,7 @@
     <string name="notif_chip_on">روشن</string>
     <string name="notif_chip_off">خاموش</string>
     <string name="notif_title_disconnected">تونل متوقف شد</string>
-    <string name="notif_kill_switch_body">تونل قطع شد. کلید محافظ جلوی ترافیک را گرفته و Spider به محض برگشتن شبکه دوباره وصل می‌شود.</string>
+    <string name="notif_kill_switch_body">تونل قطع شد. کلید محافظ جلوی ترافیک را گرفته و NeonNet به محض برگشتن شبکه دوباره وصل می‌شود.</string>
     <string name="widget_description">اتصال یا قطع، همراه با وضعیت و سرعت زنده.</string>
     <string name="widget_no_server">سروری انتخاب نشده</string>
     <string name="chain_member_missing">اعضای گم‌شدهٔ زنجیره: %1$s</string>
@@ -654,7 +654,7 @@
     <string name="snispoof_no_ack">سرور لبه بستهٔ جعلی را تأیید نکرد و همهٔ اتصال‌ها ریست شدند. این شبکه یا این IP تمیز اجازهٔ این روش را نمی‌دهد — یک IP تمیز دیگر را امتحان کن.</string>
     <string name="qr_scan_hint">دوربین را روی کد QR بگیرید</string>
     <string name="qr_scan_chunk_progress">بخش %1$d از %2$d — برای بقیه ثابت نگه دارید</string>
-    <string name="tile_label">زدسکیور</string>
+    <string name="tile_label">NeonNet VPN</string>
     <string name="switch_server_timeout">تعویض سرور انجام نشد — اتصال قبلی قطع نشد.</string>
     <string name="engine_failed_with_reason">%1$s: %2$s</string>
     <string name="engine_failed_ssh">اتصال SSH ناموفق بود</string>
@@ -670,7 +670,7 @@
     <string name="engine_invalid_config_dnstunnel">پیکربندی تونل DNS نامعتبر است</string>
     <string name="engine_invalid_config_masterdns">پیکربندی MasterDNS نامعتبر است</string>
     <string name="engine_invalid_config_openconnect">پیکربندی OpenConnect نامعتبر است</string>
-    <string name="deeplink_open_label">وارد کردن در Spider</string>
+    <string name="deeplink_open_label">وارد کردن در NeonNet</string>
     <string name="engine_ikev2_needs_app">پروفایل IKEv2 را VPN همیشه‌روشن نمی‌تواند راه بیندازد. برای اتصال، Spider را باز کنید.</string>
     <string name="auto_notif_remark">خودکار · %1$s</string>
     <string name="auto_no_members">هیچ سروری در این گروه برای حالت خودکار قابل استفاده نیست</string>
@@ -679,6 +679,6 @@
     <string name="auto_group_manual_short">دستی</string>
     <string name="widget_download">دانلود</string>
     <string name="widget_upload">آپلود</string>
-    <string name="widget_toggle_label">کلید Spider</string>
+    <string name="widget_toggle_label">کلید NeonNet</string>
     <string name="widget_toggle_description">با یک لمس وصل یا قطع کنید.</string>
 </resources>

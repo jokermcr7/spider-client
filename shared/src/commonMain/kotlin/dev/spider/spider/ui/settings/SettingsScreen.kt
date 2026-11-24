@@ -528,12 +528,14 @@ private fun SpiderRoot(
                 art = SettingsArts.Ai,
             ) { onOpen(SettingsPage.Ai) })
         }
-        add(dev.spider.spider.ui.spider.SpiderHubEntry(
-            key = "rate",
-            title = stringResource(if (fromPlay) Res.string.rate_title else Res.string.rate_title_github),
-            summary = stringResource(if (fromPlay) Res.string.rate_summary else Res.string.rate_summary_github),
-            art = SettingsArts.Rate,
-        ) { platform.openStorePage() })
+        if (fromPlay) {
+            add(dev.spider.spider.ui.spider.SpiderHubEntry(
+                key = "rate",
+                title = stringResource(Res.string.rate_title),
+                summary = stringResource(Res.string.rate_summary),
+                art = SettingsArts.Rate,
+            ) { platform.openStorePage() })
+        }
         add(dev.spider.spider.ui.spider.SpiderHubEntry(
             key = "firefox-vpn",
             title = stringResource(Res.string.settings_firefox_vpn),

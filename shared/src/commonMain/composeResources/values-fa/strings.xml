@@ -305,7 +305,7 @@
     <string name="zsx_invalid">فایل zsx معتبر نیست</string>
     <string name="zsx_legacy">این کانفیگ قفل‌شده با نسخهٔ قدیمی‌تر Spider ساخته شده است. از فرستنده بخواهید نسخهٔ تازه‌ای بفرستد.</string>
 
-    <string name="cd_app_logo">نشان زدسکیور</string>
+    <string name="cd_app_logo">نشان NeonNet</string>
     <string name="cd_connection_status">وضعیت اتصال</string>
     <string name="cd_settings">باز کردن تنظیمات</string>
 

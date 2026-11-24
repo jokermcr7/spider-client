@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Spider</string>
+    <string name="app_name">NeonNet</string>
     <string name="brand_tagline">Приватно. Быстро. Ваше.</string>
 
     <string name="nav_home">Главная</string>
@@ -270,7 +270,7 @@
     <string name="zsx_invalid">Недопустимый файл .zsx</string>
     <string name="zsx_legacy">Эта закрытая конфигурация создана в старой версии Spider. Попросите отправителя прислать новую копию.</string>
 
-    <string name="cd_app_logo">Логотип Spider</string>
+    <string name="cd_app_logo">Логотип NeonNet</string>
     <string name="cd_connection_status">Статус подключения</string>
     <string name="cd_settings">Открыть настройки</string>
 
