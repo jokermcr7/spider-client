@@ -348,7 +348,7 @@ class SingBoxEngine(
     private fun postNotification(notification: Notification) {
         val manager = service.getSystemService(NotificationManager::class.java) ?: return
         val built = NotificationCompat.Builder(service, VpnNotifications.CHANNEL_ID)
-            .setSmallIcon(com.xtm.vpn.R.drawable.ic_tile_spider)
+            .setSmallIcon(com.xtm.vpn.R.drawable.ic_notification_xtm)
             .setContentTitle(notification.title)
             .setContentText(notification.body.ifBlank { notification.subtitle })
             .setStyle(NotificationCompat.BigTextStyle().bigText(notification.body))

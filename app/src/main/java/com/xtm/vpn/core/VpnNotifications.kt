@@ -138,7 +138,7 @@ class VpnNotifications(private val ctx: Context) {
         val title = BidiText.auto(server.ifBlank { ctx.getString(R.string.app_name) })
         val colors = colors()
         val b = NotificationCompat.Builder(ctx, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_tile_spider)
+            .setSmallIcon(R.drawable.ic_notification_xtm)
             .setContentTitle(title)
             .setColor(colors.accent)
             .setOngoing(true)
