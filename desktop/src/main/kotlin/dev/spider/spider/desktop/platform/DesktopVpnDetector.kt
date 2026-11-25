@@ -1,4 +1,4 @@
-package dev.spider.spider.desktop.platform
+package com.xtm.vpn.desktop.platform
 
 import java.net.Inet4Address
 import java.net.NetworkInterface

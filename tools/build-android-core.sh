@@ -22,7 +22,7 @@ SOURCE="$(find "$OUT" -mindepth 3 -maxdepth 3 -type f -path '*/scripts/build-zed
 export GOBIN PATH="$GOBIN:$PATH" SPIDER_ROOT="$ROOT"
 go install golang.org/x/mobile/cmd/gomobile@v0.0.0-20260908204917-8b95e45f8d3e
 go install golang.org/x/mobile/cmd/gobind@v0.0.0-20260908204917-8b95e45f8d3e
-"$SOURCE/scripts/fetch.sh"
+bash "$SOURCE/scripts/fetch.sh"
 # Pick the NDK: prefer the one the workflow installed (NDK_HOME), else the newest.
 # cronet-go's libcronet.a needs a recent lld; NDK 27 fails with
 # "unknown relocation (315) against symbol typeinfo for ...".

@@ -1,7 +1,7 @@
-package dev.spider.spider.desktop.core
+package com.xtm.vpn.desktop.core
 
-import dev.spider.spider.domain.config.Ikev2Auth
-import dev.spider.spider.domain.config.Ikev2Profile
+import com.xtm.vpn.domain.config.Ikev2Auth
+import com.xtm.vpn.domain.config.Ikev2Profile
 import java.io.File
 import java.util.Base64
 import java.util.UUID
@@ -345,7 +345,7 @@ class DesktopIkev2(
 
     companion object {
         const val NAME = "Spider IKEv2"
-        private const val PAYLOAD_ID = "dev.spider.spider.ikev2"
+        private const val PAYLOAD_ID = "com.xtm.vpn.ikev2"
         private val STRONGSWAN_PLUGIN = listOf(
             "/usr/lib/NetworkManager/VPN/nm-strongswan-service.name",
             "/usr/lib64/NetworkManager/VPN/nm-strongswan-service.name",

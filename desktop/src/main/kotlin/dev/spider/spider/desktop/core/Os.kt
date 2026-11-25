@@ -1,4 +1,4 @@
-package dev.spider.spider.desktop.core
+package com.xtm.vpn.desktop.core
 
 enum class Os { LINUX, WINDOWS, MACOS, OTHER;
     companion object {

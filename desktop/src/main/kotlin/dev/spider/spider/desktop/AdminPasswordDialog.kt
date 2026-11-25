@@ -1,4 +1,4 @@
-package dev.spider.spider.desktop
+package com.xtm.vpn.desktop
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,15 +27,15 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import dev.spider.spider.desktop.core.AdminAnswer
-import dev.spider.spider.shared.resources.Res
-import dev.spider.spider.shared.resources.action_cancel
-import dev.spider.spider.shared.resources.action_ok
-import dev.spider.spider.shared.resources.admin_password_body
-import dev.spider.spider.shared.resources.admin_password_label
-import dev.spider.spider.shared.resources.admin_password_remember
-import dev.spider.spider.shared.resources.admin_password_title
-import dev.spider.spider.shared.resources.admin_password_wrong
+import com.xtm.vpn.desktop.core.AdminAnswer
+import com.xtm.vpn.shared.resources.Res
+import com.xtm.vpn.shared.resources.action_cancel
+import com.xtm.vpn.shared.resources.action_ok
+import com.xtm.vpn.shared.resources.admin_password_body
+import com.xtm.vpn.shared.resources.admin_password_label
+import com.xtm.vpn.shared.resources.admin_password_remember
+import com.xtm.vpn.shared.resources.admin_password_title
+import com.xtm.vpn.shared.resources.admin_password_wrong
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

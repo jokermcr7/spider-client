@@ -1,4 +1,4 @@
-package dev.spider.spider.desktop.core
+package com.xtm.vpn.desktop.core
 
 import com.sun.jna.Native
 import java.io.BufferedReader
@@ -172,7 +172,7 @@ object WindowsElevation {
             .mapNotNull { runCatching { File(it.protectionDomain.codeSource.location.toURI()).absolutePath }.getOrNull() }
             .distinct()
             .joinToString(File.pathSeparator)
-        val args = listOf("-cp", classpath, "dev.spider.spider.desktop.core.WindowsHelperKt") + helperArgs
+        val args = listOf("-cp", classpath, "com.xtm.vpn.desktop.core.WindowsHelperKt") + helperArgs
         return java.absolutePath to args.joinToString(" ") { DesktopOpenConnect.winArg(it) }
     }
 }

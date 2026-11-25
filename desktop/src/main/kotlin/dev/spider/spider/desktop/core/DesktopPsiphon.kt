@@ -1,7 +1,7 @@
-package dev.spider.spider.desktop.core
+package com.xtm.vpn.desktop.core
 
-import dev.spider.spider.domain.config.PsiphonConfigBuilder
-import dev.spider.spider.domain.config.PsiphonProfile
+import com.xtm.vpn.domain.config.PsiphonConfigBuilder
+import com.xtm.vpn.domain.config.PsiphonProfile
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.intOrNull

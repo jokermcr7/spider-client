@@ -1,6 +1,6 @@
-package dev.spider.spider.desktop.core
+package com.xtm.vpn.desktop.core
 
-import dev.spider.spider.domain.config.OpenConnectProfile
+import com.xtm.vpn.domain.config.OpenConnectProfile
 import java.io.File
 import java.nio.file.Files
 import java.util.concurrent.TimeUnit

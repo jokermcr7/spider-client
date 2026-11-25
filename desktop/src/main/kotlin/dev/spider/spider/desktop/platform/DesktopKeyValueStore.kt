@@ -1,6 +1,6 @@
-package dev.spider.spider.desktop.platform
+package com.xtm.vpn.desktop.platform
 
-import dev.spider.spider.platform.KeyValueStore
+import com.xtm.vpn.platform.KeyValueStore
 import java.io.File
 import java.util.Properties
 

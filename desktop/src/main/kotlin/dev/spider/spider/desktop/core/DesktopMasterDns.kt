@@ -1,8 +1,8 @@
-package dev.spider.spider.desktop.core
+package com.xtm.vpn.desktop.core
 
-import dev.spider.spider.core.LogBus
-import dev.spider.spider.domain.config.LocalPorts
-import dev.spider.spider.domain.config.MasterDnsProfile
+import com.xtm.vpn.core.LogBus
+import com.xtm.vpn.domain.config.LocalPorts
+import com.xtm.vpn.domain.config.MasterDnsProfile
 import java.io.File
 import java.net.InetSocketAddress
 import java.net.ServerSocket

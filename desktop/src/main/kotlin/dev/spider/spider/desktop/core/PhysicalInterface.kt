@@ -1,4 +1,4 @@
-package dev.spider.spider.desktop.core
+package com.xtm.vpn.desktop.core
 
 object PhysicalInterface {
     fun detect(os: Os = Os.current): String? = runCatching {

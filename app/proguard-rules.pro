@@ -32,10 +32,10 @@
 -dontwarn org.bouncycastle.**
 -dontwarn javax.naming.**
 
--keepclassmembers class dev.spider.spider.** {
+-keepclassmembers class com.xtm.vpn.** {
     *** Companion;
 }
--keep @kotlinx.serialization.Serializable class dev.spider.spider.** { *; }
+-keep @kotlinx.serialization.Serializable class com.xtm.vpn.** { *; }
 
 -allowaccessmodification
 
@@ -52,8 +52,8 @@
 -dontwarn com.jcraft.jsch.**
 
 -keep class org.infradead.libopenconnect.** { *; }
--keep class dev.spider.spider.core.OpenConnectController { *; }
--keep class dev.spider.spider.core.OpenConnectController$* { *; }
+-keep class com.xtm.vpn.core.OpenConnectController { *; }
+-keep class com.xtm.vpn.core.OpenConnectController$* { *; }
 
 -dontwarn com.google.zxing.**
 -keep class com.google.zxing.qrcode.** { *; }

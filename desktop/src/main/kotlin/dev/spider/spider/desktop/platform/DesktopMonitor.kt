@@ -1,7 +1,7 @@
-package dev.spider.spider.desktop.platform
+package com.xtm.vpn.desktop.platform
 
-import dev.spider.spider.desktop.core.Os
-import dev.spider.spider.ui.platform.LiveStats
+import com.xtm.vpn.desktop.core.Os
+import com.xtm.vpn.ui.platform.LiveStats
 import java.io.File
 
 object DesktopMonitor {

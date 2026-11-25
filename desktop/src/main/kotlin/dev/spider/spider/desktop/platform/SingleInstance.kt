@@ -1,4 +1,4 @@
-package dev.spider.spider.desktop.platform
+package com.xtm.vpn.desktop.platform
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

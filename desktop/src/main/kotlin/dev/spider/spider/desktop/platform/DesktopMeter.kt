@@ -1,6 +1,6 @@
-package dev.spider.spider.desktop.platform
+package com.xtm.vpn.desktop.platform
 
-import dev.spider.spider.core.VpnManager
+import com.xtm.vpn.core.VpnManager
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit

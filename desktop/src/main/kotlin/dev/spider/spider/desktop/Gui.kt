@@ -1,4 +1,4 @@
-package dev.spider.spider.desktop
+package com.xtm.vpn.desktop
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
@@ -11,7 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import dev.spider.spider.ui.platform.DesktopBack
+import com.xtm.vpn.ui.platform.DesktopBack
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.KeyEventType
@@ -31,66 +31,66 @@ import coil3.ImageLoader
 import kotlinx.coroutines.launch
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.svg.SvgDecoder
-import dev.spider.spider.core.VpnManager
-import dev.spider.spider.data.config.ConfigRepository
-import dev.spider.spider.core.LogBus
-import dev.spider.spider.domain.model.AppLanguage
-import dev.spider.spider.domain.model.ConnectionState
-import dev.spider.spider.shared.resources.Res
-import dev.spider.spider.shared.resources.state_connected
-import dev.spider.spider.shared.resources.state_connecting
-import dev.spider.spider.shared.resources.state_disconnecting
-import dev.spider.spider.shared.resources.state_error
-import dev.spider.spider.shared.resources.state_idle
-import dev.spider.spider.shared.resources.action_connect
-import dev.spider.spider.shared.resources.action_disconnect
-import dev.spider.spider.shared.resources.tray_server
-import dev.spider.spider.shared.resources.tray_mode
-import dev.spider.spider.shared.resources.tray_copy_proxy
-import dev.spider.spider.shared.resources.tray_show
-import dev.spider.spider.shared.resources.tray_hide
-import dev.spider.spider.shared.resources.tray_quit
-import dev.spider.spider.shared.resources.tray_missing_gnome
-import dev.spider.spider.shared.resources.tray_missing_minimized
-import dev.spider.spider.shared.resources.mode_system_proxy
-import dev.spider.spider.shared.resources.mode_socks
-import dev.spider.spider.shared.resources.mode_tun
-import dev.spider.spider.shared.resources.tray_all_servers
-import dev.spider.spider.shared.resources.ic_tray_connected
-import dev.spider.spider.shared.resources.ic_tray_connecting
-import dev.spider.spider.shared.resources.ic_tray_disconnected
-import dev.spider.spider.shared.resources.ic_spider_mark
-import dev.spider.spider.shared.resources.zsx_expired
-import dev.spider.spider.shared.resources.zsx_invalid
-import dev.spider.spider.shared.resources.zsx_legacy
-import dev.spider.spider.core.VaultImportBus
-import dev.spider.spider.crypto.ZsxLegacyException
+import com.xtm.vpn.core.VpnManager
+import com.xtm.vpn.data.config.ConfigRepository
+import com.xtm.vpn.core.LogBus
+import com.xtm.vpn.domain.model.AppLanguage
+import com.xtm.vpn.domain.model.ConnectionState
+import com.xtm.vpn.shared.resources.Res
+import com.xtm.vpn.shared.resources.state_connected
+import com.xtm.vpn.shared.resources.state_connecting
+import com.xtm.vpn.shared.resources.state_disconnecting
+import com.xtm.vpn.shared.resources.state_error
+import com.xtm.vpn.shared.resources.state_idle
+import com.xtm.vpn.shared.resources.action_connect
+import com.xtm.vpn.shared.resources.action_disconnect
+import com.xtm.vpn.shared.resources.tray_server
+import com.xtm.vpn.shared.resources.tray_mode
+import com.xtm.vpn.shared.resources.tray_copy_proxy
+import com.xtm.vpn.shared.resources.tray_show
+import com.xtm.vpn.shared.resources.tray_hide
+import com.xtm.vpn.shared.resources.tray_quit
+import com.xtm.vpn.shared.resources.tray_missing_gnome
+import com.xtm.vpn.shared.resources.tray_missing_minimized
+import com.xtm.vpn.shared.resources.mode_system_proxy
+import com.xtm.vpn.shared.resources.mode_socks
+import com.xtm.vpn.shared.resources.mode_tun
+import com.xtm.vpn.shared.resources.tray_all_servers
+import com.xtm.vpn.shared.resources.ic_tray_connected
+import com.xtm.vpn.shared.resources.ic_tray_connecting
+import com.xtm.vpn.shared.resources.ic_tray_disconnected
+import com.xtm.vpn.shared.resources.ic_spider_mark
+import com.xtm.vpn.shared.resources.zsx_expired
+import com.xtm.vpn.shared.resources.zsx_invalid
+import com.xtm.vpn.shared.resources.zsx_legacy
+import com.xtm.vpn.core.VaultImportBus
+import com.xtm.vpn.crypto.ZsxLegacyException
 import org.jetbrains.compose.resources.getString
-import dev.spider.spider.domain.config.LocalProxy
-import dev.spider.spider.domain.model.RenderingMode
-import dev.spider.spider.domain.model.RunMode
+import com.xtm.vpn.domain.config.LocalProxy
+import com.xtm.vpn.domain.model.RenderingMode
+import com.xtm.vpn.domain.model.RunMode
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import dev.spider.spider.desktop.core.Os
-import dev.spider.spider.desktop.core.TunMode
-import dev.spider.spider.desktop.platform.AdminPassword
-import dev.spider.spider.desktop.platform.DesktopKeyValueStore
-import dev.spider.spider.desktop.platform.DesktopProbe
-import dev.spider.spider.desktop.platform.DesktopPlatform
-import dev.spider.spider.desktop.platform.DesktopSettings
-import dev.spider.spider.desktop.platform.DesktopVpn
-import dev.spider.spider.desktop.platform.SingleInstance
-import dev.spider.spider.domain.model.ThemeMode
-import dev.spider.spider.platform.AppInfo
-import dev.spider.spider.ui.MainScaffold
-import dev.spider.spider.ui.platform.LocalPlatform
-import dev.spider.spider.ui.theme.LocalMotionBudget
-import dev.spider.spider.ui.theme.MotionBudget
-import dev.spider.spider.ui.theme.SpiderTheme
+import com.xtm.vpn.desktop.core.Os
+import com.xtm.vpn.desktop.core.TunMode
+import com.xtm.vpn.desktop.platform.AdminPassword
+import com.xtm.vpn.desktop.platform.DesktopKeyValueStore
+import com.xtm.vpn.desktop.platform.DesktopProbe
+import com.xtm.vpn.desktop.platform.DesktopPlatform
+import com.xtm.vpn.desktop.platform.DesktopSettings
+import com.xtm.vpn.desktop.platform.DesktopVpn
+import com.xtm.vpn.desktop.platform.SingleInstance
+import com.xtm.vpn.domain.model.ThemeMode
+import com.xtm.vpn.platform.AppInfo
+import com.xtm.vpn.ui.MainScaffold
+import com.xtm.vpn.ui.platform.LocalPlatform
+import com.xtm.vpn.ui.theme.LocalMotionBudget
+import com.xtm.vpn.ui.theme.MotionBudget
+import com.xtm.vpn.ui.theme.SpiderTheme
 import androidx.compose.ui.platform.LocalWindowInfo
 import java.awt.GraphicsEnvironment
 
@@ -114,8 +114,8 @@ private const val TRAY_HOST_RETRY_MS = 5_000L
 private const val TRAY_SPEED_MS = 5_000L
 
 fun main(args: Array<String>) {
-    if (args.firstOrNull() == dev.spider.spider.desktop.core.WindowsHelper.FLAG) {
-        dev.spider.spider.desktop.core.WindowsHelper.serve(args.drop(1))
+    if (args.firstOrNull() == com.xtm.vpn.desktop.core.WindowsHelper.FLAG) {
+        com.xtm.vpn.desktop.core.WindowsHelper.serve(args.drop(1))
         return
     }
     if (args.firstOrNull() == "--version") {
@@ -469,8 +469,8 @@ fun main(args: Array<String>) {
                     amoledBlack = settings.amoledBlack,
                     colorStyle = settings.colorStyle,
                     colorContrast = settings.colorContrast,
-                    design = dev.spider.spider.domain.model.AppDesign.Spider,
-                    spider = settings.spider.copy(palette = dev.spider.spider.domain.model.SpiderPalette.Brand),
+                    design = com.xtm.vpn.domain.model.AppDesign.Spider,
+                    spider = settings.spider.copy(palette = com.xtm.vpn.domain.model.SpiderPalette.Brand),
                     animateColors = !settings.reduceMotion,
                     languageTag = langTag,
                     fontScale = settings.uiFontScale.scale,
@@ -479,7 +479,7 @@ fun main(args: Array<String>) {
                 ) {
                     val focused = LocalWindowInfo.current.isWindowFocused
                     val onScreen = windowVisible && !windowState.isMinimized
-                    LaunchedEffect(onScreen) { dev.spider.spider.desktop.platform.DesktopMeter.foreground = onScreen }
+                    LaunchedEffect(onScreen) { com.xtm.vpn.desktop.platform.DesktopMeter.foreground = onScreen }
                     val motion = if (windowVisible && !windowState.isMinimized && focused) {
                         MotionBudget.Throttled
                     } else {
@@ -503,7 +503,7 @@ fun main(args: Array<String>) {
                             }
                             AdminPasswordDialog(
                                 request.retry,
-                                offerRemember = dev.spider.spider.desktop.core.Os.current == dev.spider.spider.desktop.core.Os.LINUX,
+                                offerRemember = com.xtm.vpn.desktop.core.Os.current == com.xtm.vpn.desktop.core.Os.LINUX,
                             ) { AdminPassword.answer(request, it) }
                         }
                     }
@@ -528,25 +528,25 @@ internal fun wireDesktopServices(
         runCatching { configRepository.buildChainConfig(profile, options) }.getOrNull()
     }
 
-    dev.spider.spider.core.CoreProbe.measureDelay = { url -> DesktopProbe.measureDelay(url) }
+    com.xtm.vpn.core.CoreProbe.measureDelay = { url -> DesktopProbe.measureDelay(url) }
 
-    dev.spider.spider.core.AutoSelect.readStatus = {
-        dev.spider.spider.desktop.platform.DesktopStats.latestAutoSelect
+    com.xtm.vpn.core.AutoSelect.readStatus = {
+        com.xtm.vpn.desktop.platform.DesktopStats.latestAutoSelect
     }
 
-    VpnManager.deviceVpnProbe = { dev.spider.spider.desktop.platform.DesktopVpnDetector.anyVpn() }
-    dev.spider.spider.core.CoreProbe.measureOutboundDelay = { cfg, url ->
+    VpnManager.deviceVpnProbe = { com.xtm.vpn.desktop.platform.DesktopVpnDetector.anyVpn() }
+    com.xtm.vpn.core.CoreProbe.measureOutboundDelay = { cfg, url ->
         DesktopProbe.measureOutboundDelay(cfg, url)
     }
-    dev.spider.spider.data.net.PingService.probeOptions = {
-        dev.spider.spider.domain.config.XrayJsonBuilder.BuildOptions(useSystemCa = desktopSettings.settings.value.useSystemCa)
+    com.xtm.vpn.data.net.PingService.probeOptions = {
+        com.xtm.vpn.domain.config.XrayJsonBuilder.BuildOptions(useSystemCa = desktopSettings.settings.value.useSystemCa)
     }
 
-    dev.spider.spider.data.assets.GeoAutoFetch.start(background, dev.spider.spider.desktop.core.DesktopGeoAssets) {
+    com.xtm.vpn.data.assets.GeoAutoFetch.start(background, com.xtm.vpn.desktop.core.DesktopGeoAssets) {
         desktopSettings.settings.value
     }
     background.launch {
-        dev.spider.spider.data.assets.GeoAutoFetch.ready.collect { DesktopVpn.reconnect(configRepository) }
+        com.xtm.vpn.data.assets.GeoAutoFetch.ready.collect { DesktopVpn.reconnect(configRepository) }
     }
 }
 

@@ -1,7 +1,7 @@
-package dev.spider.spider.desktop.core
+package com.xtm.vpn.desktop.core
 
-import dev.spider.spider.core.tor.TorConfigBuilder
-import dev.spider.spider.domain.model.AppSettings
+import com.xtm.vpn.core.tor.TorConfigBuilder
+import com.xtm.vpn.domain.model.AppSettings
 import java.io.File
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit

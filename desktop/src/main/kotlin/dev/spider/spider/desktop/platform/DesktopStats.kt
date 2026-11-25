@@ -1,4 +1,4 @@
-package dev.spider.spider.desktop.platform
+package com.xtm.vpn.desktop.platform
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
@@ -28,15 +28,15 @@ class DesktopStats(private val metricsPort: Int) {
         val vars = json.parseToJsonElement(body).jsonObject
 
         latestAutoSelect = vars["autoselect"]?.toString()
-        if (dev.spider.spider.core.AutoSelect.session.value != null) dev.spider.spider.core.AutoSelect.poll()
+        if (com.xtm.vpn.core.AutoSelect.session.value != null) com.xtm.vpn.core.AutoSelect.poll()
         val outbound = vars["stats"]?.jsonObject
             ?.get("outbound")?.jsonObject ?: return@runCatching 0L to 0L
         var up = 0L; var down = 0L
 
-        val autoMembers = outbound.keys.any { dev.spider.spider.domain.config.AutoSelectTags.isMember(it) }
+        val autoMembers = outbound.keys.any { com.xtm.vpn.domain.config.AutoSelectTags.isMember(it) }
         outbound.forEach { (tag, v) ->
             if (tag == "direct" || tag == "block") return@forEach
-            if (autoMembers && !dev.spider.spider.domain.config.AutoSelectTags.isMember(tag)) return@forEach
+            if (autoMembers && !com.xtm.vpn.domain.config.AutoSelectTags.isMember(tag)) return@forEach
             val o = v.jsonObject
             up += runCatching { o["uplink"]?.jsonPrimitive?.content?.toLong() ?: 0L }.getOrDefault(0L)
             down += runCatching { o["downlink"]?.jsonPrimitive?.content?.toLong() ?: 0L }.getOrDefault(0L)

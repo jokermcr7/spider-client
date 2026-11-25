@@ -1,4 +1,4 @@
-package dev.spider.spider.desktop
+package com.xtm.vpn.desktop
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -13,8 +13,8 @@ import androidx.compose.ui.window.MenuScope
 import com.kdroid.composetray.menu.api.TrayMenuBuilder
 import com.kdroid.composetray.tray.impl.LinuxTrayInitializer
 import com.kdroid.composetray.tray.impl.WindowsTrayInitializer
-import dev.spider.spider.desktop.core.Os
-import dev.spider.spider.desktop.core.exec
+import com.xtm.vpn.desktop.core.Os
+import com.xtm.vpn.desktop.core.exec
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.awt.image.BufferedImage

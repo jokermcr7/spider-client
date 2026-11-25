@@ -1,4 +1,4 @@
-package dev.spider.spider.desktop.core
+package com.xtm.vpn.desktop.core
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray

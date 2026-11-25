@@ -1,10 +1,10 @@
-package dev.spider.spider.desktop.platform
+package com.xtm.vpn.desktop.platform
 
-import dev.spider.spider.core.LogBus
-import dev.spider.spider.core.VpnManager
-import dev.spider.spider.data.update.UpdateInfo
-import dev.spider.spider.desktop.core.Os
-import dev.spider.spider.domain.model.ConnectionState
+import com.xtm.vpn.core.LogBus
+import com.xtm.vpn.core.VpnManager
+import com.xtm.vpn.data.update.UpdateInfo
+import com.xtm.vpn.desktop.core.Os
+import com.xtm.vpn.domain.model.ConnectionState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File

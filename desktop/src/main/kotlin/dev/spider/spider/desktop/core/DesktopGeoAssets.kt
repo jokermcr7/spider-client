@@ -1,10 +1,10 @@
-package dev.spider.spider.desktop.core
+package com.xtm.vpn.desktop.core
 
-import dev.spider.spider.core.VpnManager
-import dev.spider.spider.data.assets.GeoAsset
-import dev.spider.spider.data.assets.GeoAssets
-import dev.spider.spider.domain.model.ConnectionState
-import dev.spider.spider.domain.model.GeoFilesSource
+import com.xtm.vpn.core.VpnManager
+import com.xtm.vpn.data.assets.GeoAsset
+import com.xtm.vpn.data.assets.GeoAssets
+import com.xtm.vpn.domain.model.ConnectionState
+import com.xtm.vpn.domain.model.GeoFilesSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File

@@ -1,10 +1,10 @@
-package dev.spider.spider.desktop
+package com.xtm.vpn.desktop
 
-import dev.spider.spider.desktop.core.AdminAnswer
-import dev.spider.spider.desktop.core.Os
-import dev.spider.spider.desktop.core.SystemProxy
-import dev.spider.spider.desktop.core.TunMode
-import dev.spider.spider.desktop.core.XrayCore
+import com.xtm.vpn.desktop.core.AdminAnswer
+import com.xtm.vpn.desktop.core.Os
+import com.xtm.vpn.desktop.core.SystemProxy
+import com.xtm.vpn.desktop.core.TunMode
+import com.xtm.vpn.desktop.core.XrayCore
 import java.io.File
 
 fun main(args: Array<String>) {

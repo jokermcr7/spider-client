@@ -1,7 +1,7 @@
-package dev.spider.spider.desktop.core
+package com.xtm.vpn.desktop.core
 
-import dev.spider.spider.core.LogBus
-import dev.spider.spider.domain.config.DnsTunnelProfile
+import com.xtm.vpn.core.LogBus
+import com.xtm.vpn.domain.config.DnsTunnelProfile
 import java.io.File
 import java.net.InetSocketAddress
 import java.net.ServerSocket
@@ -10,7 +10,7 @@ import java.net.Socket
 class DesktopDnsTunnel(
     private val profile: DnsTunnelProfile,
     private val workDir: File,
-    private val listenPort: Int = dev.spider.spider.domain.config.LocalPorts.DNS_TUNNEL,
+    private val listenPort: Int = com.xtm.vpn.domain.config.LocalPorts.DNS_TUNNEL,
     private val listenHost: String = "127.0.0.1",
 ) {
     private var process: Process? = null

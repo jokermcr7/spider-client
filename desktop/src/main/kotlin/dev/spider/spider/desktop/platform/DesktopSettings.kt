@@ -1,11 +1,11 @@
-package dev.spider.spider.desktop.platform
+package com.xtm.vpn.desktop.platform
 
-import dev.spider.spider.domain.model.AppSettings
-import dev.spider.spider.domain.model.DomainStrategy
-import dev.spider.spider.domain.model.GeoFilesSource
-import dev.spider.spider.domain.model.RenderingMode
-import dev.spider.spider.domain.model.RunMode
-import dev.spider.spider.platform.KeyValueStore
+import com.xtm.vpn.domain.model.AppSettings
+import com.xtm.vpn.domain.model.DomainStrategy
+import com.xtm.vpn.domain.model.GeoFilesSource
+import com.xtm.vpn.domain.model.RenderingMode
+import com.xtm.vpn.domain.model.RunMode
+import com.xtm.vpn.platform.KeyValueStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -56,8 +56,8 @@ class DesktopSettings(private val store: KeyValueStore) {
             stored
         }
         if (current != null && store.getString(DESIGN_KEY) != DESIGN_VERSION) {
-            val moved = if (current.appDesign == dev.spider.spider.domain.model.AppDesign.Pixel || designWasPortal(raw)) {
-                current.copy(appDesign = dev.spider.spider.domain.model.AppDesign.Spider)
+            val moved = if (current.appDesign == com.xtm.vpn.domain.model.AppDesign.Pixel || designWasPortal(raw)) {
+                current.copy(appDesign = com.xtm.vpn.domain.model.AppDesign.Spider)
             } else {
                 current
             }

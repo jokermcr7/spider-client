@@ -1,4 +1,4 @@
-package dev.spider.spider.desktop.core
+package com.xtm.vpn.desktop.core
 
 import com.sun.jna.Callback
 import com.sun.jna.Library

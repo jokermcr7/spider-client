@@ -1,8 +1,8 @@
-package dev.spider.spider.desktop
+package com.xtm.vpn.desktop
 
-import dev.spider.spider.desktop.core.Os
-import dev.spider.spider.domain.model.RenderingMode
-import dev.spider.spider.ui.platform.AutomaticRendering
+import com.xtm.vpn.desktop.core.Os
+import com.xtm.vpn.domain.model.RenderingMode
+import com.xtm.vpn.ui.platform.AutomaticRendering
 import java.io.File
 
 object DesktopRendering {

@@ -2,7 +2,7 @@ package dev.amirzr.flutter_v2ray_client.v2ray.core
 
 import android.content.Context
 import android.os.ParcelFileDescriptor
-import dev.spider.spider.core.AppLog as Log
+import com.xtm.vpn.core.AppLog as Log
 import hev.htproxy.TProxyService
 import java.io.File
 

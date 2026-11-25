@@ -1,4 +1,4 @@
-package dev.spider.spider.desktop.platform
+package com.xtm.vpn.desktop.platform
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -14,7 +14,7 @@ object DesktopXray {
     private val json = Json { ignoreUnknownKeys = true; isLenient = true }
 
     fun withSocksPort(config: String, from: Int, to: Int): String =
-        dev.spider.spider.domain.config.XrayJsonBuilder.withSocksPort(config, from, to)
+        com.xtm.vpn.domain.config.XrayJsonBuilder.withSocksPort(config, from, to)
 
     fun bindOutbounds(config: String, iface: String, pinned: Map<String, List<String>> = emptyMap()): String {
         val root = runCatching { json.parseToJsonElement(config).jsonObject }.getOrNull() ?: return config
@@ -107,7 +107,7 @@ object DesktopXray {
         if (protocol in NOT_DIALING || protocol == "freedom") return emptyList()
         if (protocol == "singbox") {
             val fragment = settings["config"] as? JsonObject ?: return emptyList()
-            return dev.spider.spider.domain.config.SingBoxJson.servers(fragment.toString()).mapNotNull { it.address }
+            return com.xtm.vpn.domain.config.SingBoxJson.servers(fragment.toString()).mapNotNull { it.address }
         }
         return buildList {
             (settings["vnext"] as? JsonArray).collectHosts(this, "address", hasPort = false)

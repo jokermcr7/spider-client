@@ -1,34 +1,34 @@
-package dev.spider.spider.desktop.platform
+package com.xtm.vpn.desktop.platform
 
-import dev.spider.spider.core.LogBus
-import dev.spider.spider.core.SshController
-import dev.spider.spider.core.VpnManager
-import dev.spider.spider.data.config.ConfigRepository
-import dev.spider.spider.desktop.core.DesktopDnsTunnel
-import dev.spider.spider.desktop.core.DesktopIkev2
-import dev.spider.spider.desktop.core.DesktopPsiphon
-import dev.spider.spider.desktop.core.DesktopTor
-import dev.spider.spider.desktop.core.DesktopTun
-import dev.spider.spider.desktop.core.EngineCgroup
-import dev.spider.spider.desktop.core.PhysicalInterface
-import dev.spider.spider.core.LocalPortPicker
-import dev.spider.spider.desktop.core.SystemProxy
-import dev.spider.spider.desktop.core.Os
-import dev.spider.spider.desktop.core.TunMode
-import dev.spider.spider.desktop.core.XrayCore
-import dev.spider.spider.domain.config.DnsTunnelProfile
-import dev.spider.spider.domain.config.Ikev2Profile
-import dev.spider.spider.domain.config.LocalPorts
-import dev.spider.spider.domain.config.LocalProxy
-import dev.spider.spider.domain.config.PsiphonProfile
-import dev.spider.spider.domain.config.SshProfile
-import dev.spider.spider.domain.config.autoSelectTuning
-import dev.spider.spider.domain.config.effectiveLanSocksPort
-import dev.spider.spider.domain.config.effectiveLocalProxyPort
-import dev.spider.spider.domain.config.engineRemoteDns
-import dev.spider.spider.domain.config.toBuildOptions
-import dev.spider.spider.domain.model.AppSettings
-import dev.spider.spider.domain.model.RunMode
+import com.xtm.vpn.core.LogBus
+import com.xtm.vpn.core.SshController
+import com.xtm.vpn.core.VpnManager
+import com.xtm.vpn.data.config.ConfigRepository
+import com.xtm.vpn.desktop.core.DesktopDnsTunnel
+import com.xtm.vpn.desktop.core.DesktopIkev2
+import com.xtm.vpn.desktop.core.DesktopPsiphon
+import com.xtm.vpn.desktop.core.DesktopTor
+import com.xtm.vpn.desktop.core.DesktopTun
+import com.xtm.vpn.desktop.core.EngineCgroup
+import com.xtm.vpn.desktop.core.PhysicalInterface
+import com.xtm.vpn.core.LocalPortPicker
+import com.xtm.vpn.desktop.core.SystemProxy
+import com.xtm.vpn.desktop.core.Os
+import com.xtm.vpn.desktop.core.TunMode
+import com.xtm.vpn.desktop.core.XrayCore
+import com.xtm.vpn.domain.config.DnsTunnelProfile
+import com.xtm.vpn.domain.config.Ikev2Profile
+import com.xtm.vpn.domain.config.LocalPorts
+import com.xtm.vpn.domain.config.LocalProxy
+import com.xtm.vpn.domain.config.PsiphonProfile
+import com.xtm.vpn.domain.config.SshProfile
+import com.xtm.vpn.domain.config.autoSelectTuning
+import com.xtm.vpn.domain.config.effectiveLanSocksPort
+import com.xtm.vpn.domain.config.effectiveLocalProxyPort
+import com.xtm.vpn.domain.config.engineRemoteDns
+import com.xtm.vpn.domain.config.toBuildOptions
+import com.xtm.vpn.domain.model.AppSettings
+import com.xtm.vpn.domain.model.RunMode
 import java.io.File
 import java.net.InetAddress
 import kotlin.concurrent.thread
@@ -55,14 +55,14 @@ object DesktopVpn {
     private var dnsTunnel: DesktopDnsTunnel? = null
     @Volatile private var tor: DesktopTor? = null
     @Volatile private var psiphon: DesktopPsiphon? = null
-    @Volatile private var masterDns: dev.spider.spider.desktop.core.DesktopMasterDns? = null
+    @Volatile private var masterDns: com.xtm.vpn.desktop.core.DesktopMasterDns? = null
     @Volatile private var ikev2: DesktopIkev2? = null
     @Volatile private var carrier: XrayCore? = null
-    @Volatile private var openConnect: dev.spider.spider.desktop.core.DesktopOpenConnect? = null
-    @Volatile private var aether: dev.spider.spider.desktop.core.DesktopAether? = null
-    @Volatile private var mhr: dev.spider.spider.desktop.core.DesktopMhr? = null
-    @Volatile private var soar: dev.spider.spider.desktop.core.DesktopSoar? = null
-    @Volatile private var vpeen: dev.spider.spider.core.VpeenEngine? = null
+    @Volatile private var openConnect: com.xtm.vpn.desktop.core.DesktopOpenConnect? = null
+    @Volatile private var aether: com.xtm.vpn.desktop.core.DesktopAether? = null
+    @Volatile private var mhr: com.xtm.vpn.desktop.core.DesktopMhr? = null
+    @Volatile private var soar: com.xtm.vpn.desktop.core.DesktopSoar? = null
+    @Volatile private var vpeen: com.xtm.vpn.core.VpeenEngine? = null
     @Volatile private var firefoxVpnActive = false
     @Volatile private var outerPsiphon: DesktopPsiphon? = null
     @Volatile private var outerTor: DesktopTor? = null
@@ -80,22 +80,22 @@ object DesktopVpn {
 
     @Volatile
 
-    var chainConfigProvider: (dev.spider.spider.domain.config.VpnProfile, dev.spider.spider.domain.config.XrayJsonBuilder.BuildOptions) -> String? =
+    var chainConfigProvider: (com.xtm.vpn.domain.config.VpnProfile, com.xtm.vpn.domain.config.XrayJsonBuilder.BuildOptions) -> String? =
         { _, _ -> null }
 
-    var ruleOutboundsProvider: (List<dev.spider.spider.domain.model.RulesetItem>) -> Map<String, dev.spider.spider.domain.config.ServerConfig> =
+    var ruleOutboundsProvider: (List<com.xtm.vpn.domain.model.RulesetItem>) -> Map<String, com.xtm.vpn.domain.config.ServerConfig> =
         { emptyMap() }
 
-    var ruleGroupsProvider: (List<dev.spider.spider.domain.model.RulesetItem>) -> Map<String, dev.spider.spider.domain.config.RuleGroup> =
+    var ruleGroupsProvider: (List<com.xtm.vpn.domain.model.RulesetItem>) -> Map<String, com.xtm.vpn.domain.config.RuleGroup> =
         { emptyMap() }
 
-    private fun geoAssetsAvailable(): Boolean = dev.spider.spider.desktop.core.DesktopGeoAssets.allPresent()
+    private fun geoAssetsAvailable(): Boolean = com.xtm.vpn.desktop.core.DesktopGeoAssets.allPresent()
 
-    private fun geoCodes(settings: AppSettings): dev.spider.spider.domain.config.GeoCodes? =
+    private fun geoCodes(settings: AppSettings): com.xtm.vpn.domain.config.GeoCodes? =
         if (!geoAssetsAvailable()) null
-        else dev.spider.spider.data.assets.GeoCodeReader.readFor(
-            dev.spider.spider.desktop.core.DesktopGeoAssets.dir,
-            dev.spider.spider.domain.config.RoutingMigration.effectiveRulesets(settings),
+        else com.xtm.vpn.data.assets.GeoCodeReader.readFor(
+            com.xtm.vpn.desktop.core.DesktopGeoAssets.dir,
+            com.xtm.vpn.domain.config.RoutingMigration.effectiveRulesets(settings),
         )
 
     fun toggle(config: ConfigRepository) {
@@ -116,7 +116,7 @@ object DesktopVpn {
             profile.isFirefoxVpn -> startFirefoxVpn(profile.name)
             profile.isMhr -> startMhr(profile.name, profile.mhrSettings()!!)
             profile.isSoar -> startSoar(profile.name, profile.soarSettings()!!)
-            profile.isVpeen -> startVpeen(profile.name, (profile.source as dev.spider.spider.domain.config.ProfileSource.Vpeen).region)
+            profile.isVpeen -> startVpeen(profile.name, (profile.source as com.xtm.vpn.domain.config.ProfileSource.Vpeen).region)
             profile.ikev2Settings() != null -> startIkev2(profile.name, profile.ikev2Settings()!!)
             profile.openConnectSettings() != null -> startOpenConnect(profile.name, profile.openConnectSettings()!!)
             profile.psiphonSettings() != null -> startPsiphon(profile.name, profile.psiphonSettings()!!)
@@ -136,14 +136,14 @@ object DesktopVpn {
         thread(name = "desktop-firefox-vpn") {
             try {
                 kotlinx.coroutines.runBlocking {
-                    dev.spider.spider.platform.startFirefoxVpnCore()
-                    dev.spider.spider.platform.firefoxVpnRequest("POST", "power", "{\"on\":true}")
+                    com.xtm.vpn.platform.startFirefoxVpnCore()
+                    com.xtm.vpn.platform.firefoxVpnRequest("POST", "power", "{\"on\":true}")
                 }
                 firefoxVpnActive = true
                 awaitFirefoxVpnProxy()
                 if (!connectThrough(10810, "Firefox VPN")) {
                     kotlinx.coroutines.runBlocking {
-                        dev.spider.spider.platform.firefoxVpnRequest("POST", "power", "{\"on\":false}")
+                        com.xtm.vpn.platform.firefoxVpnRequest("POST", "power", "{\"on\":false}")
                     }
                     firefoxVpnActive = false
                     return@thread
@@ -152,7 +152,7 @@ object DesktopVpn {
             } catch (e: Exception) {
                 if (firefoxVpnActive) runCatching {
                     kotlinx.coroutines.runBlocking {
-                        dev.spider.spider.platform.firefoxVpnRequest("POST", "power", "{\"on\":false}")
+                        com.xtm.vpn.platform.firefoxVpnRequest("POST", "power", "{\"on\":false}")
                     }
                 }
                 firefoxVpnActive = false
@@ -165,7 +165,7 @@ object DesktopVpn {
     private fun awaitFirefoxVpnProxy() {
         repeat(30) {
             val response = kotlinx.coroutines.runBlocking {
-                dev.spider.spider.platform.firefoxVpnRequest("GET", "status")
+                com.xtm.vpn.platform.firefoxVpnRequest("GET", "status")
             }
             val state = kotlinx.serialization.json.Json.parseToJsonElement(response)
                 .jsonObject["state"]?.jsonObject
@@ -180,11 +180,11 @@ object DesktopVpn {
         throw IllegalStateException("Firefox VPN proxy did not become ready")
     }
 
-    private fun startAether(name: String, profile: dev.spider.spider.domain.config.VpnProfile) {
+    private fun startAether(name: String, profile: com.xtm.vpn.domain.config.VpnProfile) {
         val settings = profile.aetherSettings() ?: run { VpnManager.onError("Invalid Aether profile"); return }
         VpnManager.onStarting(name)
         thread(name = "desktop-aether") {
-            val engine = dev.spider.spider.desktop.core.DesktopAether(settings, work)
+            val engine = com.xtm.vpn.desktop.core.DesktopAether(settings, work)
             aether = engine
             val port = engine.start().getOrElse { error ->
                 if (aether === engine) aether = null
@@ -205,10 +205,10 @@ object DesktopVpn {
         }
     }
 
-    private fun startMhr(name: String, settings: dev.spider.spider.domain.config.MhrProfile) {
+    private fun startMhr(name: String, settings: com.xtm.vpn.domain.config.MhrProfile) {
         VpnManager.onStarting(name)
         thread(name = "desktop-mhr") {
-            val engine = dev.spider.spider.desktop.core.DesktopMhr(settings, work)
+            val engine = com.xtm.vpn.desktop.core.DesktopMhr(settings, work)
             mhr = engine
             val port = engine.start()
             if (port < 0) { if (mhr === engine) mhr = null; VpnManager.onError("MHR failed to start; check Python 3.10+ and the logs"); return@thread }
@@ -227,10 +227,10 @@ object DesktopVpn {
         }
     }
 
-    private fun startSoar(name: String, settings: dev.spider.spider.domain.config.SoarProfile) {
+    private fun startSoar(name: String, settings: com.xtm.vpn.domain.config.SoarProfile) {
         VpnManager.onStarting(name)
         thread(name = "desktop-soar") {
-            val engine = dev.spider.spider.desktop.core.DesktopSoar(settings, work)
+            val engine = com.xtm.vpn.desktop.core.DesktopSoar(settings, work)
             soar = engine
             val port = engine.start()
             if (port < 0) { if (soar === engine) soar = null; VpnManager.onError("Soar failed to start; check the logs"); return@thread }
@@ -252,7 +252,7 @@ object DesktopVpn {
     private fun startVpeen(name: String, region: String) {
         VpnManager.onStarting(name)
         thread(name = "desktop-vpeen") {
-            val engine = dev.spider.spider.core.VpeenEngine(File(work, "vpeen-state"), log = { LogBus.append("I/VPeeN $it") })
+            val engine = com.xtm.vpn.core.VpeenEngine(File(work, "vpeen-state"), log = { LogBus.append("I/VPeeN $it") })
             vpeen = engine
             val port = runCatching { engine.start(region, localPort(18530)) }.getOrElse { error ->
                 if (vpeen === engine) vpeen = null
@@ -306,14 +306,14 @@ object DesktopVpn {
         }
     }
 
-    private fun startMasterDns(name: String, profile: dev.spider.spider.domain.config.MasterDnsProfile) {
+    private fun startMasterDns(name: String, profile: com.xtm.vpn.domain.config.MasterDnsProfile) {
         VpnManager.onStarting(name)
         thread(name = "desktop-masterdns") {
             val settings = settingsProvider()
             val effective = if (settings.dnsGlobalResolverEnabled && settings.dnsGlobalResolvers.isNotBlank()) {
                 profile.copy(resolvers = settings.dnsGlobalResolvers)
             } else profile
-            val engine = dev.spider.spider.desktop.core.DesktopMasterDns(effective, work)
+            val engine = com.xtm.vpn.desktop.core.DesktopMasterDns(effective, work)
             masterDns = engine
             val port = runCatching { engine.start() }.getOrElse {
                 LogBus.append("E/MasterDns ${it.message ?: it}")
@@ -413,10 +413,10 @@ object DesktopVpn {
         }
     }
 
-    private fun startOpenConnect(name: String, profile: dev.spider.spider.domain.config.OpenConnectProfile) {
+    private fun startOpenConnect(name: String, profile: com.xtm.vpn.domain.config.OpenConnectProfile) {
         VpnManager.onStarting(name)
         thread(name = "desktop-openconnect") {
-            val engine = dev.spider.spider.desktop.core.DesktopOpenConnect(profile, work, AdminPassword::ask)
+            val engine = com.xtm.vpn.desktop.core.DesktopOpenConnect(profile, work, AdminPassword::ask)
             openConnect = engine
             val connected = engine.connect()
             if (openConnect !== engine) {
@@ -474,11 +474,11 @@ object DesktopVpn {
         val port = settings.effectiveLanSocksPort
         thread(name = "desktop-lan") {
             if (Os.current == Os.WINDOWS) {
-                if (!dev.spider.spider.desktop.core.WindowsElevation.ensure(work)) {
+                if (!com.xtm.vpn.desktop.core.WindowsElevation.ensure(work)) {
                     LogBus.append("W/Desktop LAN sharing needs administrator rights to open port $port in Windows Firewall")
                     return@thread
                 }
-                dev.spider.spider.desktop.core.WindowsElevation.allowLan(listOf(port, port + 1))
+                com.xtm.vpn.desktop.core.WindowsElevation.allowLan(listOf(port, port + 1))
                     .onSuccess {
                         lanOpen = true
                         LogBus.append("I/Desktop Windows Firewall lets other devices reach port $port")
@@ -492,15 +492,15 @@ object DesktopVpn {
 
     private fun frontJson(upstreamPort: Int, socksPort: Int, onion: Boolean): String {
         val settings = settingsProvider()
-        val rulesets = dev.spider.spider.domain.config.RoutingMigration.effectiveRulesets(settings)
+        val rulesets = com.xtm.vpn.domain.config.RoutingMigration.effectiveRulesets(settings)
         val options = settings.toBuildOptions(
             geoAssetsAvailable = geoAssetsAvailable(),
             geoCodes = geoCodes(settings),
             ruleOutbounds = ruleOutboundsProvider(rulesets),
             ruleGroups = ruleGroupsProvider(rulesets),
         ).let(::vpnModeOptions)
-        return dev.spider.spider.domain.config.XrayJsonBuilder.buildEngineFront(
-            dev.spider.spider.domain.config.XrayJsonBuilder.EngineFront(upstreamPort, onion),
+        return com.xtm.vpn.domain.config.XrayJsonBuilder.buildEngineFront(
+            com.xtm.vpn.domain.config.XrayJsonBuilder.EngineFront(upstreamPort, onion),
             socksPort,
             options,
             settings.engineRemoteDns(),
@@ -509,15 +509,15 @@ object DesktopVpn {
 
     private fun startCrossChain(
         name: String,
-        profile: dev.spider.spider.domain.config.VpnProfile,
+        profile: com.xtm.vpn.domain.config.VpnProfile,
         config: ConfigRepository,
     ) {
         val (inner, outer) = runCatching { config.crossChainMembers(profile) }.getOrElse {
             VpnManager.onError(it.message ?: "This chain cannot be built"); return
         }
-        if (inner.isTor && !dev.spider.spider.core.tor.TorConfigBuilder.supportsUpstreamProxy(settingsProvider())) {
-            val refused = dev.spider.spider.data.config.CrossChainUnsupportedException(
-                dev.spider.spider.data.config.CrossChainUnsupportedException.DIALER, inner.name,
+        if (inner.isTor && !com.xtm.vpn.core.tor.TorConfigBuilder.supportsUpstreamProxy(settingsProvider())) {
+            val refused = com.xtm.vpn.data.config.CrossChainUnsupportedException(
+                com.xtm.vpn.data.config.CrossChainUnsupportedException.DIALER, inner.name,
             )
             VpnManager.onError(refused.message ?: "${inner.name} cannot run through ${outer.name}")
             return
@@ -545,7 +545,7 @@ object DesktopVpn {
         }
     }
 
-    private fun startCarrier(outer: dev.spider.spider.domain.config.VpnProfile): Int {
+    private fun startCarrier(outer: com.xtm.vpn.domain.config.VpnProfile): Int {
         carrierBypass = null
         outer.psiphonSettings()?.let { psiphonProfile ->
             val socks = localPort(LocalPorts.PSIPHON_SOCKS)
@@ -582,7 +582,7 @@ object DesktopVpn {
         return if (core.start(json, CARRIER_CONFIG)) port else -1
     }
 
-    private fun startInner(inner: dev.spider.spider.domain.config.VpnProfile, carrierPort: Int): String? {
+    private fun startInner(inner: com.xtm.vpn.domain.config.VpnProfile, carrierPort: Int): String? {
         inner.psiphonSettings()?.let { psiphonProfile ->
             val socks = localPort(LocalPorts.PSIPHON_SOCKS, setOf(carrierPort))
             val http = localPort(LocalPorts.PSIPHON_HTTP, setOf(socks, carrierPort))
@@ -614,19 +614,19 @@ object DesktopVpn {
             geoAssetsAvailable = geoAssetsAvailable(),
             geoCodes = geoCodes(settings),
             ruleOutbounds = ruleOutboundsProvider(
-                dev.spider.spider.domain.config.RoutingMigration.effectiveRulesets(settings),
+                com.xtm.vpn.domain.config.RoutingMigration.effectiveRulesets(settings),
             ),
             ruleGroups = ruleGroupsProvider(
-                dev.spider.spider.domain.config.RoutingMigration.effectiveRulesets(settings),
+                com.xtm.vpn.domain.config.RoutingMigration.effectiveRulesets(settings),
             ),
         ).let(::vpnModeOptions)
-        val chained = dev.spider.spider.domain.config.XrayJsonBuilder.withCarrierProxy(xrayJsonOf(inner, options), carrierPort)
+        val chained = com.xtm.vpn.domain.config.XrayJsonBuilder.withCarrierProxy(xrayJsonOf(inner, options), carrierPort)
         val socksPort = proxyPort(setOf(carrierPort))
         val metricsPort = localPort(METRICS_PORT, setOf(socksPort, socksPort + 1, carrierPort))
         val bypass = carrierBypass
         val excluded = engineCgroup.takeIf { bypass == null }
         val json = DesktopXray.augmentWithMetrics(
-            dev.spider.spider.domain.config.XrayJsonBuilder.withLocalPorts(chained, LocalProxy.SOCKS_PORT, socksPort),
+            com.xtm.vpn.domain.config.XrayJsonBuilder.withLocalPorts(chained, LocalProxy.SOCKS_PORT, socksPort),
             metricsPort,
         )
             .let { if (bypass != null) keepCoreOutside(it) else it }
@@ -642,8 +642,8 @@ object DesktopVpn {
     }
 
     private fun xrayJsonOf(
-        profile: dev.spider.spider.domain.config.VpnProfile,
-        options: dev.spider.spider.domain.config.XrayJsonBuilder.BuildOptions,
+        profile: com.xtm.vpn.domain.config.VpnProfile,
+        options: com.xtm.vpn.domain.config.XrayJsonBuilder.BuildOptions,
     ): String = if (profile.isProxyChain) {
         chainConfigProvider(profile, options) ?: error("Proxy chain members are unavailable")
     } else {
@@ -662,7 +662,7 @@ object DesktopVpn {
 
     private fun startXray(
         name: String,
-        profile: dev.spider.spider.domain.config.VpnProfile,
+        profile: com.xtm.vpn.domain.config.VpnProfile,
         config: ConfigRepository,
     ) {
         val settings = settingsProvider()
@@ -670,14 +670,14 @@ object DesktopVpn {
             geoAssetsAvailable = geoAssetsAvailable(),
             geoCodes = geoCodes(settings),
             ruleOutbounds = ruleOutboundsProvider(
-                dev.spider.spider.domain.config.RoutingMigration.effectiveRulesets(settings),
+                com.xtm.vpn.domain.config.RoutingMigration.effectiveRulesets(settings),
             ),
             ruleGroups = ruleGroupsProvider(
-                dev.spider.spider.domain.config.RoutingMigration.effectiveRulesets(settings),
+                com.xtm.vpn.domain.config.RoutingMigration.effectiveRulesets(settings),
             ),
         ).let(::vpnModeOptions)
 
-        dev.spider.spider.core.AutoSelect.clearPrepared()
+        com.xtm.vpn.core.AutoSelect.clearPrepared()
         val baseJson = runCatching {
             if (profile.isAutoSelect) {
                 val build = config.buildAutoSelectConfig(
@@ -685,7 +685,7 @@ object DesktopVpn {
                     options,
                     settings.autoSelectTuning(),
                 )
-                dev.spider.spider.core.AutoSelect.prepare(profile.id, build.memberProfiles)
+                com.xtm.vpn.core.AutoSelect.prepare(profile.id, build.memberProfiles)
                 build.json
             } else {
                 xrayJsonOf(profile, options)
@@ -698,13 +698,13 @@ object DesktopVpn {
             val socksPort = proxyPort()
             val metricsPort = localPort(METRICS_PORT, setOf(socksPort, socksPort + 1))
             val ported = DesktopXray.augmentWithMetrics(
-                dev.spider.spider.domain.config.XrayJsonBuilder.withLocalPorts(baseJson, LocalProxy.SOCKS_PORT, socksPort),
+                com.xtm.vpn.domain.config.XrayJsonBuilder.withLocalPorts(baseJson, LocalProxy.SOCKS_PORT, socksPort),
                 metricsPort,
             )
             val json = keepCoreOutside(ported)
             val core = adopt(XrayCore(work))
             if (!core.start(json)) { VpnManager.onError("Core failed to start"); return@thread }
-            dev.spider.spider.core.AutoSelect.activate()
+            com.xtm.vpn.core.AutoSelect.activate()
             val bypass = resolveHosts(DesktopXray.extractServerHosts(json))
             if (!route(socksPort, bypass, udpOverTcp = false)) {
                 core.stop(); xray = null
@@ -717,13 +717,13 @@ object DesktopVpn {
         }
     }
 
-    private fun startSingBoxConfig(name: String, profile: dev.spider.spider.domain.config.VpnProfile) {
-        val source = profile.source as? dev.spider.spider.domain.config.ProfileSource.SingBoxConfig ?: return
+    private fun startSingBoxConfig(name: String, profile: com.xtm.vpn.domain.config.VpnProfile) {
+        val source = profile.source as? com.xtm.vpn.domain.config.ProfileSource.SingBoxConfig ?: return
         VpnManager.onStarting(name)
         thread(name = "desktop-singbox") {
             val socksPort = proxyPort()
             val prepared = runCatching {
-                dev.spider.spider.domain.config.SingBoxConfigs.prepareForDesktop(
+                com.xtm.vpn.domain.config.SingBoxConfigs.prepareForDesktop(
                     source.json,
                     socksPort = socksPort,
                     clashApiPort = localPort(METRICS_PORT, setOf(socksPort)),
@@ -732,7 +732,7 @@ object DesktopVpn {
             val core = adopt(XrayCore(work))
             if (!core.startSingBox(prepared.json)) { VpnManager.onError("sing-box failed to start"); return@thread }
 
-            val hosts = dev.spider.spider.domain.config.SingBoxJson.servers(source.json).mapNotNull { it.address }
+            val hosts = com.xtm.vpn.domain.config.SingBoxJson.servers(source.json).mapNotNull { it.address }
             if (!route(prepared.socksPort, resolveHosts(hosts), udpOverTcp = false)) {
                 core.stop(); xray = null
                 VpnManager.onError("Could not route traffic (TUN + system proxy failed)"); return@thread
@@ -743,7 +743,7 @@ object DesktopVpn {
         }
     }
 
-    private fun startSsh(name: String, sshProfile: dev.spider.spider.domain.config.SshProfile) {
+    private fun startSsh(name: String, sshProfile: com.xtm.vpn.domain.config.SshProfile) {
         VpnManager.onStarting(name)
         thread(name = "desktop-ssh") {
             val controller = SshController(
@@ -802,8 +802,8 @@ object DesktopVpn {
     }
 
     private fun rootCgroup(): String? {
-        if (!dev.spider.spider.desktop.core.LinuxBroker.ensure(work, AdminPassword::ask)) return null
-        return dev.spider.spider.desktop.core.LinuxBroker.engineCgroup()
+        if (!com.xtm.vpn.desktop.core.LinuxBroker.ensure(work, AdminPassword::ask)) return null
+        return com.xtm.vpn.desktop.core.LinuxBroker.engineCgroup()
             .onFailure { LogBus.append("W/Desktop ${it.message}") }
             .getOrNull()
             ?.also { LogBus.append("I/Desktop the root helper keeps the engine in its own cgroup") }
@@ -852,7 +852,7 @@ object DesktopVpn {
         return if (SystemProxy.set("127.0.0.1", socksPort)) { usedSystemProxy = true; true } else false
     }
 
-    private fun vpnModeOptions(options: dev.spider.spider.domain.config.XrayJsonBuilder.BuildOptions) = when {
+    private fun vpnModeOptions(options: com.xtm.vpn.domain.config.XrayJsonBuilder.BuildOptions) = when {
         runMode != RunMode.Vpn -> options
         options.directDns.trim().equals("localhost", ignoreCase = true) -> {
             LogBus.append("I/Desktop VPN mode would send the system resolver back into the tunnel; direct DNS uses ${AppSettings().directDns}")
@@ -876,12 +876,12 @@ object DesktopVpn {
         hosts.filter { host -> host.any { it.isLetter() } && ':' !in host }.associateWith { host ->
             val all = runCatching { InetAddress.getAllByName(host).toList() }.getOrDefault(emptyList())
             val picked = all.filterIsInstance<java.net.Inet4Address>().ifEmpty { all }.mapNotNull { it.hostAddress }.distinct()
-            val clean = dev.spider.spider.domain.config.DnsGuard.clean(picked)
+            val clean = com.xtm.vpn.domain.config.DnsGuard.clean(picked)
             if (clean.isNotEmpty() || picked.isEmpty()) {
                 clean
             } else {
                 LogBus.append("W/DNS: $host resolved to ${picked.joinToString()}, a filtering block page; asking DNS over HTTPS instead")
-                listOfNotNull(kotlinx.coroutines.runBlocking { dev.spider.spider.domain.config.DnsGuard.lookup(host) })
+                listOfNotNull(kotlinx.coroutines.runBlocking { com.xtm.vpn.domain.config.DnsGuard.lookup(host) })
             }
         }.filterValues { it.isNotEmpty() }
 
@@ -891,14 +891,14 @@ object DesktopVpn {
 
     fun reconnect(config: ConfigRepository) {
         val state = VpnManager.status.value.state
-        if (state != dev.spider.spider.domain.model.ConnectionState.Connected) return
+        if (state != com.xtm.vpn.domain.model.ConnectionState.Connected) return
         thread(name = "desktop-reconnect") {
             stop()
             val deadline = System.currentTimeMillis() + 15_000
-            while (VpnManager.status.value.state != dev.spider.spider.domain.model.ConnectionState.Idle && System.currentTimeMillis() < deadline) {
+            while (VpnManager.status.value.state != com.xtm.vpn.domain.model.ConnectionState.Idle && System.currentTimeMillis() < deadline) {
                 Thread.sleep(100)
             }
-            if (VpnManager.status.value.state == dev.spider.spider.domain.model.ConnectionState.Idle) toggle(config)
+            if (VpnManager.status.value.state == com.xtm.vpn.domain.model.ConnectionState.Idle) toggle(config)
         }
     }
 
@@ -912,17 +912,17 @@ object DesktopVpn {
 
     fun shutdown() {
         teardown()
-        dev.spider.spider.desktop.core.LinuxBroker.close()
-        dev.spider.spider.desktop.core.WindowsElevation.close()
-        dev.spider.spider.desktop.core.MacTunHelper.close()
+        com.xtm.vpn.desktop.core.LinuxBroker.close()
+        com.xtm.vpn.desktop.core.WindowsElevation.close()
+        com.xtm.vpn.desktop.core.MacTunHelper.close()
     }
 
     fun repairLeftovers() {
-        if (Os.current != Os.MACOS || !dev.spider.spider.desktop.core.MacTunHelper.dnsLeftBehind) return
+        if (Os.current != Os.MACOS || !com.xtm.vpn.desktop.core.MacTunHelper.dnsLeftBehind) return
         thread(name = "desktop-repair") {
-            val repaired = dev.spider.spider.desktop.core.MacTunHelper.repair(
+            val repaired = com.xtm.vpn.desktop.core.MacTunHelper.repair(
                 work,
-                dev.spider.spider.desktop.core.ZeptunBinary.extract(work),
+                com.xtm.vpn.desktop.core.ZeptunBinary.extract(work),
             )
             LogBus.append(
                 if (repaired) "I/Desktop the DNS settings an earlier tunnel left behind are back to normal"
@@ -942,8 +942,8 @@ object DesktopVpn {
     }
 
     init {
-        dev.spider.spider.desktop.core.LinuxBroker.onTunLost = { tunnelLost() }
-        dev.spider.spider.desktop.core.WindowsElevation.onLost = { what -> if (what == "tun") tunnelLost() }
+        com.xtm.vpn.desktop.core.LinuxBroker.onTunLost = { tunnelLost() }
+        com.xtm.vpn.desktop.core.WindowsElevation.onLost = { what -> if (what == "tun") tunnelLost() }
     }
 
     @Synchronized
@@ -966,7 +966,7 @@ object DesktopVpn {
         vpeen?.let { vpeen = null; it.stop() }
         if (wasFirefoxVpn) runCatching {
             kotlinx.coroutines.runBlocking {
-                dev.spider.spider.platform.firefoxVpnRequest("POST", "power", "{\"on\":false}")
+                com.xtm.vpn.platform.firefoxVpnRequest("POST", "power", "{\"on\":false}")
             }
         }
         tun?.stop(); tun = null
@@ -987,8 +987,8 @@ object DesktopVpn {
         engineCgroup?.let { engineCgroup = null; EngineCgroup.remove(it) }
         if (lanOpen) {
             lanOpen = false
-            dev.spider.spider.desktop.core.WindowsElevation.closeLan()
+            com.xtm.vpn.desktop.core.WindowsElevation.closeLan()
         }
-        dev.spider.spider.core.AutoSelect.end()
+        com.xtm.vpn.core.AutoSelect.end()
     }
 }

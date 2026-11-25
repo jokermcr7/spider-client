@@ -1,8 +1,8 @@
-package dev.spider.spider.desktop.platform
+package com.xtm.vpn.desktop.platform
 
-import dev.spider.spider.core.LogBus
-import dev.spider.spider.core.VpnManager
-import dev.spider.spider.desktop.core.XrayBinary
+import com.xtm.vpn.core.LogBus
+import com.xtm.vpn.core.VpnManager
+import com.xtm.vpn.desktop.core.XrayBinary
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
@@ -49,7 +49,7 @@ object DesktopProbe {
         return try {
             proc = ProcessBuilder(bin.absolutePath, "run", "-c", cfg.absolutePath)
                 .directory(work)
-                .apply { environment()["XRAY_LOCATION_ASSET"] = dev.spider.spider.desktop.core.DesktopGeoAssets.dir.absolutePath }
+                .apply { environment()["XRAY_LOCATION_ASSET"] = com.xtm.vpn.desktop.core.DesktopGeoAssets.dir.absolutePath }
                 .start()
             running += proc
             val tail = java.util.concurrent.ConcurrentLinkedDeque<String>()

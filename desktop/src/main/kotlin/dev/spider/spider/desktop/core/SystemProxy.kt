@@ -1,4 +1,4 @@
-package dev.spider.spider.desktop.core
+package com.xtm.vpn.desktop.core
 
 object SystemProxy {
     fun set(host: String, port: Int): Boolean = when (Os.current) {

@@ -27,7 +27,7 @@ kotlin {
     }
 
     android {
-        namespace = "dev.spider.spider.shared"
+        namespace = "com.xtm.vpn.shared"
         compileSdk = 37
         minSdk = 24
     }
@@ -96,12 +96,12 @@ configurations.configureEach {
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "dev.spider.spider.shared.resources"
+    packageOfResClass = "com.xtm.vpn.shared.resources"
     generateResClass = always
 }
 
 tasks.register<Copy>("copyComposeResForAndroid") {
     dependsOn("prepareComposeResourcesTaskForCommonMain")
     from(layout.buildDirectory.dir("generated/compose/resourceGenerator/preparedResources/commonMain/composeResources"))
-    into(layout.buildDirectory.dir("composeResForAndroid/composeResources/dev.spider.spider.shared.resources"))
+    into(layout.buildDirectory.dir("composeResForAndroid/composeResources/com.xtm.vpn.shared.resources"))
 }

@@ -1,13 +1,13 @@
-package dev.spider.spider.desktop.platform
+package com.xtm.vpn.desktop.platform
 
-import dev.spider.spider.core.LogBus
-import dev.spider.spider.desktop.DesktopRendering
-import dev.spider.spider.desktop.core.LinuxBroker
-import dev.spider.spider.desktop.core.Os
-import dev.spider.spider.ui.platform.AdminAccess
-import dev.spider.spider.ui.platform.AutomaticRendering
-import dev.spider.spider.ui.platform.FilePick
-import dev.spider.spider.ui.platform.Platform
+import com.xtm.vpn.core.LogBus
+import com.xtm.vpn.desktop.DesktopRendering
+import com.xtm.vpn.desktop.core.LinuxBroker
+import com.xtm.vpn.desktop.core.Os
+import com.xtm.vpn.ui.platform.AdminAccess
+import com.xtm.vpn.ui.platform.AutomaticRendering
+import com.xtm.vpn.ui.platform.FilePick
+import com.xtm.vpn.ui.platform.Platform
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.awt.Desktop
@@ -22,11 +22,11 @@ object DesktopPlatform : Platform {
     override val supportsSystemProxy: Boolean get() = true
     override val supportsSniSpoof: Boolean get() = false
     override val automaticRendering: AutomaticRendering get() = DesktopRendering.automatic
-    override val supportsTun: Boolean get() = dev.spider.spider.desktop.core.TunMode.supported()
+    override val supportsTun: Boolean get() = com.xtm.vpn.desktop.core.TunMode.supported()
     override val choosesTunEngine: Boolean get() = Os.current == Os.WINDOWS || Os.current == Os.MACOS
 
     override val isMac: Boolean get() = Os.current == Os.MACOS
-    override val geoAssets: dev.spider.spider.data.assets.GeoAssets get() = dev.spider.spider.desktop.core.DesktopGeoAssets
+    override val geoAssets: com.xtm.vpn.data.assets.GeoAssets get() = com.xtm.vpn.desktop.core.DesktopGeoAssets
     override val adminAccess: AdminAccess?
         get() = if (Os.current == Os.LINUX) LinuxAdminAccess else null
 
@@ -68,18 +68,18 @@ object DesktopPlatform : Platform {
         }
     }
 
-    override fun lanIpv4Addresses(): List<String> = dev.spider.spider.platform.LanAddresses.ipv4()
+    override fun lanIpv4Addresses(): List<String> = com.xtm.vpn.platform.LanAddresses.ipv4()
 
-    override fun liveStats(): dev.spider.spider.ui.platform.LiveStats = DesktopMonitor.sample()
+    override fun liveStats(): com.xtm.vpn.ui.platform.LiveStats = DesktopMonitor.sample()
 
     override fun cryptoAcceleration(): String = DesktopMonitor.cryptoAcceleration()
 
     override val isComputer: Boolean get() = true
 
-    override fun canInstallUpdate(info: dev.spider.spider.data.update.UpdateInfo): Boolean = WindowsUpdater.supports(info)
+    override fun canInstallUpdate(info: com.xtm.vpn.data.update.UpdateInfo): Boolean = WindowsUpdater.supports(info)
 
     override suspend fun installUpdate(
-        info: dev.spider.spider.data.update.UpdateInfo,
+        info: com.xtm.vpn.data.update.UpdateInfo,
         progress: (Float) -> Unit,
     ): Result<Unit> = WindowsUpdater.install(info, progress)
 
@@ -89,7 +89,7 @@ object DesktopPlatform : Platform {
 
     override fun shareFiles(files: List<Pair<String, ByteArray>>) {
         if (files.isEmpty()) return
-        val named = uniqueNames(files.map { (name, bytes) -> dev.spider.spider.crypto.zsxFileName(name) to bytes })
+        val named = uniqueNames(files.map { (name, bytes) -> com.xtm.vpn.crypto.zsxFileName(name) to bytes })
         val home = File(System.getProperty("user.home"))
         if (named.size == 1) {
             val (name, bytes) = named.first()

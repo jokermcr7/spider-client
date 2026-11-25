@@ -25,10 +25,10 @@ val generateVersion = tasks.register("generateVersion") {
     inputs.property("version", version)
     outputs.dir(out)
     doLast {
-        val dir = out.get().asFile.resolve("dev/spider/spider/desktop")
+        val dir = out.get().asFile.resolve("com/xtm/vpn/desktop")
         dir.mkdirs()
         dir.resolve("BuildVersion.kt").writeText(
-            "package dev.spider.spider.desktop\n\ninternal const val BUILD_VERSION = \"$version\"\n",
+            "package com.xtm.vpn.desktop\n\ninternal const val BUILD_VERSION = \"$version\"\n",
         )
     }
 }
@@ -109,29 +109,29 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "dev.spider.spider.desktop.GuiKt"
+        mainClass = "com.xtm.vpn.desktop.GuiKt"
         jvmArgs += listOf("-XX:TieredStopAtLevel=1")
         nativeDistributions {
             targetFormats(TargetFormat.Deb, TargetFormat.Rpm, TargetFormat.AppImage, TargetFormat.Msi, TargetFormat.Dmg)
             modules("java.net.http", "jdk.localedata")
-            packageName = "Spider"
+            packageName = "XTM VPN"
             packageVersion = zedVersion
-            description = "Spider VPN client"
-            vendor = "Spider Studio"
+            description = "XTM VPN client"
+            vendor = "XTM Studio"
             linux {
                 iconFile.set(project.file("icons/spider.png"))
-                packageName = "spider"
+                packageName = "xtm-vpn"
                 menuGroup = "Network"
                 shortcut = true
             }
             windows {
                 iconFile.set(project.file("icons/spider.ico"))
-                menuGroup = "Spider"
+                menuGroup = "XTM VPN"
                 shortcut = true
             }
             macOS {
                 iconFile.set(project.file("icons/spider.icns"))
-                bundleID = "dev.spider.spider"
+                bundleID = "com.xtm.vpn"
                 minimumSystemVersion = "12.0"
             }
         }

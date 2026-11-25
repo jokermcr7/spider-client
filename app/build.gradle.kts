@@ -17,14 +17,14 @@ val keystoreProperties = Properties().apply {
 val hasReleaseKeystore = keystorePropertiesFile.exists()
 
 android {
-    namespace = "dev.spider.spider"
+    namespace = "com.xtm.vpn"
 
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.spider.vpn"
+        applicationId = "com.xtm.vpn"
         minSdk = 24
         targetSdk = 36
         versionCode = (project.property("spider.versionCode") as String).toInt()
