@@ -91,6 +91,8 @@ jobs:
             -keyalg RSA -keysize 2048 -validity 10000 \
             -dname "CN=NeonNet Temporary Build, OU=CI, O=NeonNet, L=Unknown, ST=Unknown, C=US"
           { echo "storeFile=release.keystore"; echo "storePassword=android"; echo "keyPassword=android"; echo "keyAlias=neonnet-release"; } > keystore.properties
+      - name: Generate Compose resource accessors
+        run: ./gradlew :shared:generateResourceAccessorsForCommonMain --no-daemon
       - name: Build APKs (temporary signing key)
         run: ./gradlew --warning-mode all :app:assembleRelease
       - name: Name and verify APKs
