@@ -96,7 +96,6 @@ import com.xtm.vpn.core.ConnectionFault
 import com.xtm.vpn.data.net.NetworkInfo
 import com.xtm.vpn.domain.model.ConnectionState
 import com.xtm.vpn.shared.resources.Res
-import com.xtm.vpn.shared.resources.neonnet_hooded_background
 import com.xtm.vpn.shared.resources.action_retry
 import com.xtm.vpn.shared.resources.app_name
 import com.xtm.vpn.shared.resources.spider_connected_for
@@ -996,12 +995,100 @@ private fun NeonNetHeader(
 
 @Composable
 private fun DotBackdrop(modifier: Modifier = Modifier) {
-    Image(
-        painter = painterResource(Res.drawable.neonnet_hooded_background),
-        contentDescription = null,
-        modifier = modifier,
-        contentScale = ContentScale.Crop,
-    )
+    Canvas(modifier) {
+        val w = size.width
+        val h = size.height
+
+        val moon = Offset(w * 0.78f, h * 0.20f)
+        val moonRadius = w * 0.105f
+
+        // Warm atmospheric glow
+        drawCircle(
+            brush = Brush.radialGradient(
+                colors = listOf(
+                    Color(0x38FF6A00),
+                    Color(0x16FF6A00),
+                    Color.Transparent,
+                ),
+                center = moon,
+                radius = moonRadius * 3.2f,
+            ),
+            radius = moonRadius * 3.2f,
+            center = moon,
+        )
+
+        // Orange moon
+        drawCircle(
+            brush = Brush.radialGradient(
+                colors = listOf(Color(0xFFFFB36B), Color(0xFFFF6A00), Color(0xFF87340D)),
+                center = Offset(moon.x - moonRadius * 0.25f, moon.y - moonRadius * 0.3f),
+                radius = moonRadius * 1.7f,
+            ),
+            radius = moonRadius,
+            center = moon,
+        )
+
+        // Distant icy highlights
+        val stars = listOf(
+            Offset(w * 0.16f, h * 0.18f),
+            Offset(w * 0.36f, h * 0.12f),
+            Offset(w * 0.58f, h * 0.30f),
+            Offset(w * 0.91f, h * 0.38f),
+            Offset(w * 0.22f, h * 0.48f),
+        )
+        stars.forEachIndexed { index, point ->
+            drawCircle(
+                color = Color(0xFF83DFFF).copy(alpha = if (index % 2 == 0) .48f else .22f),
+                radius = if (index % 2 == 0) 1.5.dp.toPx() else 1.dp.toPx(),
+                center = point,
+            )
+        }
+
+        // Distant mountain ridge
+        val far = Path().apply {
+            moveTo(0f, h * .72f)
+            lineTo(w * .16f, h * .59f)
+            lineTo(w * .29f, h * .68f)
+            lineTo(w * .48f, h * .52f)
+            lineTo(w * .66f, h * .68f)
+            lineTo(w * .82f, h * .57f)
+            lineTo(w, h * .69f)
+            lineTo(w, h)
+            lineTo(0f, h)
+            close()
+        }
+        drawPath(far, Color(0xFF171B20).copy(alpha = .78f))
+
+        // Foreground mountain ridge
+        val near = Path().apply {
+            moveTo(0f, h * .84f)
+            lineTo(w * .20f, h * .73f)
+            lineTo(w * .38f, h * .83f)
+            lineTo(w * .61f, h * .70f)
+            lineTo(w * .79f, h * .82f)
+            lineTo(w, h * .72f)
+            lineTo(w, h)
+            lineTo(0f, h)
+            close()
+        }
+        drawPath(near, Color(0xFF0B0D10).copy(alpha = .94f))
+
+        // Subtle original dot texture
+        val step = 24.dp.toPx()
+        var y = 8.dp.toPx()
+        while (y < h * .55f) {
+            var x = 8.dp.toPx()
+            while (x < w) {
+                drawCircle(
+                    Color(0xFFB8C8D8).copy(alpha = .055f),
+                    0.8.dp.toPx(),
+                    Offset(x, y),
+                )
+                x += step
+            }
+            y += step
+        }
+    }
 }
 
 @Composable
