@@ -96,6 +96,7 @@ import com.xtm.vpn.core.ConnectionFault
 import com.xtm.vpn.data.net.NetworkInfo
 import com.xtm.vpn.domain.model.ConnectionState
 import com.xtm.vpn.shared.resources.Res
+import com.xtm.vpn.shared.resources.neonnet_hooded_background
 import com.xtm.vpn.shared.resources.action_retry
 import com.xtm.vpn.shared.resources.app_name
 import com.xtm.vpn.shared.resources.spider_connected_for
