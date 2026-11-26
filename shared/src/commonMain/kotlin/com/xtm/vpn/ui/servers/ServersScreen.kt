@@ -1899,7 +1899,10 @@ fun ServersScreen(
                         confirmDeleteInvalid = null
                         toastRes(Res.string.removed_count, repository.removeInvalid())
                     },
-                , modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.action_delete)) }
+                    modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface),
+                ) {
+                    Text(stringResource(Res.string.action_delete))
+                }
             },
             dismissButton = {
                 TextButton(onClick = { confirmDeleteInvalid = null }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {

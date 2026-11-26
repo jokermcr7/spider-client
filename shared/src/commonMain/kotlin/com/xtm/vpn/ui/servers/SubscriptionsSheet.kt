@@ -423,6 +423,7 @@ fun SubscriptionsPanel(
         )
     }
 }
+}
 
 @Composable
 private fun PresetField(label: StringResource, value: String, singleLine: Boolean = true, onChange: (String) -> Unit) {

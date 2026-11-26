@@ -704,8 +704,8 @@ private fun Hero(
 
     Box(Modifier.size(size), contentAlignment = Alignment.Center) {
         Canvas(Modifier.requiredSize(size * 1.34f)) {
-            val center = Offset(size.width / 2f, size.height / 2f)
-            val unit = size.minDimension
+            val center = Offset(this.size.width / 2f, this.size.height / 2f)
+            val unit = this.size.minDimension
             val globeRadius = unit * 0.39f
             val orange = Color(0xFFFF8738)
             val ice = Color(0xFF66D9FF)
