@@ -50,6 +50,8 @@ import com.xtm.vpn.shared.resources.scale_custom
 import com.xtm.vpn.shared.resources.scale_note
 import com.xtm.vpn.shared.resources.scale_title
 import com.xtm.vpn.ui.theme.fontFamilyOf
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.roundToInt
 
@@ -97,6 +99,7 @@ private fun FontCard(font: UiFont, active: Boolean, modifier: Modifier, onClick:
             .height(88.dp)
             .clip(shape)
             .background(container)
+            .then(if (Spider.active) Modifier.spiderLiquidGlass(shape, container) else Modifier)
             .then(if (active) Modifier else Modifier.border(1.dp, scheme.outlineVariant, shape))
             .semantics { this.selected = active }
             .clickable(role = Role.RadioButton, onClick = onClick)
@@ -138,6 +141,12 @@ fun ScaleRow(value: Float, onChange: (Float) -> Unit) {
                         modifier = Modifier
                             .clip(shape)
                             .background(if (on) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerHigh)
+                            .then(
+                                if (Spider.active) Modifier.spiderLiquidGlass(
+                                    shape,
+                                    if (on) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerHigh
+                                ) else Modifier
+                            )
                             .clickable(role = Role.RadioButton) { onChange(preset) }
                             .padding(horizontal = 16.dp, vertical = 9.dp),
                     )
@@ -165,6 +174,11 @@ fun ScaleRow(value: Float, onChange: (Float) -> Unit) {
                     modifier = Modifier
                         .clip(RoundedCornerShape(18.dp))
                         .background(MaterialTheme.colorScheme.primaryContainer)
+                        .then(
+                            if (Spider.active) Modifier.spiderLiquidGlass(
+                                RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer
+                            ) else Modifier
+                        )
                         .clickable(role = Role.Button) { apply() }
                         .padding(horizontal = 18.dp, vertical = 12.dp),
                 )

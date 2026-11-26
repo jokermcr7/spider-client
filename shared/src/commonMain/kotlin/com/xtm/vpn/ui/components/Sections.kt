@@ -14,6 +14,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.ToggleButton
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
@@ -90,7 +92,17 @@ fun PageHeader(
 @Composable
 fun PageBackButton(modifier: Modifier = Modifier) {
     val back = LocalPageBack.current ?: return
-    IconButton(onClick = back, modifier = modifier.offset(x = (-12).dp)) {
+    IconButton(
+        onClick = back,
+        modifier = modifier
+            .offset(x = (-12).dp)
+            .then(
+                if (Spider.active) Modifier.spiderLiquidGlass(
+                    androidx.compose.foundation.shape.CircleShape,
+                    MaterialTheme.colorScheme.surfaceContainerHigh,
+                ) else Modifier
+            ),
+    ) {
         Icon(
             painterResource(Res.drawable.ic_arrow_back),
             contentDescription = null,

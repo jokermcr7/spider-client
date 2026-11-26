@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.*
 import com.xtm.vpn.ui.platform.LocalPlatform
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -48,7 +50,11 @@ fun PrivacyPage(
             shape = MaterialTheme.shapes.largeIncreased,
             color = MaterialTheme.colorScheme.tertiaryContainer,
             contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).then(
+                if (Spider.active) Modifier.spiderLiquidGlass(
+                    MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.tertiaryContainer
+                ) else Modifier
+            ),
         ) {
             Row(
                 Modifier.padding(16.dp),
@@ -113,6 +119,11 @@ fun PrivacyPage(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
+                .then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(
+                        MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.primaryContainer
+                    ) else Modifier
+                )
                 .clickable { platform.openUri(POLICY_URL) },
         ) {
             Row(
@@ -145,7 +156,11 @@ private fun Section(title: String, body: String) {
     Surface(
         shape = MaterialTheme.shapes.largeIncreased,
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().then(
+            if (Spider.active) Modifier.spiderLiquidGlass(
+                MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.surfaceContainerHigh
+            ) else Modifier
+        ),
     ) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(

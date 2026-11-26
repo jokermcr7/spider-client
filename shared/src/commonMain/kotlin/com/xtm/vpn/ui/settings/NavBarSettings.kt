@@ -83,6 +83,8 @@ import com.xtm.vpn.shared.resources.navbar_remove
 import com.xtm.vpn.shared.resources.navbar_style
 import com.xtm.vpn.shared.resources.navbar_tabs
 import com.xtm.vpn.ui.spider.SpiderDock
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import com.xtm.vpn.ui.navigation.TopDestination
 import com.xtm.vpn.ui.navigation.SpiderNavBar
 import com.xtm.vpn.ui.platform.LocalPlatform
@@ -206,6 +208,11 @@ private fun NavPreview(tabs: List<TopDestination>, style: NavBarStyle, spider: B
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clip(RoundedCornerShape(28.dp))
             .background(MaterialTheme.colorScheme.surfaceContainer)
+            .then(
+                if (Spider.active) Modifier.spiderLiquidGlass(
+                    RoundedCornerShape(28.dp), MaterialTheme.colorScheme.surfaceContainer
+                ) else Modifier
+            )
             .consumeWindowInsets(WindowInsets.navigationBars)
             .padding(vertical = 18.dp),
         contentAlignment = Alignment.Center,
@@ -255,6 +262,12 @@ private fun TabList(
                         .padding(horizontal = 8.dp)
                         .clip(RoundedCornerShape(18.dp))
                         .background(if (dragged) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0f))
+                        .then(
+                            if (Spider.active) Modifier.spiderLiquidGlass(
+                                RoundedCornerShape(18.dp),
+                                if (dragged) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceContainer
+                            ) else Modifier
+                        )
                         .semantics {
                             customActions = buildList {
                                 if (index > 0) add(CustomAccessibilityAction(earlier) { onReorder(tabsNow.moved(tab, -1)); true })
@@ -308,7 +321,9 @@ private fun TabList(
                             .padding(8.dp),
                     )
                     Box(
-                        Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(MaterialTheme.colorScheme.primaryContainer),
+                        Modifier.size(40.dp).clip(RoundedCornerShape(14.dp))
+                            .background(MaterialTheme.colorScheme.primaryContainer)
+                            .then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(14.dp), MaterialTheme.colorScheme.primaryContainer) else Modifier),
                         contentAlignment = Alignment.Center,
                     ) {
                         Icon(painterResource(destination.icon), contentDescription = null, tint = MaterialTheme.colorScheme.onPrimaryContainer, modifier = Modifier.size(22.dp))
@@ -326,6 +341,7 @@ private fun TabList(
                                 .size(40.dp)
                                 .clip(RoundedCornerShape(20.dp))
                                 .background(MaterialTheme.colorScheme.errorContainer)
+                                .then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(20.dp), MaterialTheme.colorScheme.errorContainer) else Modifier)
                                 .clickable(role = Role.Button, onClickLabel = label) { onRemove(tab) },
                             contentAlignment = Alignment.Center,
                         ) {
@@ -352,6 +368,7 @@ private fun AddChip(destination: TopDestination, enabled: Boolean, onClick: () -
         Modifier
             .clip(RoundedCornerShape(20.dp))
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+            .then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(20.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier)
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
             .padding(horizontal = 14.dp, vertical = 10.dp)
             .graphicsLayer { alpha = if (enabled) 1f else 0.45f },

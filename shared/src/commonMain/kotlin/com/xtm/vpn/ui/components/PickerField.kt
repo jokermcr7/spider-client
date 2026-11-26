@@ -16,6 +16,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.shape.RoundedCornerShape
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 
 @Composable
 fun <T> PickerField(
@@ -31,7 +34,9 @@ fun <T> PickerField(
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = it },
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().then(
+            if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(16.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier
+        ),
     ) {
         OutlinedTextField(
             value = selectedLabel,
@@ -41,11 +46,13 @@ fun <T> PickerField(
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier
                 .fillMaxWidth()
+                .then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(16.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier)
                 .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
         )
         ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             options.forEach { (value, text) ->
                 DropdownMenuItem(
+                    modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(16.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier),
                     text = { Text(text) },
                     onClick = {
                         onSelect(value)

@@ -31,6 +31,8 @@ import com.xtm.vpn.shared.resources.auto_excluded_empty
 import com.xtm.vpn.shared.resources.auto_excluded_title
 import com.xtm.vpn.ui.components.FlagBadge
 import com.xtm.vpn.ui.platform.appVerticalScroll
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import com.xtm.vpn.ui.servers.countryName
 import org.jetbrains.compose.resources.stringResource
 
@@ -57,6 +59,11 @@ internal fun ExcludedCountriesDialog(
                             Modifier
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(12.dp))
+                                .then(
+                                    if (Spider.active) Modifier.spiderLiquidGlass(
+                                        RoundedCornerShape(12.dp), MaterialTheme.colorScheme.surfaceContainer
+                                    ) else Modifier
+                                )
                                 .toggleable(value = checked, role = Role.Checkbox) { on ->
                                     picked = if (on) picked + code else picked - code
                                 }
@@ -66,17 +73,40 @@ internal fun ExcludedCountriesDialog(
                         ) {
                             FlagBadge(countryCode = code, size = 24.dp)
                             Text(countryName(code), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
-                            Checkbox(checked = checked, onCheckedChange = null)
+                            Checkbox(
+                                modifier = Modifier.then(
+                                    if (Spider.active) Modifier.spiderLiquidGlass(
+                                        RoundedCornerShape(7.dp),
+                                        MaterialTheme.colorScheme.surfaceContainerHigh,
+                                    ) else Modifier
+                                ),
+                                checked = checked,
+                                onCheckedChange = null,
+                            )
                         }
                     }
                 }
             }
         },
         confirmButton = {
-            TextButton(onClick = { onDone(codes.filter { it in picked }) }) { Text(stringResource(Res.string.action_ok)) }
+            TextButton(
+                onClick = { onDone(codes.filter { it in picked }) },
+                modifier = Modifier.then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(
+                        RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer
+                    ) else Modifier
+                ),
+            ) { Text(stringResource(Res.string.action_ok)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_close)) }
+            TextButton(
+                onClick = onDismiss,
+                modifier = Modifier.then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(
+                        RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh
+                    ) else Modifier
+                ),
+            ) { Text(stringResource(Res.string.action_close)) }
         },
     )
 }

@@ -1,6 +1,8 @@
 package com.xtm.vpn.ui.settings
 
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,6 +44,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import com.xtm.vpn.domain.ai.AiClient
 import com.xtm.vpn.domain.ai.AiModel
 import com.xtm.vpn.domain.ai.AiProvider
@@ -131,6 +135,9 @@ fun AiAssistantPage(
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             AiProvider.entries.forEach { p ->
                 FilterChip(
+                    modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(
+                        RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh
+                    ) else Modifier),
                     selected = settings.provider == p,
                     onClick = { onUpdate(settings.copy(provider = p)) },
                     label = { Text(p.label) },
@@ -162,7 +169,12 @@ fun AiAssistantPage(
                     keyFocused = focus.isFocused
                 },
         )
-        TextButton(onClick = { onOpenKeyPage(settings.provider.keyUrl) }) {
+        TextButton(
+            onClick = { onOpenKeyPage(settings.provider.keyUrl) },
+            modifier = if (Spider.active) Modifier.spiderLiquidGlass(
+                RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer
+            ) else Modifier,
+        ) {
             Text(stringResource(Res.string.ai_get_key, settings.provider.label))
         }
 
@@ -170,6 +182,9 @@ fun AiAssistantPage(
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             FilledTonalButton(
                 enabled = keyDraft.isNotBlank() && !busy,
+                modifier = if (Spider.active) Modifier.spiderLiquidGlass(
+                    RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer
+                ) else Modifier,
                 onClick = {
                     busy = true
                     status = null
@@ -249,7 +264,11 @@ fun AiAssistantPage(
         FilledTonalButton(
             enabled = settings.isReady(),
             onClick = onOpenChat,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().then(
+                if (Spider.active) Modifier.spiderLiquidGlass(
+                    RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer
+                ) else Modifier
+            ),
         ) {
             Text(
                 stringResource(
@@ -264,7 +283,13 @@ fun AiAssistantPage(
 @Composable
 private fun SwitchRow(title: String, subtitle: String, checked: Boolean, onChange: (Boolean) -> Unit) {
     Row(
-        Modifier.fillMaxWidth().clickable { onChange(!checked) }.padding(vertical = 12.dp),
+        Modifier.fillMaxWidth()
+            .then(if (Spider.active) Modifier.spiderLiquidGlass(
+                RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surface
+            ) else Modifier)
+            .clip(RoundedCornerShape(18.dp))
+            .clickable { onChange(!checked) }
+            .padding(horizontal = 14.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(Modifier.weight(1f)) {
@@ -276,7 +301,18 @@ private fun SwitchRow(title: String, subtitle: String, checked: Boolean, onChang
             )
         }
         Spacer(Modifier.size(12.dp))
-        Switch(checked = checked, onCheckedChange = onChange)
+        Switch(
+            checked = checked,
+            onCheckedChange = onChange,
+            colors = if (Spider.active) SwitchDefaults.colors(
+                checkedThumbColor = Spider.colors.onLime,
+                checkedTrackColor = Spider.colors.lime,
+                checkedBorderColor = Spider.colors.lime,
+                uncheckedThumbColor = Spider.colors.muted,
+                uncheckedTrackColor = Spider.colors.surface2,
+                uncheckedBorderColor = Spider.colors.line,
+            ) else SwitchDefaults.colors(),
+        )
     }
 }
 
@@ -307,7 +343,13 @@ private fun ModelPicker(models: List<AiModel>, selected: String, onSelect: (Stri
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = open) },
             modifier = Modifier
                 .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(
+                        RoundedCornerShape(18.dp),
+                        MaterialTheme.colorScheme.surfaceContainerHigh,
+                    ) else Modifier
+                ),
         )
         ExposedDropdownMenu(
             expanded = open,
@@ -315,6 +357,9 @@ private fun ModelPicker(models: List<AiModel>, selected: String, onSelect: (Stri
         ) {
             if (shown.isEmpty()) {
                 DropdownMenuItem(
+                    modifier = if (Spider.active) Modifier.spiderLiquidGlass(
+                        RoundedCornerShape(14.dp), MaterialTheme.colorScheme.surface
+                    ) else Modifier,
                     text = { Text(stringResource(Res.string.ai_model_none)) },
                     onClick = {},
                     enabled = false,
@@ -322,6 +367,9 @@ private fun ModelPicker(models: List<AiModel>, selected: String, onSelect: (Stri
             }
             shown.forEach { m ->
                 DropdownMenuItem(
+                    modifier = if (Spider.active) Modifier.spiderLiquidGlass(
+                        RoundedCornerShape(14.dp), MaterialTheme.colorScheme.surface
+                    ) else Modifier,
                     text = {
                         Column {
                             Text(m.label, style = MaterialTheme.typography.bodyMedium)

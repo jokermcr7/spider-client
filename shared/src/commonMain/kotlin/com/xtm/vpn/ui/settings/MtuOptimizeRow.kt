@@ -23,6 +23,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.xtm.vpn.data.net.MtuOptimizer
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
+import androidx.compose.foundation.shape.RoundedCornerShape
 import com.xtm.vpn.data.net.MtuOverhead
 import com.xtm.vpn.data.net.MtuOverheads
 import com.xtm.vpn.data.net.MtuResult
@@ -66,6 +69,11 @@ fun MtuOptimizeRow(
         Spacer(Modifier.height(10.dp))
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             FilledTonalButton(
+                modifier = Modifier.then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(
+                        RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer
+                    ) else Modifier
+                ),
                 enabled = enabled && !busy,
                 onClick = {
                     busy = true
@@ -94,7 +102,14 @@ fun MtuOptimizeRow(
             }
             val measured = result as? MtuResult.Measured
             if (measured != null) {
-                Button(onClick = { onApply(measured.recommended) }) {
+                Button(
+                    onClick = { onApply(measured.recommended) },
+                    modifier = Modifier.then(
+                        if (Spider.active) Modifier.spiderLiquidGlass(
+                            RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer
+                        ) else Modifier
+                    ),
+                ) {
                     Text(stringResource(Res.string.mtu_apply, measured.recommended))
                 }
             }

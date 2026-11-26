@@ -41,6 +41,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.xtm.vpn.domain.model.AppDesign
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.*
 import com.xtm.vpn.ui.theme.SpiderGradients
@@ -129,6 +131,7 @@ private fun DesignCard(
                 .height(150.dp)
                 .clip(shape)
                 .background(cs.surface)
+                .then(if (Spider.active) Modifier.spiderLiquidGlass(shape, cs.surface) else Modifier)
                 .border(if (selected) 3.dp else 1.dp, if (selected) cs.primary else cs.outlineVariant, shape)
                 .selectable(
                     selected = selected,

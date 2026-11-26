@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +32,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -128,9 +131,20 @@ fun AiChatScreen(
                 placeholder = { Text(stringResource(Res.string.ai_chat_hint)) },
                 enabled = !busy,
                 maxLines = 4,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(
+                        RoundedCornerShape(18.dp),
+                        MaterialTheme.colorScheme.surfaceContainerHigh,
+                    ) else Modifier
+                ),
             )
             FilledIconButton(
+                modifier = Modifier.then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(
+                        CircleShape,
+                        MaterialTheme.colorScheme.primaryContainer,
+                    ) else Modifier
+                ),
                 enabled = draft.isNotBlank() && !busy,
                 onClick = {
                     val message = draft.trim()

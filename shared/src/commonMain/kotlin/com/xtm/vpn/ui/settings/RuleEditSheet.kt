@@ -35,6 +35,9 @@ import com.xtm.vpn.domain.model.RulesetItem
 import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.*
 import com.xtm.vpn.ui.components.PickerField
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
+import androidx.compose.material3.MaterialTheme
 import com.xtm.vpn.ui.platform.LocalPlatform
 import org.jetbrains.compose.resources.stringResource
 import com.xtm.vpn.ui.platform.appVerticalScroll
@@ -97,7 +100,9 @@ fun RuleEditSheet(
                     { Text(stringResource(Res.string.rule_error_remarks)) }
                 } else null,
                 shape = RoundedCornerShape(16.dp),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(16.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier
+                ),
             )
 
             val outboundOptions = buildList {
@@ -137,7 +142,9 @@ fun RuleEditSheet(
                     { Text(stringResource(Res.string.rule_error_port)) }
                 } else null,
                 shape = RoundedCornerShape(16.dp),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(16.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier
+                ),
             )
             PickerField(
                 label = stringResource(Res.string.rule_network),
@@ -180,7 +187,11 @@ fun RuleEditSheet(
                         color = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
-                Switch(checked = locked, onCheckedChange = { locked = it })
+                Switch(
+                    modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(12.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier),
+                    checked = locked,
+                    onCheckedChange = { locked = it },
+                )
             }
 
             Text(
@@ -193,11 +204,15 @@ fun RuleEditSheet(
                 Modifier.fillMaxWidth().navigationBarsPadding(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                OutlinedButton(onClick = onDismiss, modifier = Modifier.weight(1f)) {
+                OutlinedButton(
+                    onClick = onDismiss,
+                    modifier = Modifier.weight(1f).then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier),
+                ) {
                     Text(stringResource(Res.string.action_cancel))
                 }
                 Button(
                     enabled = canSave,
+                    modifier = Modifier.weight(1f).then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer) else Modifier),
                     onClick = {
                         onSave(
                             initial.copy(
@@ -213,7 +228,6 @@ fun RuleEditSheet(
                             ),
                         )
                     },
-                    modifier = Modifier.weight(1f),
                 ) {
                     Text(stringResource(Res.string.action_save))
                 }
@@ -238,6 +252,7 @@ private fun NetworkTypeField(selected: List<String>, onChange: (List<String>) ->
             RulesetItem.NETWORK_TYPES.forEach { type ->
                 val on = type in selected
                 FilterChip(
+                    modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier),
                     selected = on,
                     onClick = {
                         onChange(RulesetItem.NETWORK_TYPES.filter { if (it == type) !on else it in selected })
@@ -273,7 +288,9 @@ private fun RuleField(label: String, value: String, error: String?, onChange: (S
         isError = error != null,
         supportingText = error?.let { { Text(it) } },
         shape = RoundedCornerShape(16.dp),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(16.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier
+                ),
     )
 }
 

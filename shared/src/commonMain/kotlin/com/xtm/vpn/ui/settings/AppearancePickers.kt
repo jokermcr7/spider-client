@@ -29,6 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xtm.vpn.domain.model.ConnectButtonStyle
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import com.xtm.vpn.ui.theme.ThemeProfile
 import com.xtm.vpn.ui.theme.ThemeProfiles
 import com.xtm.vpn.ui.platform.draggableHorizontalScroll
@@ -82,6 +84,11 @@ private fun ProfileCard(
                 .size(width = 92.dp, height = 148.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                .then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(
+                        RoundedCornerShape(16.dp), MaterialTheme.colorScheme.surfaceContainerHigh
+                    ) else Modifier
+                )
                 .border(
                     width = if (selected) 3.dp else 1.dp,
                     color = if (selected) MaterialTheme.colorScheme.primary
@@ -222,6 +229,11 @@ fun ConnectStyleRow(
                             .size(width = 88.dp, height = 66.dp)
                             .clip(RoundedCornerShape(14.dp))
                             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                            .then(
+                                if (Spider.active) Modifier.spiderLiquidGlass(
+                                    RoundedCornerShape(14.dp), MaterialTheme.colorScheme.surfaceContainerHigh
+                                ) else Modifier
+                            )
                             .border(
                                 width = if (isSelected) 3.dp else 1.dp,
                                 color = if (isSelected) MaterialTheme.colorScheme.primary

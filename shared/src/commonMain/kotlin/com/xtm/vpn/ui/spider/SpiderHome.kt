@@ -131,7 +131,7 @@ import com.xtm.vpn.shared.resources.ic_download
 import com.xtm.vpn.shared.resources.ic_fill_map
 import com.xtm.vpn.shared.resources.ic_fill_speed
 import com.xtm.vpn.shared.resources.ic_lock
-import com.xtm.vpn.shared.resources.ic_spider_glyph
+import com.xtm.vpn.shared.resources.ic_xtm_logo
 import com.xtm.vpn.shared.resources.ic_upload
 import com.xtm.vpn.shared.resources.logs_title
 import com.xtm.vpn.shared.resources.map_title
@@ -409,6 +409,7 @@ private fun HomeHero(
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
             Row(
                 Modifier
+                    .spiderLiquidGlass(RoundedCornerShape(24.dp), c.surface)
                     .clip(RoundedCornerShape(24.dp))
                     .clickable(role = Role.Button, onClick = onStatusTap)
                     .padding(horizontal = 10.dp, vertical = 4.dp),
@@ -692,8 +693,8 @@ private fun HomeDetails(
             val copied = stringResource(Res.string.copied)
             Row(
                 Modifier
+                    .spiderLiquidGlass(RoundedCornerShape(18.dp), c.surface)
                     .clip(RoundedCornerShape(18.dp))
-                    .background(c.surface)
                     .border(1.dp, c.line, RoundedCornerShape(18.dp))
                     .clickable(role = Role.Button) {
                         platform.copyToClipboard(localProxyAddress)
@@ -733,7 +734,9 @@ private fun ShareLanChip(active: Boolean, port: Int, onToggle: (Boolean) -> Unit
             shape = RoundedCornerShape(50),
             color = Spider.colors.surface.copy(alpha = 0.82f),
             border = androidx.compose.foundation.BorderStroke(1.dp, Spider.colors.line),
-            modifier = Modifier.combinedClickable(onClick = { onToggle(!active) }, onLongClick = { showInfo = true }),
+            modifier = Modifier
+                .spiderLiquidGlass(RoundedCornerShape(50), Spider.colors.surface)
+                .combinedClickable(onClick = { onToggle(!active) }, onLongClick = { showInfo = true }),
         ) {
             Text(
                 stringResource(if (active) Res.string.map_share_lan_on else Res.string.map_share_lan),
@@ -862,8 +865,8 @@ private fun ModeRail(
             .width(30.dp)
             .height(ModeRailHeight)
             .verticalResizeCursor(tunAvailable)
+            .spiderLiquidGlass(CircleShape, c.surface)
             .clip(CircleShape)
-            .background(c.surface)
             .border(1.dp, lineTint, CircleShape)
             .toggleable(
                 value = !proxySelected,
@@ -949,8 +952,8 @@ private fun NeonNetHeader(
             Box(
                 Modifier
                     .size(42.dp)
+                    .spiderLiquidGlass(RoundedCornerShape(14.dp), c.coral.container)
                     .clip(RoundedCornerShape(14.dp))
-                    .background(c.coral.container)
                     .combinedClickable(
                         onClick = {
                             val now = com.xtm.vpn.platform.currentTimeMillis()
@@ -970,7 +973,7 @@ private fun NeonNetHeader(
                 contentAlignment = Alignment.Center,
             ) {
                 Image(
-                    painterResource(Res.drawable.ic_spider_glyph),
+                    painterResource(Res.drawable.ic_xtm_logo),
                     contentDescription = "NeonNet",
                     modifier = Modifier.size(34.dp),
                 )
@@ -1124,6 +1127,7 @@ private fun SpiderGlobeButton(
 
     Box(
         modifier
+            .spiderLiquidGlass(CircleShape, pointColor)
             .clip(CircleShape)
             .clickable(role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center,
@@ -1403,6 +1407,12 @@ private fun FactTile(
             .clip(SpiderShapes.small())
             .background(tone?.container ?: c.surface)
             .then(
+                if (onClick != null) Modifier.spiderLiquidGlass(
+                    SpiderShapes.small(),
+                    tone?.container ?: c.surface,
+                ) else Modifier
+            )
+            .then(
                 if (onClick != null) {
                     Modifier.clickable(interactionSource = remember { MutableInteractionSource() }, indication = null, onClick = onClick)
                 } else {
@@ -1429,8 +1439,8 @@ private fun ActionChip(
     Row(
         Modifier
             .height(40.dp)
+            .spiderLiquidGlass(RoundedCornerShape(20.dp), tone?.container ?: c.surface)
             .clip(RoundedCornerShape(20.dp))
-            .background(tone?.container ?: c.surface)
             .clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -1448,8 +1458,8 @@ private fun PickRow(pick: SpiderServerPick, index: Int, count: Int, onClick: () 
         Modifier
             .fillMaxWidth()
             .heightIn(min = SpiderMetrics.rowMin())
+            .spiderLiquidGlass(SpiderShapes.row(index, count), c.surface)
             .clip(SpiderShapes.row(index, count))
-            .background(c.surface)
             .clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 14.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -1476,8 +1486,8 @@ private fun SpiderFaultStrip(fault: ConnectionFault, onShowLogs: () -> Unit) {
     Row(
         Modifier
             .fillMaxWidth()
+            .spiderLiquidGlass(SpiderShapes.small(), c.coral.container)
             .clip(SpiderShapes.small())
-            .background(c.coral.container)
             .clickable(role = Role.Button, onClick = onShowLogs)
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -1566,8 +1576,8 @@ private fun PillButton(label: String, container: Color, content: Color, onClick:
     Box(
         Modifier
             .height(44.dp)
+            .spiderLiquidGlass(shape, container)
             .clip(shape)
-            .background(container)
             .then(if (outline != null) Modifier.border(1.dp, outline, shape) else Modifier)
             .clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 18.dp),

@@ -415,8 +415,8 @@ fun SpiderConnectButton(
                 scaleX = squash
                 scaleY = squash
             }
+            .spiderLiquidGlass(SpiderShapes.block(), bg)
             .clip(SpiderShapes.block())
-            .background(bg)
             .semantics { stateDescription = label }
             .clickable(source, ripple(color = fg), enabled = state != ConnectionState.Disconnecting, role = Role.Button, onClickLabel = action) {
                 haptics.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -426,7 +426,7 @@ fun SpiderConnectButton(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
-            Modifier.size(48.dp).clip(CircleShape).background(fg),
+            Modifier.size(48.dp).spiderLiquidGlass(CircleShape, fg).clip(CircleShape),
             contentAlignment = Alignment.Center,
         ) {
             Icon(painterResource(Res.drawable.ic_fill_power), contentDescription = null, tint = bg, modifier = Modifier.size(24.dp))

@@ -27,6 +27,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.shape.RoundedCornerShape
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -87,6 +90,7 @@ fun TorBridgesScreen(
             )
             Row(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 FilledTonalButton(
+                    modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(16.dp), MaterialTheme.colorScheme.primaryContainer) else Modifier),
                     enabled = !pingingAll && bridges.isNotEmpty(),
                     onClick = {
                         pingingAll = true
@@ -143,7 +147,11 @@ private fun BridgeRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Checkbox(checked = checked, onCheckedChange = { onToggle() })
+        Checkbox(
+            modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(8.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier),
+            checked = checked,
+            onCheckedChange = { onToggle() },
+        )
         Column(Modifier.weight(1f)) {
             Text(
                 bridge.address,
@@ -164,7 +172,10 @@ private fun BridgeRow(
 
         when (ping) {
             -2L -> CircularProgressIndicator(Modifier.padding(4.dp), strokeWidth = 2.dp)
-            null -> FilledTonalButton(onClick = onPing) { Text(stringResource(Res.string.tor_bridges_ping)) }
+            null -> FilledTonalButton(
+                modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(14.dp), MaterialTheme.colorScheme.primaryContainer) else Modifier),
+                onClick = onPing,
+            ) { Text(stringResource(Res.string.tor_bridges_ping)) }
             -1L -> Text(
                 stringResource(Res.string.tor_bridges_unreachable),
                 style = MaterialTheme.typography.labelMedium,

@@ -30,6 +30,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
@@ -88,7 +90,12 @@ fun TransitionPicker(
                     else MaterialTheme.colorScheme.surfaceContainerHighest,
                     contentColor = if (chosen) MaterialTheme.colorScheme.onPrimary
                     else MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.selectable(selected = chosen, onClick = { onSelect(style) }),
+                    modifier = Modifier
+                        .then(if (Spider.active) Modifier.spiderLiquidGlass(
+                            RoundedCornerShape(16.dp),
+                            if (chosen) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerHighest,
+                        ) else Modifier)
+                        .selectable(selected = chosen, onClick = { onSelect(style) }),
                 ) {
                     Text(
                         transitionName(style),

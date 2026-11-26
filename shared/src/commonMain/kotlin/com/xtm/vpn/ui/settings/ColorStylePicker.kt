@@ -53,6 +53,8 @@ import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.*
 import com.xtm.vpn.ui.components.MorphingBlob
 import com.xtm.vpn.ui.platform.draggableHorizontalScroll
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import com.xtm.vpn.ui.theme.AccentPresets
 import com.xtm.vpn.ui.theme.readableOn
 import com.xtm.vpn.ui.theme.zedColorScheme
@@ -127,6 +129,10 @@ private fun StyleCard(name: String, scheme: ColorScheme, selected: Boolean, onCl
                 .size(width = 92.dp, height = 108.dp)
                 .clip(shape)
                 .background(scheme.surfaceContainer)
+                .then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(shape, scheme.surfaceContainer)
+                    else Modifier
+                )
                 .border(if (selected) 3.dp else 1.dp, ring, shape)
                 .selectable(
                     selected = selected,
@@ -244,6 +250,10 @@ private fun AccentSwatch(name: String, color: Color, shape: RoundedPolygon, sele
     Box(
         Modifier
             .size(50.dp)
+            .then(
+                if (Spider.active) Modifier.spiderLiquidGlass(CircleShape, MaterialTheme.colorScheme.surface)
+                else Modifier
+            )
             .selectable(
                 selected = selected,
                 interactionSource = remember { MutableInteractionSource() },

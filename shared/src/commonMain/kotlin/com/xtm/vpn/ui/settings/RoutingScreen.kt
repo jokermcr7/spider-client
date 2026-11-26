@@ -57,6 +57,8 @@ import com.xtm.vpn.domain.model.RulesetItem
 import com.xtm.vpn.domain.model.RulesetPresets
 import com.xtm.vpn.domain.model.RoutingPresetType
 import com.xtm.vpn.domain.model.RoutingPresets
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.*
 import com.xtm.vpn.ui.components.PickerField
@@ -144,13 +146,13 @@ fun RoutingScreen(
                 )
             },
             confirmButton = {
-                TextButton(onClick = {
+                TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = {
                     mutate { l -> l.filterNot { it.id == target.id } }
                     deleting = null
                 }) { Text(stringResource(Res.string.action_delete)) }
             },
             dismissButton = {
-                TextButton(onClick = { deleting = null }) {
+                TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = { deleting = null }) {
                     Text(stringResource(Res.string.action_cancel))
                 }
             },
@@ -163,13 +165,13 @@ fun RoutingScreen(
             title = { Text(stringResource(Res.string.rule_unlock_title)) },
             text = { Text(stringResource(Res.string.rule_locked_desc)) },
             confirmButton = {
-                TextButton(onClick = {
+                TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = {
                     mutate { l -> l.map { if (it.id == rule.id) it.copy(locked = false) else it } }
                     unlocking = null
                 }) { Text(stringResource(Res.string.rule_unlock)) }
             },
             dismissButton = {
-                TextButton(onClick = { unlocking = null }) {
+                TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = { unlocking = null }) {
                     Text(stringResource(Res.string.action_cancel))
                 }
             },
@@ -264,13 +266,17 @@ fun RoutingScreen(
                     SectionTitle(stringResource(Res.string.routing_rules_title))
                     Spacer(Modifier.weight(1f))
                     Box {
-                        OutlinedButton(onClick = { presetOpen = true }) {
+                        OutlinedButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer) else Modifier), onClick = { presetOpen = true }) {
                             Text(stringResource(Res.string.routing_add_preset))
                         }
                         DropdownMenu(expanded = presetOpen, onDismissRequest = { presetOpen = false }) {
                             RulesetPresets.all().forEach { preset ->
                                 DropdownMenuItem(
-                                    text = { Text(preset.label) },
+                                    modifier = if (Spider.active) Modifier.spiderLiquidGlass(
+                                    RoundedCornerShape(14.dp),
+                                    MaterialTheme.colorScheme.surfaceContainerHigh,
+                                ) else Modifier,
+                                text = { Text(preset.label) },
                                     onClick = {
                                         presetOpen = false
 
@@ -286,7 +292,7 @@ fun RoutingScreen(
                         }
                     }
                     Spacer(Modifier.width(8.dp))
-                    OutlinedButton(onClick = {
+                    OutlinedButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer) else Modifier), onClick = {
                         editing = RulesetItem(id = RulesetItem.newId())
                     }) {
                         Icon(painterResource(Res.drawable.ic_add), contentDescription = null,
@@ -295,7 +301,7 @@ fun RoutingScreen(
                         Text(stringResource(Res.string.routing_add_rule))
                     }
                     Box {
-                        IconButton(onClick = { menuOpen = true }) {
+                        IconButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = { menuOpen = true }) {
                             Icon(
                                 painterResource(Res.drawable.ic_more_vert),
                                 contentDescription = stringResource(Res.string.routing_ruleset_menu),
@@ -304,7 +310,11 @@ fun RoutingScreen(
                         DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
                             RoutingPresetType.entries.forEach { type ->
                                 DropdownMenuItem(
-                                    text = { Text(type.label()) },
+                                    modifier = if (Spider.active) Modifier.spiderLiquidGlass(
+                                    RoundedCornerShape(14.dp),
+                                    MaterialTheme.colorScheme.surfaceContainerHigh,
+                                ) else Modifier,
+                                text = { Text(type.label()) },
                                     onClick = {
                                         replaceAll(RoutingPresets.rules(type))
                                         menuOpen = false
@@ -313,6 +323,10 @@ fun RoutingScreen(
                             }
                             HorizontalDivider()
                             DropdownMenuItem(
+                                modifier = if (Spider.active) Modifier.spiderLiquidGlass(
+                                    RoundedCornerShape(14.dp),
+                                    MaterialTheme.colorScheme.surfaceContainerHigh,
+                                ) else Modifier,
                                 text = { Text(stringResource(Res.string.routing_import_clipboard)) },
                                 onClick = {
                                     menuOpen = false
@@ -326,6 +340,10 @@ fun RoutingScreen(
                                 },
                             )
                             DropdownMenuItem(
+                                modifier = if (Spider.active) Modifier.spiderLiquidGlass(
+                                    RoundedCornerShape(14.dp),
+                                    MaterialTheme.colorScheme.surfaceContainerHigh,
+                                ) else Modifier,
                                 text = { Text(stringResource(Res.string.routing_export_clipboard)) },
                                 onClick = {
                                     menuOpen = false
@@ -454,7 +472,9 @@ private fun RuleRow(
     Surface(
         shape = RoundedCornerShape(20.dp),
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().then(
+            if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(20.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier
+        ),
     ) {
         Row(
             Modifier.fillMaxWidth().padding(start = 6.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
@@ -497,20 +517,20 @@ private fun RuleRow(
                     maxLines = 2,
                 )
             }
-            IconButton(onClick = onMoveUp, enabled = !isFirst) {
+            IconButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = onMoveUp, enabled = !isFirst) {
                 Icon(
                     painterResource(Res.drawable.ic_keyboard_arrow_down),
                     contentDescription = stringResource(Res.string.rule_move_up),
                     modifier = Modifier.graphicsLayer(rotationZ = 180f),
                 )
             }
-            IconButton(onClick = onMoveDown, enabled = !isLast) {
+            IconButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = onMoveDown, enabled = !isLast) {
                 Icon(
                     painterResource(Res.drawable.ic_keyboard_arrow_down),
                     contentDescription = stringResource(Res.string.rule_move_down),
                 )
             }
-            IconButton(onClick = onDelete, enabled = !rule.locked) {
+            IconButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = onDelete, enabled = !rule.locked) {
                 Icon(
                     painterResource(Res.drawable.ic_delete),
                     contentDescription = stringResource(Res.string.action_delete),
@@ -518,7 +538,7 @@ private fun RuleRow(
                     else MaterialTheme.colorScheme.error,
                 )
             }
-            Switch(checked = rule.enabled, onCheckedChange = onToggle)
+            Switch(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(12.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), checked = rule.enabled, onCheckedChange = onToggle)
         }
     }
 }
@@ -533,6 +553,10 @@ private fun ToggleRow(
     Row(
         Modifier
             .fillMaxWidth()
+            .then(if (Spider.active) Modifier.spiderLiquidGlass(
+                RoundedCornerShape(18.dp),
+                MaterialTheme.colorScheme.surfaceContainerHigh,
+            ) else Modifier)
             .toggleable(value = checked, role = Role.Switch, onValueChange = onCheckedChange)
             .padding(vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -552,7 +576,7 @@ private fun ToggleRow(
                 )
             }
         }
-        Switch(checked = checked, onCheckedChange = null)
+        Switch(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(12.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), checked = checked, onCheckedChange = null)
     }
 }
 
@@ -561,7 +585,9 @@ private fun RoutingCard(content: @Composable androidx.compose.foundation.layout.
     Surface(
         shape = RoundedCornerShape(22.dp),
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().then(
+            if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(22.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier
+        ),
     ) {
         Column(Modifier.fillMaxWidth().padding(16.dp), content = content)
     }
@@ -577,7 +603,9 @@ private fun GeoFilesBanner(geo: com.xtm.vpn.data.assets.GeoAssets, settings: App
     Surface(
         shape = RoundedCornerShape(18.dp),
         color = MaterialTheme.colorScheme.errorContainer,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().then(
+            if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.errorContainer) else Modifier
+        ),
     ) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text(
@@ -591,7 +619,7 @@ private fun GeoFilesBanner(geo: com.xtm.vpn.data.assets.GeoAssets, settings: App
                 color = MaterialTheme.colorScheme.onErrorContainer,
             )
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                TextButton(
+                TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier),
                     enabled = !busy,
                     onClick = {
                         busy = true

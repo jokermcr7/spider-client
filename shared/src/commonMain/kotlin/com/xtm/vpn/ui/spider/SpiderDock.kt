@@ -90,8 +90,8 @@ fun SpiderDock(
                 Row(
                     Modifier
                         .shadow(10.dp, shape, ambientColor = c.ink.copy(alpha = 0.18f), spotColor = c.ink.copy(alpha = 0.18f))
+                        .spiderLiquidGlass(shape, c.dock)
                         .clip(shape)
-                        .background(c.dock)
                         .border(1.dp, c.dockLine, shape)
                         .padding(4.dp),
                     horizontalArrangement = Arrangement.spacedBy(2.dp),
@@ -130,13 +130,14 @@ private fun DockItem(
     val bg by animateColorAsState(if (active) c.selected else c.selected.copy(alpha = 0f), tween(440), label = "dock-bg")
     val fg by animateColorAsState(if (active) c.ink else c.muted, tween(440), label = "dock-fg")
     val label = stringResource(destination.labelRes)
+    val itemShape = RoundedCornerShape(24.dp)
     Row(
         Modifier
             .tourTarget(TourTargets.nav(destination.name))
             .height(SpiderDockHeight - 8.dp)
             .widthIn(min = 50.dp)
-            .clip(RoundedCornerShape(24.dp))
-            .background(bg)
+            .then(if (active) Modifier.spiderLiquidGlass(itemShape, bg) else Modifier)
+            .clip(itemShape)
             .semantics {
                 if (!showLabel) contentDescription = label
                 selected = active

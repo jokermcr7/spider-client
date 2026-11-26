@@ -52,6 +52,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
@@ -97,6 +98,8 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import com.xtm.vpn.ui.platform.appVerticalScroll
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 
 private const val DisabledAlpha = 0.38f
 private val SegmentGap = 2.dp
@@ -176,7 +179,8 @@ fun SettingsGroup(
         Column(
             modifier.fillMaxWidth().padding(horizontal = inset, vertical = 5.dp)
                 .clip(RoundedCornerShape(20.dp))
-                .background(com.xtm.vpn.ui.spider.Spider.colors.surface),
+                .background(Spider.colors.surface)
+                .spiderLiquidGlass(RoundedCornerShape(20.dp), Spider.colors.surface),
         ) {
             Row(
                 Modifier.fillMaxWidth().clickable(role = androidx.compose.ui.semantics.Role.Button) { expanded = !expanded }
@@ -292,7 +296,14 @@ private fun SegmentSurface(
                     }
                 },
             )
-            .then(if (brush != null) Modifier.background(brush) else Modifier.background(color)),
+            .then(if (brush != null) Modifier.background(brush) else Modifier.background(color))
+            .then(
+                if (Spider.active) Modifier.spiderLiquidGlass(
+                    RoundedCornerShape(18.dp),
+                    if (brush != null) Spider.colors.surface else color,
+                    preserveBackground = brush != null,
+                ) else Modifier
+            ),
         content = content,
     )
 }
@@ -487,6 +498,18 @@ fun SettingsSwitchRow(
                         checked = checked,
                         onCheckedChange = null,
                         enabled = enabled,
+                        colors = if (Spider.active) {
+                            SwitchDefaults.colors(
+                                checkedThumbColor = Spider.colors.onLime,
+                                checkedTrackColor = Spider.colors.lime,
+                                checkedBorderColor = Spider.colors.lime,
+                                uncheckedThumbColor = Spider.colors.muted,
+                                uncheckedTrackColor = Spider.colors.surface2,
+                                uncheckedBorderColor = Spider.colors.line,
+                            )
+                        } else {
+                            SwitchDefaults.colors()
+                        },
                         thumbContent = if (checked) {
                             {
                                 Icon(
@@ -581,7 +604,13 @@ fun SettingsEditRow(
                                 ),
                                 contentDescription = null,
                                 modifier = Modifier
-                                    .size(22.dp)
+                                    .size(36.dp)
+                                    .then(
+                                        if (Spider.active) Modifier
+                                            .spiderLiquidGlass(CircleShape, Spider.colors.surface)
+                                            .clip(CircleShape)
+                                        else Modifier
+                                    )
                                     .clickable { reveal = !reveal },
                             )
                         }
@@ -592,10 +621,26 @@ fun SettingsEditRow(
                 )
             },
             confirmButton = {
-                Button(onClick = save) { Text(stringResource(Res.string.action_save)) }
+                Button(
+                    onClick = save,
+                    modifier = if (Spider.active) {
+                        Modifier.spiderLiquidGlass(ButtonDefaults.shape, Spider.colors.lime)
+                    } else Modifier,
+                    colors = if (Spider.active) {
+                        ButtonDefaults.buttonColors(
+                            containerColor = Color.Transparent,
+                            contentColor = Spider.colors.onLime,
+                        )
+                    } else ButtonDefaults.buttonColors(),
+                ) { Text(stringResource(Res.string.action_save)) }
             },
             dismissButton = {
-                TextButton(onClick = { showDialog = false }) {
+                TextButton(
+                    onClick = { showDialog = false },
+                    modifier = if (Spider.active) {
+                        Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), Spider.colors.surface)
+                    } else Modifier,
+                ) {
                     Text(stringResource(Res.string.action_cancel))
                 }
             },
@@ -690,6 +735,7 @@ fun ChoiceChip(label: String, selected: Boolean, enabled: Boolean = true, onClic
             .graphicsLayer { alpha = if (enabled) 1f else DisabledAlpha }
             .clip(RoundedCornerShape(corner))
             .background(container)
+            .spiderLiquidGlass(RoundedCornerShape(corner), container)
             .border(1.dp, outline, RoundedCornerShape(corner))
             .selectable(selected, source, LocalIndication.current, enabled, Role.RadioButton, onClick)
             .padding(horizontal = 14.dp),
@@ -832,6 +878,7 @@ private fun ConnectedChoice(
             .graphicsLayer { alpha = if (enabled) 1f else DisabledAlpha }
             .clip(shape)
             .background(container)
+            .spiderLiquidGlass(shape, container)
             .then(if (selected) Modifier else Modifier.border(1.dp, cs.outlineVariant.copy(alpha = 0.6f), shape))
             .selectable(selected, source, LocalIndication.current, enabled, Role.RadioButton, onClick)
             .padding(horizontal = 8.dp),
@@ -861,7 +908,8 @@ fun SettingsInfoRow(title: String, body: String) {
                 Modifier
                     .size(32.dp)
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.secondaryContainer),
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                    .spiderLiquidGlass(CircleShape, MaterialTheme.colorScheme.secondaryContainer),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(

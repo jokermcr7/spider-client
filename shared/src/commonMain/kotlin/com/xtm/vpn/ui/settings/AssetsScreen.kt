@@ -43,6 +43,8 @@ import com.xtm.vpn.domain.model.GeoFilesSource
 import com.xtm.vpn.ui.platform.LocalPlatform
 import kotlinx.coroutines.launch
 import com.xtm.vpn.ui.platform.appVerticalScroll
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 
 @Composable
 fun AssetsScreen(
@@ -148,7 +150,11 @@ fun AssetsScreen(
                             message = getString(if (ok) Res.string.assets_done else Res.string.assets_failed)
                         }
                     },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(
+                        RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer
+                    ) else Modifier
+                ),
                 ) {
                     Text(stringResource(Res.string.assets_download))
                 }
@@ -181,7 +187,11 @@ private fun AssetCard(asset: GeoAsset, onImport: () -> Unit) {
     Surface(
         shape = RoundedCornerShape(22.dp),
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().then(
+            if (Spider.active) Modifier.spiderLiquidGlass(
+                RoundedCornerShape(22.dp), MaterialTheme.colorScheme.surfaceContainerHigh
+            ) else Modifier
+        ),
     ) {
         Row(
             Modifier.fillMaxWidth().padding(16.dp),
@@ -211,7 +221,14 @@ private fun AssetCard(asset: GeoAsset, onImport: () -> Unit) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            OutlinedButton(onClick = onImport) {
+            OutlinedButton(
+                onClick = onImport,
+                modifier = Modifier.then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(
+                        RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer
+                    ) else Modifier
+                ),
+            ) {
                 Text(stringResource(Res.string.assets_import))
             }
         }

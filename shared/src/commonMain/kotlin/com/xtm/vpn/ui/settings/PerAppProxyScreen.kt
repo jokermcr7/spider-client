@@ -51,6 +51,8 @@ import com.xtm.vpn.domain.model.AppSettings
 import com.xtm.vpn.ui.components.PickerField
 import com.xtm.vpn.ui.platform.InstalledApp
 import com.xtm.vpn.ui.platform.LocalPlatform
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -77,7 +79,11 @@ fun PerAppProxyScreen(
             Surface(
                 shape = RoundedCornerShape(20.dp),
                 color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp).then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(
+                        RoundedCornerShape(20.dp), MaterialTheme.colorScheme.surfaceContainerHigh
+                    ) else Modifier
+                ),
             ) {
                 Text(
                     stringResource(Res.string.per_app_unsupported),
@@ -166,7 +172,11 @@ fun PerAppProxyScreen(
                 label = { Text(stringResource(Res.string.per_app_search)) },
                 singleLine = true,
                 shape = RoundedCornerShape(16.dp),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(
+                        RoundedCornerShape(16.dp), MaterialTheme.colorScheme.surfaceContainer
+                    ) else Modifier
+                ),
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
@@ -174,7 +184,15 @@ fun PerAppProxyScreen(
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.weight(1f),
                 )
-                Switch(checked = showSystem, onCheckedChange = { showSystem = it })
+                Switch(
+                    checked = showSystem,
+                    onCheckedChange = { showSystem = it },
+                    modifier = Modifier.then(
+                        if (Spider.active) Modifier.spiderLiquidGlass(
+                            RoundedCornerShape(20.dp), MaterialTheme.colorScheme.secondaryContainer
+                        ) else Modifier
+                    ),
+                )
             }
         }
 
@@ -200,10 +218,12 @@ fun PerAppProxyScreen(
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         AssistChip(
                             onClick = { setSelection(settings.perAppPackages + visible.map { it.packageName }) },
+                            modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer) else Modifier),
                             label = { Text(stringResource(Res.string.per_app_select_all)) },
                         )
                         AssistChip(
                             onClick = { setSelection(settings.perAppPackages - visible.map { it.packageName }.toSet()) },
+                            modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer) else Modifier),
                             label = { Text(stringResource(Res.string.per_app_select_none)) },
                         )
                         AssistChip(
@@ -212,6 +232,7 @@ fun PerAppProxyScreen(
                                 val kept = settings.perAppPackages - shown
                                 setSelection(kept + shown.filterNot { it in settings.perAppPackages })
                             },
+                            modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer) else Modifier),
                             label = { Text(stringResource(Res.string.per_app_invert)) },
                         )
                         AssistChip(
@@ -226,6 +247,7 @@ fun PerAppProxyScreen(
                                     imported = parsed.size
                                 }
                             },
+                            modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer) else Modifier),
                             label = { Text(stringResource(Res.string.per_app_import)) },
                         )
                         AssistChip(
@@ -233,6 +255,7 @@ fun PerAppProxyScreen(
                                 platform.copyToClipboard(settings.perAppPackages.sorted().joinToString("\n"))
                                 platform.toast(exportOkMsg)
                             },
+                            modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer) else Modifier),
                             label = { Text(stringResource(Res.string.per_app_export)) },
                         )
                     }
@@ -279,7 +302,12 @@ private fun AppRow(
         shape = RoundedCornerShape(12.dp),
         color = if (checked) MaterialTheme.colorScheme.primaryContainer
         else androidx.compose.ui.graphics.Color.Transparent,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().then(
+            if (Spider.active) Modifier.spiderLiquidGlass(
+                RoundedCornerShape(12.dp),
+                if (checked) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainer
+            ) else Modifier
+        ),
     ) {
         Row(
             Modifier
@@ -310,7 +338,16 @@ private fun AppRow(
                     overflow = TextOverflow.Ellipsis,
                 )
             }
-            Checkbox(checked = checked, onCheckedChange = { onToggle() }, enabled = enabled)
+            Checkbox(
+                checked = checked,
+                onCheckedChange = { onToggle() },
+                enabled = enabled,
+                modifier = Modifier.then(
+                    if (Spider.active) Modifier.spiderLiquidGlass(
+                        RoundedCornerShape(20.dp), MaterialTheme.colorScheme.primaryContainer
+                    ) else Modifier
+                ),
+            )
         }
     }
 }

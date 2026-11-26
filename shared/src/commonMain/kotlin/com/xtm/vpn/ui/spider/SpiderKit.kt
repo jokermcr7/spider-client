@@ -325,8 +325,8 @@ fun MotifButton(
                     scaleY = squash
                     alpha = if (enabled) 1f else 0.45f
                 }
-                .clip(clip)
-                .background(container),
+                .spiderLiquidGlass(clip, container)
+                .clip(clip),
         )
         Icon(painterResource(icon), contentDescription = null, tint = content, modifier = Modifier.size(size * 0.46f))
     }
@@ -354,8 +354,8 @@ fun SpiderIconButton(
                 scaleY = squash
                 alpha = if (enabled) 1f else 0.45f
             }
+            .spiderLiquidGlass(CircleShape, container)
             .clip(CircleShape)
-            .background(container)
             .semantics { contentDescription = label }
             .clickable(source, ripple(color = content), enabled = enabled, role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center,
@@ -516,8 +516,8 @@ fun SpiderPill(text: String, container: Color, content: Color, modifier: Modifie
     Row(
         modifier
             .height(30.dp)
+            .spiderLiquidGlass(RoundedCornerShape(15.dp), container)
             .clip(RoundedCornerShape(15.dp))
-            .background(container)
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(7.dp),

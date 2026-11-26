@@ -140,8 +140,8 @@ fun SpiderConnectMorph(
         modifier
             .fillMaxWidth()
             .height(112.dp)
+            .spiderLiquidGlass(SpiderShapes.block(), container)
             .clip(SpiderShapes.block())
-            .background(container)
             .semantics { stateDescription = label }
             .clickable(source, ripple(color = ink), enabled = state != ConnectionState.Disconnecting, role = Role.Button, onClickLabel = actionLabel(state)) {
                 haptics.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -215,8 +215,8 @@ fun SpiderConnectRail(
         modifier
             .fillMaxWidth()
             .height(80.dp)
+            .spiderLiquidGlass(RoundedCornerShape(40.dp), track)
             .clip(RoundedCornerShape(40.dp))
-            .background(track)
             .semantics(mergeDescendants = true) {
                 role = Role.Switch
                 stateDescription = label
@@ -263,8 +263,8 @@ fun SpiderConnectRail(
                 .align(Alignment.CenterStart)
                 .offset(x = distance * travel)
                 .size(knob)
-                .clip(CircleShape)
-                .background(thumb),
+                .spiderLiquidGlass(CircleShape, thumb)
+                .clip(CircleShape),
             contentAlignment = Alignment.Center,
         ) {
             PowerGlyph(glyph, 28.dp)
@@ -304,8 +304,8 @@ fun SpiderConnectHold(
         modifier
             .fillMaxWidth()
             .height(104.dp)
+            .spiderLiquidGlass(SpiderShapes.block(), container)
             .clip(SpiderShapes.block())
-            .background(container)
             .semantics(mergeDescendants = true) {
                 role = Role.Button
                 stateDescription = label
@@ -410,8 +410,8 @@ fun SpiderConnectTile(
                 scaleX = squash
                 scaleY = squash
             }
+            .spiderLiquidGlass(SpiderShapes.tile(true), container)
             .clip(SpiderShapes.tile(true))
-            .background(container)
             .semantics { stateDescription = label }
             .clickable(source, ripple(color = ink), enabled = state != ConnectionState.Disconnecting, role = Role.Button, onClickLabel = actionLabel(state)) {
                 haptics.performHapticFeedback(HapticFeedbackType.LongPress)

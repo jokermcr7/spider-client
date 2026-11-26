@@ -30,6 +30,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import com.xtm.vpn.ui.spider.Spider
+import com.xtm.vpn.ui.spider.spiderLiquidGlass
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.runtime.Composable
@@ -79,12 +81,12 @@ fun ColorPickerDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
-            TextButton(onClick = { onPick(color) }) { Text(stringResource(Res.string.action_save)) }
+            TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(14.dp), MaterialTheme.colorScheme.primaryContainer) else Modifier), onClick = { onPick(color) }) { Text(stringResource(Res.string.action_save)) }
         },
         dismissButton = {
             Row {
-                TextButton(onClick = onReset) { Text(stringResource(Res.string.personalize_reset)) }
-                TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) }
+                TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(14.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = onReset) { Text(stringResource(Res.string.personalize_reset)) }
+                TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(14.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) }
             }
         },
         title = { Text(title) },
