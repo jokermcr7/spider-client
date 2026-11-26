@@ -6,9 +6,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.drawOutline
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -30,8 +31,8 @@ fun Modifier.spiderLiquidGlass(
         (size.height - safeDepth).coerceAtLeast(0f),
     )
 
-    val baseOutline = shape.createOutline(size, layoutDirection, this)
-    val faceOutline = shape.createOutline(faceSize, layoutDirection, this)
+    val basePath = outlinePath(shape.createOutline(size, layoutDirection, this))
+    val facePath = outlinePath(shape.createOutline(faceSize, layoutDirection, this))
 
     val base = Brush.linearGradient(
         colors = listOf(tint, tint.copy(alpha = 0.78f)),
@@ -63,15 +64,23 @@ fun Modifier.spiderLiquidGlass(
 
     onDrawWithContent {
         if (!preserveBackground) {
-            drawOutline(baseOutline, base)
+            drawPath(basePath, brush = base)
         }
-        drawOutline(faceOutline, face)
+        drawPath(facePath, brush = face)
         drawContent()
-        drawOutline(faceOutline, rim, style = Stroke(width = 1.25.dp.toPx()))
-        drawOutline(
-            faceOutline,
-            Color.White.copy(alpha = 0.22f),
+        drawPath(facePath, brush = rim, style = Stroke(width = 1.25.dp.toPx()))
+        drawPath(
+            facePath,
+            color = Color.White.copy(alpha = 0.22f),
             style = Stroke(width = 0.55.dp.toPx()),
         )
+    }
+}
+
+private fun outlinePath(outline: Outline): Path = Path().apply {
+    when (outline) {
+        is Outline.Rectangle -> addRect(outline.rect)
+        is Outline.Rounded -> addRoundRect(outline.roundRect)
+        is Outline.Generic -> addPath(outline.path)
     }
 }
