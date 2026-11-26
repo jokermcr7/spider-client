@@ -59,6 +59,7 @@ import com.xtm.vpn.domain.model.RoutingPresetType
 import com.xtm.vpn.domain.model.RoutingPresets
 import com.xtm.vpn.ui.spider.Spider
 import com.xtm.vpn.ui.spider.spiderLiquidGlass
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.*
 import com.xtm.vpn.ui.components.PickerField
@@ -146,13 +147,13 @@ fun RoutingScreen(
                 )
             },
             confirmButton = {
-                TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = {
+                TextButton(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh), onClick = {
                     mutate { l -> l.filterNot { it.id == target.id } }
                     deleting = null
                 }) { Text(stringResource(Res.string.action_delete)) }
             },
             dismissButton = {
-                TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = { deleting = null }) {
+                TextButton(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh), onClick = { deleting = null }) {
                     Text(stringResource(Res.string.action_cancel))
                 }
             },
@@ -165,13 +166,13 @@ fun RoutingScreen(
             title = { Text(stringResource(Res.string.rule_unlock_title)) },
             text = { Text(stringResource(Res.string.rule_locked_desc)) },
             confirmButton = {
-                TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = {
+                TextButton(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh), onClick = {
                     mutate { l -> l.map { if (it.id == rule.id) it.copy(locked = false) else it } }
                     unlocking = null
                 }) { Text(stringResource(Res.string.rule_unlock)) }
             },
             dismissButton = {
-                TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = { unlocking = null }) {
+                TextButton(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh), onClick = { unlocking = null }) {
                     Text(stringResource(Res.string.action_cancel))
                 }
             },
@@ -266,7 +267,7 @@ fun RoutingScreen(
                     SectionTitle(stringResource(Res.string.routing_rules_title))
                     Spacer(Modifier.weight(1f))
                     Box {
-                        OutlinedButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer) else Modifier), onClick = { presetOpen = true }) {
+                        OutlinedButton(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer), onClick = { presetOpen = true }) {
                             Text(stringResource(Res.string.routing_add_preset))
                         }
                         DropdownMenu(expanded = presetOpen, onDismissRequest = { presetOpen = false }) {
@@ -292,7 +293,7 @@ fun RoutingScreen(
                         }
                     }
                     Spacer(Modifier.width(8.dp))
-                    OutlinedButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer) else Modifier), onClick = {
+                    OutlinedButton(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer), onClick = {
                         editing = RulesetItem(id = RulesetItem.newId())
                     }) {
                         Icon(painterResource(Res.drawable.ic_add), contentDescription = null,
@@ -301,7 +302,7 @@ fun RoutingScreen(
                         Text(stringResource(Res.string.routing_add_rule))
                     }
                     Box {
-                        IconButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = { menuOpen = true }) {
+                        IconButton(modifier = Modifier.xtmButtonGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surfaceContainerHigh), onClick = { menuOpen = true }) {
                             Icon(
                                 painterResource(Res.drawable.ic_more_vert),
                                 contentDescription = stringResource(Res.string.routing_ruleset_menu),
@@ -517,20 +518,20 @@ private fun RuleRow(
                     maxLines = 2,
                 )
             }
-            IconButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = onMoveUp, enabled = !isFirst) {
+            IconButton(modifier = Modifier.xtmButtonGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surfaceContainerHigh), onClick = onMoveUp, enabled = !isFirst) {
                 Icon(
                     painterResource(Res.drawable.ic_keyboard_arrow_down),
                     contentDescription = stringResource(Res.string.rule_move_up),
                     modifier = Modifier.graphicsLayer(rotationZ = 180f),
                 )
             }
-            IconButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = onMoveDown, enabled = !isLast) {
+            IconButton(modifier = Modifier.xtmButtonGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surfaceContainerHigh), onClick = onMoveDown, enabled = !isLast) {
                 Icon(
                     painterResource(Res.drawable.ic_keyboard_arrow_down),
                     contentDescription = stringResource(Res.string.rule_move_down),
                 )
             }
-            IconButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = onDelete, enabled = !rule.locked) {
+            IconButton(modifier = Modifier.xtmButtonGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surfaceContainerHigh), onClick = onDelete, enabled = !rule.locked) {
                 Icon(
                     painterResource(Res.drawable.ic_delete),
                     contentDescription = stringResource(Res.string.action_delete),
@@ -619,7 +620,7 @@ private fun GeoFilesBanner(geo: com.xtm.vpn.data.assets.GeoAssets, settings: App
                 color = MaterialTheme.colorScheme.onErrorContainer,
             )
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier),
+                TextButton(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh),
                     enabled = !busy,
                     onClick = {
                         busy = true

@@ -8,6 +8,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -35,6 +36,7 @@ import com.xtm.vpn.crypto.ZsxLegacyException
 import com.xtm.vpn.ui.platform.LocalPlatform
 import com.xtm.vpn.data.config.ConfigRepository
 import com.xtm.vpn.ui.components.NoteText
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 
 @Composable
 fun VaultImportHost(repository: ConfigRepository, onImported: () -> Unit) {
@@ -134,6 +136,7 @@ internal fun VaultUnlockDialog(
         },
         confirmButton = {
             TextButton(
+                modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer),
                 onClick = { onUnlock(if (passwordProtected) password else null) },
                 enabled = !passwordProtected || password.isNotBlank(),
             ) {
@@ -141,7 +144,7 @@ internal fun VaultUnlockDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) }
+            TextButton(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh), onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) }
         },
     )
 }

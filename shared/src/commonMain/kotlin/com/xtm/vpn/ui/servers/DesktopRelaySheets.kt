@@ -2,6 +2,7 @@
 
 package com.xtm.vpn.ui.servers
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -56,7 +57,7 @@ fun MhrSheet(onDismiss: () -> Unit, onSave: (String, MhrProfile) -> Unit) {
                 onClick = { onSave(name.trim().ifBlank { "MHR" }, settings) },
                 enabled = settings.validationError() == null,
                 shape = RoundedCornerShape(18.dp),
-                modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
+                modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp).xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surface),
             ) { Text("Add MHR") }
         }
     }
@@ -85,7 +86,7 @@ fun SoarSheet(onDismiss: () -> Unit, onSave: (String, SoarProfile) -> Unit) {
                 onClick = { imported?.let { onSave(it.name, it.settings) } },
                 enabled = imported != null,
                 shape = RoundedCornerShape(18.dp),
-                modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
+                modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp).xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surface),
             ) { Text("Add Soar") }
         }
     }

@@ -1,5 +1,7 @@
 package com.xtm.vpn.ui.easteregg
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
+
 import com.xtm.vpn.ui.platform.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.CubicBezierEasing
@@ -691,6 +693,10 @@ private fun ConsoleButton(
 ) {
     Surface(
         onClick = onClick,
+        modifier = Modifier.xtmButtonGlass(
+            MaterialTheme.shapes.extraLarge,
+            if (active) EggColors.Autopilot else Color.White,
+        ),
         shape = MaterialTheme.shapes.extraLarge,
         color = if (active) EggColors.Autopilot.copy(alpha = 0.25f) else Color.White.copy(alpha = 0.08f),
     ) {

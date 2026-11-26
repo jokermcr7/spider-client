@@ -23,8 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.xtm.vpn.data.net.MtuOptimizer
-import com.xtm.vpn.ui.spider.Spider
-import com.xtm.vpn.ui.spider.spiderLiquidGlass
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.foundation.shape.RoundedCornerShape
 import com.xtm.vpn.data.net.MtuOverhead
 import com.xtm.vpn.data.net.MtuOverheads
@@ -69,10 +68,8 @@ fun MtuOptimizeRow(
         Spacer(Modifier.height(10.dp))
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             FilledTonalButton(
-                modifier = Modifier.then(
-                    if (Spider.active) Modifier.spiderLiquidGlass(
-                        RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer
-                    ) else Modifier
+                modifier = Modifier.xtmButtonGlass(
+                    RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer
                 ),
                 enabled = enabled && !busy,
                 onClick = {
@@ -104,10 +101,8 @@ fun MtuOptimizeRow(
             if (measured != null) {
                 Button(
                     onClick = { onApply(measured.recommended) },
-                    modifier = Modifier.then(
-                        if (Spider.active) Modifier.spiderLiquidGlass(
-                            RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer
-                        ) else Modifier
+                    modifier = Modifier.xtmButtonGlass(
+                        RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer
                     ),
                 ) {
                     Text(stringResource(Res.string.mtu_apply, measured.recommended))

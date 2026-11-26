@@ -5,6 +5,8 @@
 
 package com.xtm.vpn.ui.onboarding
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
+
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
@@ -179,6 +181,7 @@ fun OnboardingFlow(
                         color = c.muted,
                         modifier = Modifier
                             .clip(RoundedCornerShape(16.dp))
+                            .xtmButtonGlass(RoundedCornerShape(16.dp), c.surface)
                             .clickable(role = Role.Button, onClick = onFinish)
                             .padding(horizontal = 12.dp, vertical = 8.dp),
                     )
@@ -281,6 +284,7 @@ private fun FlowButton(label: String, primary: Boolean, enabled: Boolean = true,
             .heightIn(min = 54.dp)
             .clip(RoundedCornerShape(27.dp))
             .background(container)
+            .xtmButtonGlass(RoundedCornerShape(27.dp), container)
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
             .padding(horizontal = 26.dp, vertical = 15.dp),
         contentAlignment = Alignment.Center,

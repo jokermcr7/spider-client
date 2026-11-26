@@ -31,8 +31,7 @@ import com.xtm.vpn.shared.resources.auto_excluded_empty
 import com.xtm.vpn.shared.resources.auto_excluded_title
 import com.xtm.vpn.ui.components.FlagBadge
 import com.xtm.vpn.ui.platform.appVerticalScroll
-import com.xtm.vpn.ui.spider.Spider
-import com.xtm.vpn.ui.spider.spiderLiquidGlass
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import com.xtm.vpn.ui.servers.countryName
 import org.jetbrains.compose.resources.stringResource
 
@@ -91,20 +90,16 @@ internal fun ExcludedCountriesDialog(
         confirmButton = {
             TextButton(
                 onClick = { onDone(codes.filter { it in picked }) },
-                modifier = Modifier.then(
-                    if (Spider.active) Modifier.spiderLiquidGlass(
-                        RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer
-                    ) else Modifier
+                modifier = Modifier.xtmButtonGlass(
+                    RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer
                 ),
             ) { Text(stringResource(Res.string.action_ok)) }
         },
         dismissButton = {
             TextButton(
                 onClick = onDismiss,
-                modifier = Modifier.then(
-                    if (Spider.active) Modifier.spiderLiquidGlass(
-                        RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh
-                    ) else Modifier
+                modifier = Modifier.xtmButtonGlass(
+                    RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh
                 ),
             ) { Text(stringResource(Res.string.action_close)) }
         },

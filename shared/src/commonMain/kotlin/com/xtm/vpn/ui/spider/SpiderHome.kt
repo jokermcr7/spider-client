@@ -39,6 +39,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialShapes
@@ -754,7 +755,7 @@ private fun ShareLanChip(active: Boolean, port: Int, onToggle: (Boolean) -> Unit
                 onDismissRequest = { showInfo = false },
                 title = { Text(stringResource(Res.string.map_share_lan)) },
                 text = { Text(body) },
-                confirmButton = { TextButton(onClick = { showInfo = false }) { Text(stringResource(Res.string.action_ok)) } },
+                confirmButton = { TextButton(onClick = { showInfo = false }, modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), Spider.colors.surface)) { Text(stringResource(Res.string.action_ok)) } },
             )
         }
     }

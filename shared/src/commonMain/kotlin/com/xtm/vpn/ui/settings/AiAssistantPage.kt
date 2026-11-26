@@ -1,5 +1,6 @@
 package com.xtm.vpn.ui.settings
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -171,9 +172,9 @@ fun AiAssistantPage(
         )
         TextButton(
             onClick = { onOpenKeyPage(settings.provider.keyUrl) },
-            modifier = if (Spider.active) Modifier.spiderLiquidGlass(
+            modifier = Modifier.xtmButtonGlass(
                 RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer
-            ) else Modifier,
+            ),
         ) {
             Text(stringResource(Res.string.ai_get_key, settings.provider.label))
         }
@@ -182,9 +183,9 @@ fun AiAssistantPage(
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             FilledTonalButton(
                 enabled = keyDraft.isNotBlank() && !busy,
-                modifier = if (Spider.active) Modifier.spiderLiquidGlass(
+                modifier = Modifier.xtmButtonGlass(
                     RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer
-                ) else Modifier,
+                ),
                 onClick = {
                     busy = true
                     status = null
@@ -264,10 +265,8 @@ fun AiAssistantPage(
         FilledTonalButton(
             enabled = settings.isReady(),
             onClick = onOpenChat,
-            modifier = Modifier.fillMaxWidth().then(
-                if (Spider.active) Modifier.spiderLiquidGlass(
-                    RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer
-                ) else Modifier
+            modifier = Modifier.fillMaxWidth().xtmButtonGlass(
+                RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer
             ),
         ) {
             Text(

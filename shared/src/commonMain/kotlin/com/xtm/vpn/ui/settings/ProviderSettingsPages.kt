@@ -29,6 +29,7 @@ import com.xtm.vpn.domain.config.VpeenLocation
 import com.xtm.vpn.domain.model.AppSettings
 import com.xtm.vpn.ui.spider.Spider
 import com.xtm.vpn.ui.spider.spiderLiquidGlass
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.*
 import kotlinx.coroutines.Dispatchers
@@ -95,7 +96,7 @@ internal fun VpeenSettingsPage(
         SettingsGroup(stringResource(Res.string.settings_location)) {
             Box {
                 TextButton(onClick = { expanded = true }, enabled = !loading,
-                    modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier)) {
+                    modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.surfaceContainerHigh)) {
                     Text(if (selectedRegion.isBlank()) stringResource(Res.string.settings_location_optimal) else locations.firstOrNull { it.region == selectedRegion }?.let { "${it.name} · ${it.countryCode}" } ?: selectedRegion)
                 }
                 DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
@@ -126,7 +127,7 @@ internal fun VpeenSettingsPage(
             if (loading) CircularProgressIndicator(Modifier.padding(12.dp))
             if (error.isNotBlank()) Text(error, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
             TextButton(onClick = ::refresh, enabled = !loading,
-                modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier)) { Text(stringResource(Res.string.settings_refresh_locations)) }
+                modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.surfaceContainerHigh)) { Text(stringResource(Res.string.settings_refresh_locations)) }
         }
         if (repository == null) Text(stringResource(Res.string.settings_provider_profile_missing))
     }
@@ -283,8 +284,8 @@ internal fun FirefoxVpnSettingsPage(
             )
             Button(
                 enabled = !busy && signInId.isBlank() && email.isNotBlank() && password.isNotBlank(),
-                modifier = Modifier.fillMaxWidth().then(
-                    if (Spider.active) Modifier.spiderLiquidGlass(MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.primaryContainer) else Modifier
+                modifier = Modifier.fillMaxWidth().xtmButtonGlass(
+                    MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.primaryContainer
                 ),
                 onClick = {
                     if (actions.trySend(FirefoxVpnAction.SignIn(email.trim(), password)).isSuccess) busy = true
@@ -310,8 +311,8 @@ internal fun FirefoxVpnSettingsPage(
                         singleLine = true, label = { Text(stringResource(Res.string.settings_firefox_verification_code)) },
                     )
                     Button(
-                        enabled = !busy && challenge.isNotBlank(), modifier = Modifier.fillMaxWidth().then(
-                    if (Spider.active) Modifier.spiderLiquidGlass(MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.primaryContainer) else Modifier
+                        enabled = !busy && challenge.isNotBlank(), modifier = Modifier.fillMaxWidth().xtmButtonGlass(
+                    MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.primaryContainer
                 ),
                         onClick = {
                             if (actions.trySend(FirefoxVpnAction.Verify(signInId, challenge)).isSuccess) busy = true
@@ -325,7 +326,7 @@ internal fun FirefoxVpnSettingsPage(
             Text(stringResource(Res.string.settings_location), style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
             Box {
                 TextButton(onClick = { expanded = true }, enabled = !busy,
-                    modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier)) {
+                    modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.surfaceContainerHigh)) {
                     val selected = locations.firstOrNull { it["code"]?.jsonPrimitive?.contentOrNull == selectedLocation }
                     val label = selected?.let { it["name"]?.jsonPrimitive?.contentOrNull.orEmpty() + " · " + selectedLocation }
                         ?: if (selectedLocation.equals("fastest", true)) stringResource(Res.string.settings_firefox_fastest)
@@ -374,7 +375,7 @@ internal fun FirefoxVpnSettingsPage(
             }
             if (error.isNotBlank()) Text(error, modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
             TextButton(onClick = { if (actions.trySend(FirefoxVpnAction.Refresh).isSuccess) busy = true }, enabled = !busy,
-                modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier)) {
+                modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.largeIncreased, MaterialTheme.colorScheme.surfaceContainerHigh)) {
                 Text(stringResource(Res.string.settings_refresh_locations))
             }
         }

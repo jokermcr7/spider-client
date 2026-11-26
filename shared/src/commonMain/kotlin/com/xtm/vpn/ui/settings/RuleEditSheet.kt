@@ -37,6 +37,7 @@ import com.xtm.vpn.shared.resources.*
 import com.xtm.vpn.ui.components.PickerField
 import com.xtm.vpn.ui.spider.Spider
 import com.xtm.vpn.ui.spider.spiderLiquidGlass
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.material3.MaterialTheme
 import com.xtm.vpn.ui.platform.LocalPlatform
 import org.jetbrains.compose.resources.stringResource
@@ -206,13 +207,13 @@ fun RuleEditSheet(
             ) {
                 OutlinedButton(
                     onClick = onDismiss,
-                    modifier = Modifier.weight(1f).then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier),
+                    modifier = Modifier.weight(1f).xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh),
                 ) {
                     Text(stringResource(Res.string.action_cancel))
                 }
                 Button(
                     enabled = canSave,
-                    modifier = Modifier.weight(1f).then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer) else Modifier),
+                    modifier = Modifier.weight(1f).xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer),
                     onClick = {
                         onSave(
                             initial.copy(

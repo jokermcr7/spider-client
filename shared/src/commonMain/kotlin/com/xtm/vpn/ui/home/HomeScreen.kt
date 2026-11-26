@@ -29,6 +29,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.rememberScrollState
@@ -51,6 +52,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -67,6 +69,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.material3.WavyProgressIndicatorDefaults
 import androidx.compose.runtime.mutableFloatStateOf
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import com.xtm.vpn.ui.theme.MotionBudget
 import com.xtm.vpn.ui.theme.LocalMotionBudget
 import androidx.compose.runtime.getValue
@@ -99,6 +102,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalDensity
@@ -636,28 +640,11 @@ internal fun StageColumn(
 
 @Composable
 private fun DecorativeBackdrop(reduceMotion: Boolean) {
-    val budget = LocalMotionBudget.current
-    if (budget != MotionBudget.Full) {
-        OrganicSurface(
-            brush = SpiderGradients.idle,
-            modifier = Modifier
-                .size(300.dp)
-                .offset(x = 180.dp, y = (-130).dp),
-        )
-        return
-    }
-    val spin by rememberInfiniteTransition(label = "backdrop").animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(tween(120_000), RepeatMode.Restart),
-        label = "spin",
-    )
-    OrganicSurface(
-        brush = SpiderGradients.idle,
-        modifier = Modifier
-            .size(300.dp)
-            .offset(x = 180.dp, y = (-130).dp)
-            .rotate(if (reduceMotion) 0f else spin),
+    Image(
+        painter = painterResource(Res.drawable.neonnet_hooded_background),
+        contentDescription = null,
+        modifier = Modifier.fillMaxSize(),
+        contentScale = ContentScale.Crop,
     )
 }
 
@@ -707,6 +694,81 @@ private fun Hero(
             else -> Res.string.action_connect
         },
     )
+
+    val orbitPhase by rememberInfiniteTransition(label = "spider-orbits").animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(tween(24000), RepeatMode.Restart),
+        label = "orbit-phase",
+    )
+
+    Box(Modifier.size(size), contentAlignment = Alignment.Center) {
+        Canvas(Modifier.requiredSize(size * 1.34f)) {
+            val center = Offset(size.width / 2f, size.height / 2f)
+            val unit = size.minDimension
+            val globeRadius = unit * 0.39f
+            val orange = Color(0xFFFF8738)
+            val ice = Color(0xFF66D9FF)
+
+            drawCircle(
+                brush = Brush.radialGradient(
+                    listOf(orange.copy(alpha = 0.19f), ice.copy(alpha = 0.055f), Color.Transparent),
+                    center,
+                    unit * 0.61f,
+                ),
+                radius = unit * 0.61f,
+                center = center,
+            )
+
+            val orbitW = unit * 0.57f
+            val orbitH = unit * 0.23f
+            drawOval(
+                color = orange.copy(alpha = 0.38f),
+                topLeft = Offset(center.x - orbitW, center.y - orbitH),
+                size = Size(orbitW * 2f, orbitH * 2f),
+                style = Stroke(width = 1.15.dp.toPx()),
+            )
+            drawOval(
+                color = ice.copy(alpha = 0.24f),
+                topLeft = Offset(center.x - unit * 0.25f, center.y - unit * 0.53f),
+                size = Size(unit * 0.50f, unit * 1.06f),
+                style = Stroke(width = 1.dp.toPx()),
+            )
+
+            for (row in -7..7) {
+                val y = row / 8f
+                for (column in -7..7) {
+                    val x = column / 8f
+                    val distance = x * x + y * y
+                    if (distance <= 1f) {
+                        val depth = kotlin.math.sqrt(1f - distance)
+                        drawCircle(
+                            color = orange.copy(alpha = 0.18f + depth * 0.58f),
+                            radius = (0.65f + depth * 1.15f).dp.toPx(),
+                            center = Offset(
+                                center.x + x * globeRadius,
+                                center.y + y * globeRadius,
+                            ),
+                        )
+                    }
+                }
+            }
+
+            val angle = orbitPhase * (kotlin.math.PI.toFloat() / 180f)
+            val orbitPoint = Offset(
+                center.x + kotlin.math.cos(angle) * orbitW,
+                center.y + kotlin.math.sin(angle) * orbitH,
+            )
+            drawCircle(ice.copy(alpha = 0.9f), 3.dp.toPx(), orbitPoint)
+            drawCircle(
+                orange,
+                3.5.dp.toPx(),
+                Offset(
+                    center.x + kotlin.math.cos(angle + 2.4f) * orbitW,
+                    center.y + kotlin.math.sin(angle + 2.4f) * orbitH,
+                ),
+            )
+        }
 
     MorphingBlob(
         progress = morph,
@@ -774,6 +836,7 @@ private fun Hero(
             }
         }
     }
+    }
 }
 
 @Composable
@@ -795,7 +858,10 @@ private fun BrandHeader(
             Box(Modifier.weight(1f, fill = false)) { StatusChip(state) }
             Spacer(Modifier.width(4.dp))
 
-            androidx.compose.material3.IconButton(onClick = onShowLogs) {
+            androidx.compose.material3.IconButton(
+                onClick = onShowLogs,
+                modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
+            ) {
                 Icon(
                     painterResource(Res.drawable.ic_description),
                     contentDescription = stringResource(Res.string.logs_title),

@@ -56,6 +56,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.graphics.shapes.RoundedPolygon
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import com.xtm.vpn.data.net.NetworkInfo
 import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.action_close
@@ -126,7 +127,7 @@ internal fun PixelDetailsPanel(
             }
             Spacer(Modifier.width(8.dp))
             RefreshAllButton(busy = busy, label = refreshLabel, onClick = onRefreshAll)
-            IconButton(onClick = onClose, shapes = IconButtonDefaults.shapes()) {
+            IconButton(onClick = onClose, modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface), shapes = IconButtonDefaults.shapes()) {
                 Icon(
                     painterResource(Res.drawable.ic_close),
                     contentDescription = stringResource(Res.string.action_close),
@@ -159,7 +160,7 @@ private fun RefreshAllButton(busy: Boolean, label: String, onClick: () -> Unit) 
     } else {
         0f
     }
-    FilledTonalIconButton(onClick = onClick, enabled = !busy, shapes = IconButtonDefaults.shapes()) {
+    FilledTonalIconButton(onClick = onClick, modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface), enabled = !busy, shapes = IconButtonDefaults.shapes()) {
         Icon(
             painterResource(Res.drawable.ic_fill_sync),
             contentDescription = label,
@@ -273,6 +274,7 @@ private fun AddressTile(info: NetworkInfo, refreshLabel: String, onRefresh: () -
                     }
                 },
                 enabled = shown != null,
+                modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
                 shapes = IconButtonDefaults.shapes(),
             ) {
                 Icon(

@@ -2,6 +2,7 @@
 
 package com.xtm.vpn.ui.servers
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import org.jetbrains.compose.resources.StringResource
 
 import androidx.compose.foundation.layout.Arrangement
@@ -307,7 +308,7 @@ fun ManualConfigSheet(
             if (singBoxOnly) {
                 SingBoxFields(singBoxDraft)
                 if (onEditJson != null) {
-                    androidx.compose.material3.TextButton(onClick = onEditJson) {
+                    androidx.compose.material3.TextButton(onClick = onEditJson, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                         Text(stringResource(Res.string.sb_edit_json))
                     }
                 }
@@ -315,7 +316,7 @@ fun ManualConfigSheet(
                     onClick = { onSave(singBoxDraft.toLink()) },
                     enabled = singBoxDraft.valid(),
                     shape = RoundedCornerShape(18.dp),
-                    modifier = Modifier.fillMaxWidth().height(54.dp),
+                    modifier = Modifier.fillMaxWidth().height(54.dp).xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surface),
                 ) {
                     Text(stringResource(Res.string.action_save), fontWeight = FontWeight.SemiBold)
                 }
@@ -665,7 +666,7 @@ fun ManualConfigSheet(
                     else -> userId.isNotBlank()
                 },
                 shape = RoundedCornerShape(18.dp),
-                modifier = Modifier.fillMaxWidth().height(54.dp),
+                modifier = Modifier.fillMaxWidth().height(54.dp).xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surface),
             ) {
                 Text(stringResource(Res.string.action_save), fontWeight = FontWeight.SemiBold)
             }

@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.xtm.vpn.data.config.ConfigRepository
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import com.xtm.vpn.domain.config.VpnProfile
 import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.*
@@ -74,12 +75,12 @@ fun ChainsScreen(
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Button(
                     onClick = { proxyEditor = VpnProfile.chainDraft() },
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f).xtmButtonGlass(RoundedCornerShape(16.dp), MaterialTheme.colorScheme.surface),
                     shape = RoundedCornerShape(16.dp),
                 ) { Text(stringResource(Res.string.chains_new_proxy), maxLines = 1, overflow = TextOverflow.Ellipsis) }
                 OutlinedButton(
                     onClick = { crossEditor = VpnProfile.crossChainDraft() },
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f).xtmButtonGlass(RoundedCornerShape(16.dp), MaterialTheme.colorScheme.surface),
                     shape = RoundedCornerShape(16.dp),
                 ) { Text(stringResource(Res.string.chains_new_tunnel), maxLines = 1, overflow = TextOverflow.Ellipsis) }
             }
@@ -161,9 +162,9 @@ fun ChainsScreen(
                 TextButton(onClick = {
                     repository.remove(target.id)
                     pendingDelete = null
-                }) { Text(stringResource(Res.string.action_delete), color = MaterialTheme.colorScheme.error) }
+                }, modifier = Modifier.xtmButtonGlass(RoundedCornerShape(12.dp), MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.action_delete), color = MaterialTheme.colorScheme.error) }
             },
-            dismissButton = { TextButton(onClick = { pendingDelete = null }) { Text(stringResource(Res.string.action_cancel)) } },
+            dismissButton = { TextButton(onClick = { pendingDelete = null }, modifier = Modifier.xtmButtonGlass(RoundedCornerShape(12.dp), MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.action_cancel)) } },
         )
     }
 }
@@ -213,8 +214,8 @@ private fun ChainCard(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
-                IconButton(onClick = onEdit) { Icon(painterResource(Res.drawable.ic_edit), contentDescription = stringResource(Res.string.action_edit)) }
-                IconButton(onClick = onDelete) { Icon(painterResource(Res.drawable.ic_delete), contentDescription = stringResource(Res.string.action_delete)) }
+                IconButton(onClick = onEdit, modifier = Modifier.xtmButtonGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surface)) { Icon(painterResource(Res.drawable.ic_edit), contentDescription = stringResource(Res.string.action_edit)) }
+                IconButton(onClick = onDelete, modifier = Modifier.xtmButtonGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surface)) { Icon(painterResource(Res.drawable.ic_delete), contentDescription = stringResource(Res.string.action_delete)) }
             }
             if (members.isNotEmpty()) {
                 Text(

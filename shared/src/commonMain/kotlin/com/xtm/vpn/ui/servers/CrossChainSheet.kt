@@ -2,6 +2,7 @@
 
 package com.xtm.vpn.ui.servers
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -239,7 +240,7 @@ fun CrossChainSheet(
                     onClick = { onSave(name.trim(), innerId, outerId) },
                     enabled = valid,
                     shape = RoundedCornerShape(18.dp),
-                    modifier = Modifier.fillMaxWidth().height(54.dp),
+                    modifier = Modifier.fillMaxWidth().height(54.dp).xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surface),
                 ) { Text(stringResource(Res.string.action_save), fontWeight = FontWeight.SemiBold) }
             }
         }

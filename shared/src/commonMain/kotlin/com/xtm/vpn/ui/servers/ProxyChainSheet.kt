@@ -2,6 +2,7 @@
 
 package com.xtm.vpn.ui.servers
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -150,9 +151,9 @@ fun ProxyChainSheet(
                                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                             )
                                         }
-                                        IconButton(onClick = { if (i > 0) selected.swap(i, i - 1) }) { Text("▲") }
-                                        IconButton(onClick = { if (i < selected.lastIndex) selected.swap(i, i + 1) }) { Text("▼") }
-                                        IconButton(onClick = { selected.removeAt(i) }) { Text("✕") }
+                                        IconButton(onClick = { if (i > 0) selected.swap(i, i - 1) }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text("▲") }
+                                        IconButton(onClick = { if (i < selected.lastIndex) selected.swap(i, i + 1) }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text("▼") }
+                                        IconButton(onClick = { selected.removeAt(i) }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text("✕") }
                                     }
                                 }
                             }
@@ -232,7 +233,7 @@ fun ProxyChainSheet(
                     onClick = { onSave(name.trim(), selected.toList()) },
                     enabled = selected.size >= 2 && udpWarning == null,
                     shape = RoundedCornerShape(18.dp),
-                    modifier = Modifier.fillMaxWidth().height(54.dp),
+                    modifier = Modifier.fillMaxWidth().height(54.dp).xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surface),
                 ) { Text(stringResource(Res.string.action_save), fontWeight = FontWeight.SemiBold) }
             }
         }

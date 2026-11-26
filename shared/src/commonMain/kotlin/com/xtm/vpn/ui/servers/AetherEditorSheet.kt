@@ -1,5 +1,6 @@
 package com.xtm.vpn.ui.servers
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -85,7 +86,7 @@ fun AetherEditorSheet(
             Button(
                 onClick = { onSave(name.trim().ifEmpty { "Aether" }, settings) },
                 enabled = error == null,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
+                modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp).xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface),
             ) { Text(stringResource(Res.string.action_save)) }
         }
     }

@@ -140,7 +140,7 @@ fun AiChatScreen(
             )
             FilledIconButton(
                 modifier = Modifier.then(
-                    if (Spider.active) Modifier.spiderLiquidGlass(
+                    if (Spider.active) Modifier.xtmButtonGlass(
                         CircleShape,
                         MaterialTheme.colorScheme.primaryContainer,
                     ) else Modifier

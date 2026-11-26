@@ -344,6 +344,7 @@ private fun LinkChip(label: String, tone: SpiderTone, onClick: () -> Unit) {
             .height(34.dp)
             .clip(RoundedCornerShape(17.dp))
             .background(tone.content.copy(alpha = 0.14f))
+            .xtmButtonGlass(RoundedCornerShape(17.dp), tone.container)
             .clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 14.dp),
         contentAlignment = Alignment.Center,

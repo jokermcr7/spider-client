@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -49,6 +50,7 @@ import com.xtm.vpn.domain.config.VpnProfile
 import com.xtm.vpn.platform.currentTimeMillis
 import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.*
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import com.xtm.vpn.ui.theme.Personalization
 import com.xtm.vpn.ui.theme.goodPingColor
 import com.xtm.vpn.ui.theme.SpiderLime
@@ -156,7 +158,7 @@ fun AutoSelectCard(
                     modifier = Modifier.size(20.dp),
                 )
             }
-            IconButton(onClick = onDetails) {
+            IconButton(onClick = onDetails, modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface)) {
                 Icon(
                     painterResource(Res.drawable.ic_info),
                     contentDescription = stringResource(Res.string.auto_details),
@@ -247,7 +249,7 @@ fun AutoSelectSheet(
                             }
                             if (!status.pinned.isNullOrBlank() && AutoSelect.supportsPinning) {
                                 Spacer(Modifier.height(10.dp))
-                                FilledTonalButton(onClick = { AutoSelect.pin(""); Unit }) {
+                                FilledTonalButton(onClick = { AutoSelect.pin(""); Unit }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                                     Text(stringResource(Res.string.auto_unpin))
                                 }
                             }
@@ -391,7 +393,7 @@ private fun LiveMemberRow(
                     }
                 }
                 if (onPin != null && !pinned) {
-                    IconButton(onClick = onPin) {
+                    IconButton(onClick = onPin, modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface)) {
                         Icon(
                             painterResource(Res.drawable.ic_push_pin),
                             contentDescription = stringResource(Res.string.auto_pin),

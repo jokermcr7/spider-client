@@ -52,6 +52,7 @@ import com.xtm.vpn.core.VpnManager
 import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.*
 import com.xtm.vpn.ui.platform.LocalPlatform
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -202,16 +203,25 @@ fun LogPanel(modifier: Modifier, fill: Boolean, showTitle: Boolean = true) {
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                FilledTonalButton(onClick = {
-                    platform.copyToClipboard(lines.joinToString("\n") { it.raw })
-                    platform.toast(logsCopied)
-                }) {
+                FilledTonalButton(
+                    onClick = {
+                        platform.copyToClipboard(lines.joinToString("\n") { it.raw })
+                        platform.toast(logsCopied)
+                    },
+                    modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface),
+                ) {
                     Icon(painterResource(Res.drawable.ic_content_paste), stringResource(Res.string.logs_copy), Modifier.height(18.dp))
                 }
-                FilledTonalButton(onClick = { platform.shareText(lines.joinToString("\n") { it.raw }) }) {
+                FilledTonalButton(
+                    onClick = { platform.shareText(lines.joinToString("\n") { it.raw }) },
+                    modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface),
+                ) {
                     Icon(painterResource(Res.drawable.ic_ios_share), stringResource(Res.string.logs_share), Modifier.height(18.dp))
                 }
-                FilledTonalButton(onClick = { LogBus.clear() }) {
+                FilledTonalButton(
+                    onClick = { LogBus.clear() },
+                    modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface),
+                ) {
                     Icon(painterResource(Res.drawable.ic_delete), stringResource(Res.string.logs_clear), Modifier.height(18.dp))
                 }
             }
@@ -224,7 +234,10 @@ fun LogPanel(modifier: Modifier, fill: Boolean, showTitle: Boolean = true) {
                 leadingIcon = { Icon(painterResource(Res.drawable.ic_search), null, Modifier.size(18.dp)) },
                 trailingIcon = {
                     if (query.isNotEmpty()) {
-                        FilledTonalIconButton(onClick = { query = "" }) {
+                        FilledTonalIconButton(
+                            onClick = { query = "" },
+                            modifier = Modifier.xtmButtonGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surface),
+                        ) {
                             Icon(painterResource(Res.drawable.ic_close), stringResource(Res.string.action_cancel), Modifier.size(16.dp))
                         }
                     }
@@ -310,7 +323,8 @@ fun LogPanel(modifier: Modifier, fill: Boolean, showTitle: Boolean = true) {
                 if (!atBottom && lines.isNotEmpty()) {
                     FilledTonalButton(
                         onClick = { scope.launch { listState.scrollToItem(lines.lastIndex) } },
-                        modifier = Modifier.align(Alignment.BottomEnd).padding(12.dp),
+                        modifier = Modifier.align(Alignment.BottomEnd).padding(12.dp)
+                            .xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface),
                     ) {
                         Icon(painterResource(Res.drawable.ic_keyboard_arrow_down), null, Modifier.size(16.dp))
                         Spacer4()

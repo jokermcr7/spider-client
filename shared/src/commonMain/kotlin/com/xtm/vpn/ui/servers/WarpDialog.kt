@@ -1,5 +1,6 @@
 package com.xtm.vpn.ui.servers
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -61,6 +62,7 @@ fun WarpDialog(onDismiss: () -> Unit, onRegistered: (link: String) -> Unit) {
         },
         confirmButton = {
             TextButton(
+                modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface),
                 enabled = !busy,
                 onClick = {
                     busy = true
@@ -76,7 +78,7 @@ fun WarpDialog(onDismiss: () -> Unit, onRegistered: (link: String) -> Unit) {
             ) { Text(stringResource(if (error == null) Res.string.warp_add_action else Res.string.action_retry)) }
         },
         dismissButton = {
-            TextButton(enabled = !busy, onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) }
+            TextButton(enabled = !busy, onClick = onDismiss, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.action_cancel)) }
         },
     )
 }

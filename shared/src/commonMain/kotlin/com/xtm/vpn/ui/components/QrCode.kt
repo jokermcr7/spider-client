@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.xtm.vpn.platform.encodeQr
 import com.xtm.vpn.ui.platform.appVerticalScroll
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 
 @Composable
 fun QrCode(text: String, modifier: Modifier = Modifier) {
@@ -87,11 +88,35 @@ fun QrDialog(
                 )
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text(closeLabel) } },
+        confirmButton = {
+            TextButton(
+                onClick = onDismiss,
+                modifier = Modifier.xtmButtonGlass(
+                    MaterialTheme.shapes.small,
+                    MaterialTheme.colorScheme.surface,
+                ),
+            ) { Text(closeLabel) }
+        },
         dismissButton = {
             Row2(
-                first = { TextButton(onClick = onCopy) { Text(copyLabel) } },
-                second = { TextButton(onClick = onShare) { Text(shareLabel) } },
+                first = {
+                    TextButton(
+                        onClick = onCopy,
+                        modifier = Modifier.xtmButtonGlass(
+                            MaterialTheme.shapes.small,
+                            MaterialTheme.colorScheme.surface,
+                        ),
+                    ) { Text(copyLabel) }
+                },
+                second = {
+                    TextButton(
+                        onClick = onShare,
+                        modifier = Modifier.xtmButtonGlass(
+                            MaterialTheme.shapes.small,
+                            MaterialTheme.colorScheme.surface,
+                        ),
+                    ) { Text(shareLabel) }
+                },
             )
         },
     )

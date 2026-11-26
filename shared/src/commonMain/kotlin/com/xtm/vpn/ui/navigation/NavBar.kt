@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import com.xtm.vpn.domain.model.NavBarStyle
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 
 @Composable
 fun SpiderNavBar(
@@ -246,7 +247,10 @@ private fun MinimalBar(tabs: List<TopDestination>, current: TopDestination, onSe
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.tourTarget(TourTargets.nav(dest.name)),
             ) {
-                IconButton(onClick = { onSelect(dest) }) {
+                IconButton(
+                    onClick = { onSelect(dest) },
+                    modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
+                ) {
                     Icon(
                         painterResource(dest.icon),
                         contentDescription = stringResource(dest.labelRes),
@@ -304,9 +308,15 @@ private fun NavPill(
     ) { isSelected ->
         val sizeMod = if (compact) Modifier.size(38.dp) else Modifier
         if (isSelected) {
-            FilledIconButton(onClick = onClick, modifier = sizeMod) { icon() }
+            FilledIconButton(
+                onClick = onClick,
+                modifier = sizeMod.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
+            ) { icon() }
         } else {
-            IconButton(onClick = onClick, modifier = sizeMod) { icon() }
+            IconButton(
+                onClick = onClick,
+                modifier = sizeMod.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
+            ) { icon() }
         }
     }
 }

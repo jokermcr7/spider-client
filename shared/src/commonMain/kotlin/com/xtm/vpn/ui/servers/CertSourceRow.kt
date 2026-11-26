@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.*
 import org.jetbrains.compose.resources.stringResource
@@ -45,17 +46,17 @@ fun CertSourceRow(
                 )
             }
             if (onChoose != null) {
-                OutlinedButton(onClick = onChoose) {
+                OutlinedButton(onClick = onChoose, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                     Text(stringResource(Res.string.cert_choose))
                 }
             }
         }
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             if (onImport != null) {
-                TextButton(onClick = onImport) { Text(stringResource(Res.string.cert_import_file)) }
+                TextButton(onClick = onImport, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.cert_import_file)) }
             }
             if (onClear != null && !value.isNullOrBlank()) {
-                TextButton(onClick = onClear) { Text(stringResource(Res.string.cert_clear)) }
+                TextButton(onClick = onClear, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.cert_clear)) }
             }
         }
         if (error != null) {

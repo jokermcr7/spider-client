@@ -43,8 +43,7 @@ import com.xtm.vpn.domain.model.GeoFilesSource
 import com.xtm.vpn.ui.platform.LocalPlatform
 import kotlinx.coroutines.launch
 import com.xtm.vpn.ui.platform.appVerticalScroll
-import com.xtm.vpn.ui.spider.Spider
-import com.xtm.vpn.ui.spider.spiderLiquidGlass
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 
 @Composable
 fun AssetsScreen(
@@ -150,11 +149,9 @@ fun AssetsScreen(
                             message = getString(if (ok) Res.string.assets_done else Res.string.assets_failed)
                         }
                     },
-                    modifier = Modifier.fillMaxWidth().then(
-                    if (Spider.active) Modifier.spiderLiquidGlass(
+                    modifier = Modifier.fillMaxWidth().xtmButtonGlass(
                         RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer
-                    ) else Modifier
-                ),
+                    ),
                 ) {
                     Text(stringResource(Res.string.assets_download))
                 }
@@ -223,10 +220,8 @@ private fun AssetCard(asset: GeoAsset, onImport: () -> Unit) {
             }
             OutlinedButton(
                 onClick = onImport,
-                modifier = Modifier.then(
-                    if (Spider.active) Modifier.spiderLiquidGlass(
-                        RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer
-                    ) else Modifier
+                modifier = Modifier.xtmButtonGlass(
+                    RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer
                 ),
             ) {
                 Text(stringResource(Res.string.assets_import))

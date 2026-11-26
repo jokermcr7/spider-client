@@ -62,6 +62,7 @@ import androidx.compose.ui.graphics.luminance
 import kotlinx.coroutines.launch
 import com.xtm.vpn.ui.platform.appVerticalScroll
 import org.jetbrains.compose.resources.StringResource
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 
 @Composable
 fun SubscriptionsSheet(
@@ -244,13 +245,16 @@ fun SubscriptionsPanel(
                                         CircularProgressIndicator(Modifier.size(20.dp))
                                     }
                                 } else if (!sub.isBuiltIn) {
-                                    IconButton(onClick = {
-                                        busyId = sub.id
-                                        scope.launch {
-                                            repository.updateSubscription(sub.id)
-                                            busyId = null
-                                        }
-                                    }) {
+                                    IconButton(
+                                        modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
+                                        onClick = {
+                                            busyId = sub.id
+                                            scope.launch {
+                                                repository.updateSubscription(sub.id)
+                                                busyId = null
+                                            }
+                                        },
+                                    ) {
                                         Icon(
                                             painterResource(Res.drawable.ic_schedule),
                                             contentDescription = stringResource(Res.string.subs_update),
@@ -258,27 +262,37 @@ fun SubscriptionsPanel(
                                     }
                                 }
 
-                                if (!sub.isBuiltIn) IconButton(onClick = { qrTarget = sub.name to sub.url }) {
-                                    Icon(
-                                        painterResource(Res.drawable.ic_qr_code_2),
-                                        contentDescription = stringResource(Res.string.action_share_qr),
-                                    )
+                                if (!sub.isBuiltIn) {
+                                    IconButton(
+                                        modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
+                                        onClick = { qrTarget = sub.name to sub.url },
+                                    ) {
+                                        Icon(
+                                            painterResource(Res.drawable.ic_qr_code_2),
+                                            contentDescription = stringResource(Res.string.action_share_qr),
+                                        )
+                                    }
+                                    IconButton(
+                                        modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
+                                        onClick = { renameTarget = sub },
+                                    ) {
+                                        Icon(
+                                            painterResource(Res.drawable.ic_edit),
+                                            contentDescription = stringResource(Res.string.subs_rename),
+                                        )
+                                    }
+                                    IconButton(
+                                        modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
+                                        onClick = { deleteTarget = sub },
+                                    ) {
+                                        Icon(
+                                            painterResource(Res.drawable.ic_delete),
+                                            contentDescription = stringResource(Res.string.action_delete),
+                                        )
+                                    }
                                 }
-                                if (!sub.isBuiltIn) IconButton(onClick = { renameTarget = sub }) {
-                                    Icon(
-                                        painterResource(Res.drawable.ic_edit),
-                                        contentDescription = stringResource(Res.string.subs_rename),
-                                    )
-                                }
-                                if (!sub.isBuiltIn) IconButton(onClick = { deleteTarget = sub }) {
-                                    Icon(
-                                        painterResource(Res.drawable.ic_delete),
-                                        contentDescription = stringResource(Res.string.action_delete),
-                                    )
-                                }
+                                SubscriptionUsage(sub, onOpen = { platform.openUri(it) })
                             }
-                            SubscriptionUsage(sub, onOpen = { platform.openUri(it) })
-                          }
                         }
                                     }
                 }
@@ -330,7 +344,7 @@ fun SubscriptionsPanel(
                         modifier = Modifier.fillMaxWidth(),
                     )
                     UserAgentPicker(newUa) { newUa = it }
-                    TextButton(onClick = { presetOpen = !presetOpen }) {
+                    TextButton(onClick = { presetOpen = !presetOpen }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                         Text(stringResource(Res.string.subs_preset_title))
                     }
                     if (presetOpen) {
@@ -372,10 +386,12 @@ fun SubscriptionsPanel(
                             busyId = null
                         }
                     }
-                }) { Text(stringResource(Res.string.action_save)) }
+                }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
+                    Text(stringResource(Res.string.action_save))
+                }
             },
             dismissButton = {
-                TextButton(onClick = { renameTarget = null }) {
+                TextButton(onClick = { renameTarget = null }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                     Text(stringResource(Res.string.action_cancel))
                 }
             },
@@ -392,10 +408,15 @@ fun SubscriptionsPanel(
                 TextButton(onClick = {
                     repository.removeSubscription(target.id, alsoRemoveServers = true)
                     deleteTarget = null
-                }) { Text(stringResource(Res.string.action_delete)) }
+                }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
+                    Text(stringResource(Res.string.action_delete))
+                }
             },
             dismissButton = {
-                TextButton(onClick = { deleteTarget = null }) {
+                TextButton(
+                    onClick = { deleteTarget = null },
+                    modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface),
+                ) {
                     Text(stringResource(Res.string.action_cancel))
                 }
             },

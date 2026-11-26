@@ -2,6 +2,7 @@
 
 package com.xtm.vpn.ui.servers
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -143,7 +144,7 @@ fun OpenConnectSheet(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
 
-            TextButton(onClick = { advancedOpen = !advancedOpen }) {
+            TextButton(onClick = { advancedOpen = !advancedOpen }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                 Text(stringResource(Res.string.openconnect_advanced))
                 Spacer(Modifier.width(6.dp))
                 Icon(
@@ -264,7 +265,7 @@ fun OpenConnectSheet(
                 },
                 enabled = valid,
                 shape = RoundedCornerShape(18.dp),
-                modifier = Modifier.fillMaxWidth().height(54.dp),
+                modifier = Modifier.fillMaxWidth().height(54.dp).xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surface),
             ) {
                 Text(stringResource(Res.string.action_save), fontWeight = FontWeight.SemiBold)
             }
@@ -325,7 +326,7 @@ private fun CertFileRow(
             scope.launch {
                 platform.pickFileBytes()?.let { onLoaded(it.bytes.decodeToString()) }
             }
-        }) { Text(stringResource(Res.string.openconnect_load_file)) }
+        }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.openconnect_load_file)) }
     }
 }
 

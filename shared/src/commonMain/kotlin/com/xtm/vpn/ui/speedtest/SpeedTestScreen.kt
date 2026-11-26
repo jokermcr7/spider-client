@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilledTonalButton
@@ -283,7 +284,7 @@ private fun ActionButton(
     onStop: () -> Unit,
 ) {
     if (running) {
-        FilledTonalButton(onClick = onStop, modifier = Modifier.fillMaxWidth(0.72f).height(52.dp)) {
+        FilledTonalButton(onClick = onStop, modifier = Modifier.fillMaxWidth(0.72f).height(52.dp).xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer)) {
             Icon(painterResource(Res.drawable.ic_close), contentDescription = null, modifier = Modifier.size(20.dp))
             Spacer(Modifier.width(8.dp))
             Text(stringResource(Res.string.speedtest_stop), fontWeight = FontWeight.SemiBold)
@@ -292,7 +293,7 @@ private fun ActionButton(
         Button(
             onClick = onStart,
             colors = ButtonDefaults.buttonColors(),
-            modifier = Modifier.fillMaxWidth(0.72f).height(52.dp),
+            modifier = Modifier.fillMaxWidth(0.72f).height(52.dp).xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer),
         ) {
             Icon(painterResource(Res.drawable.ic_speed), contentDescription = null, modifier = Modifier.size(20.dp))
             Spacer(Modifier.width(8.dp))

@@ -67,6 +67,7 @@ import com.xtm.vpn.shared.resources.map_share_lan
 import com.xtm.vpn.shared.resources.map_share_lan_on
 import com.xtm.vpn.shared.resources.map_share_lan_no_ipv4
 import com.xtm.vpn.shared.resources.action_ok
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import com.xtm.vpn.ui.format.ltrIsolate
 import com.xtm.vpn.ui.theme.Personalization
 import kotlinx.coroutines.Dispatchers
@@ -379,7 +380,7 @@ private fun ShareLanControl(active: Boolean, settings: AppSettings, onClick: () 
                 onDismissRequest = { showInfo = false },
                 title = { Text(stringResource(Res.string.map_share_lan)) },
                 text = { Text(info) },
-                confirmButton = { TextButton(onClick = { showInfo = false }) { Text(stringResource(Res.string.action_ok)) } },
+                confirmButton = { TextButton(onClick = { showInfo = false }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.action_ok)) } },
             )
         }
     }

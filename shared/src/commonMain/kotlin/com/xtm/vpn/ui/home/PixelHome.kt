@@ -50,6 +50,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -698,12 +699,12 @@ private fun PixelErrorCard(
             }
             Spacer(Modifier.height(18.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = onRetry, shapes = ButtonDefaults.shapes()) { Text(stringResource(Res.string.action_retry)) }
-                FilledTonalButton(onClick = onOtherServer, shapes = ButtonDefaults.shapes()) {
+                Button(onClick = onRetry, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface), shapes = ButtonDefaults.shapes()) { Text(stringResource(Res.string.action_retry)) }
+                FilledTonalButton(onClick = onOtherServer, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface), shapes = ButtonDefaults.shapes()) {
                     Text(stringResource(Res.string.pixel_other_server))
                 }
             }
-            TextButton(onClick = onShowLogs) { Text(stringResource(Res.string.fault_open_logs)) }
+            TextButton(onClick = onShowLogs, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.fault_open_logs)) }
         }
     }
 }

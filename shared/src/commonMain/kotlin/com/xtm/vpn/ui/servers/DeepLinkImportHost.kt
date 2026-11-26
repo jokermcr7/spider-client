@@ -1,5 +1,6 @@
 package com.xtm.vpn.ui.servers
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
@@ -129,7 +130,7 @@ fun DeepLinkImportHost(repository: ConfigRepository, onImported: () -> Unit) {
                             )
                         }
                 }
-            }) {
+            }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                 Text(
                     stringResource(
                         if (isSubscription) Res.string.deeplink_add_subscription else Res.string.deeplink_import,
@@ -138,7 +139,7 @@ fun DeepLinkImportHost(repository: ConfigRepository, onImported: () -> Unit) {
             }
         },
         dismissButton = {
-            TextButton(onClick = { DeepLinkBus.clear() }) { Text(stringResource(Res.string.action_cancel)) }
+            TextButton(onClick = { DeepLinkBus.clear() }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.action_cancel)) }
         },
     )
 }

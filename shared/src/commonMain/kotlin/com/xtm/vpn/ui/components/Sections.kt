@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.ToggleButton
 import com.xtm.vpn.ui.spider.Spider
 import com.xtm.vpn.ui.spider.spiderLiquidGlass
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
@@ -96,11 +97,9 @@ fun PageBackButton(modifier: Modifier = Modifier) {
         onClick = back,
         modifier = modifier
             .offset(x = (-12).dp)
-            .then(
-                if (Spider.active) Modifier.spiderLiquidGlass(
-                    androidx.compose.foundation.shape.CircleShape,
-                    MaterialTheme.colorScheme.surfaceContainerHigh,
-                ) else Modifier
+            .xtmButtonGlass(
+                androidx.compose.foundation.shape.CircleShape,
+                MaterialTheme.colorScheme.surfaceContainerHigh,
             ),
     ) {
         Icon(

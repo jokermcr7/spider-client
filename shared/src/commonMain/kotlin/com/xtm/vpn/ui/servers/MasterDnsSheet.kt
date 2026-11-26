@@ -2,6 +2,7 @@
 
 package com.xtm.vpn.ui.servers
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -65,7 +66,7 @@ fun MasterDnsSheet(
                     imported?.let { onSave(it.name, it.settings) }
                 },
                 enabled = imported != null,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface),
             ) {
                 Text("Add MasterDNS", fontWeight = FontWeight.SemiBold)
             }

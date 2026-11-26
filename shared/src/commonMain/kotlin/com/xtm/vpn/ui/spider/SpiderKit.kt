@@ -45,6 +45,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -220,6 +221,18 @@ fun Modifier.spiderMotif(
     }
 }
 
+/**
+ * Shared floating glass treatment for XTM VPN action buttons.
+ * Keeps click handling and Material button semantics owned by the caller.
+ */
+fun Modifier.xtmButtonGlass(
+    shape: Shape,
+    tint: Color,
+    depth: Dp = 4.dp,
+): Modifier = this
+    .shadow(6.dp, shape)
+    .spiderLiquidGlass(shape, tint, depth)
+
 @Composable
 fun SpiderCard(
     tone: SpiderTone,
@@ -319,6 +332,7 @@ fun MotifButton(
         Box(
             Modifier
                 .matchParentSize()
+                .shadow(if (pressed) 10.dp else 6.dp, clip)
                 .graphicsLayer {
                     rotationZ = spin
                     scaleX = squash
@@ -349,6 +363,7 @@ fun SpiderIconButton(
     Box(
         modifier
             .size(size)
+            .shadow(if (pressed) 10.dp else 6.dp, CircleShape)
             .graphicsLayer {
                 scaleX = squash
                 scaleY = squash

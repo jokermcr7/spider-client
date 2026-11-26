@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.xtm.vpn.ui.onboarding.TourTargets
 import com.xtm.vpn.ui.onboarding.tourTarget
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
@@ -158,7 +159,9 @@ private fun FabButton(icon: DrawableResource, description: String, onClick: () -
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         tonalElevation = 6.dp,
         shadowElevation = 6.dp,
-        modifier = Modifier.size(FAB_SIZE),
+        modifier = Modifier
+            .size(FAB_SIZE)
+            .xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.primaryContainer),
     ) {
         Box(contentAlignment = Alignment.Center) {
             Icon(painterResource(icon), contentDescription = description, modifier = Modifier.size(26.dp))

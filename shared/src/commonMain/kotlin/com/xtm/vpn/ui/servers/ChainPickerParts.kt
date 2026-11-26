@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import com.xtm.vpn.domain.config.VpnProfile
 import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.*
@@ -56,7 +57,7 @@ internal fun ChainSearchField(
         leadingIcon = { Icon(painterResource(Res.drawable.ic_search), contentDescription = null) },
         trailingIcon = {
             if (value.isNotEmpty()) {
-                IconButton(onClick = { onValueChange("") }) {
+                IconButton(onClick = { onValueChange("") }, modifier = Modifier.xtmButtonGlass(androidx.compose.foundation.shape.CircleShape, MaterialTheme.colorScheme.surface)) {
                     Icon(
                         painterResource(Res.drawable.ic_close),
                         contentDescription = stringResource(Res.string.chain_search_clear),

@@ -30,8 +30,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import com.xtm.vpn.ui.spider.Spider
-import com.xtm.vpn.ui.spider.spiderLiquidGlass
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.runtime.Composable
@@ -81,12 +80,12 @@ fun ColorPickerDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
-            TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(14.dp), MaterialTheme.colorScheme.primaryContainer) else Modifier), onClick = { onPick(color) }) { Text(stringResource(Res.string.action_save)) }
+            TextButton(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(14.dp), MaterialTheme.colorScheme.primaryContainer), onClick = { onPick(color) }) { Text(stringResource(Res.string.action_save)) }
         },
         dismissButton = {
             Row {
-                TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(14.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = onReset) { Text(stringResource(Res.string.personalize_reset)) }
-                TextButton(modifier = Modifier.then(if (Spider.active) Modifier.spiderLiquidGlass(RoundedCornerShape(14.dp), MaterialTheme.colorScheme.surfaceContainerHigh) else Modifier), onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) }
+                TextButton(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(14.dp), MaterialTheme.colorScheme.surfaceContainerHigh), onClick = onReset) { Text(stringResource(Res.string.personalize_reset)) }
+                TextButton(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(14.dp), MaterialTheme.colorScheme.surfaceContainerHigh), onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) }
             }
         },
         title = { Text(title) },

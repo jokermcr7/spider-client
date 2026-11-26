@@ -5,6 +5,8 @@
 
 package com.xtm.vpn.ui.spider
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
@@ -417,6 +419,7 @@ private fun SettingsQuickButton(
             .shadow(5.dp, shape, ambientColor = c.bad.copy(alpha = 0.08f), spotColor = c.bad.copy(alpha = 0.08f))
             .clip(shape)
             .background(c.coral.container)
+            .xtmButtonGlass(shape, c.coral.container)
             .border(1.dp, c.bad.copy(alpha = 0.18f), shape)
             .semantics { contentDescription = label }
             .clickable(role = Role.Button, onClick = onClick),
@@ -846,6 +849,7 @@ private fun HubTile(
                     .size(32.dp)
                     .clip(RoundedCornerShape(11.dp))
                     .background(c.ground)
+                    .xtmButtonGlass(RoundedCornerShape(11.dp), c.ground)
                     .clickable(role = Role.Button, onClick = onResize),
                 contentAlignment = Alignment.Center,
             ) {
@@ -897,6 +901,7 @@ private fun DonePill(onClick: () -> Unit) {
             .height(46.dp)
             .clip(RoundedCornerShape(23.dp))
             .background(c.lime)
+            .xtmButtonGlass(RoundedCornerShape(23.dp), c.lime)
             .clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 18.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -925,6 +930,7 @@ private fun OutlineAction(
             .height(50.dp)
             .clip(shape)
             .border(1.dp, c.line, shape)
+            .xtmButtonGlass(shape, c.surface)
             .clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 18.dp),
         verticalAlignment = Alignment.CenterVertically,

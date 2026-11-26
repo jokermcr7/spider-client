@@ -100,6 +100,7 @@ import org.jetbrains.compose.resources.stringResource
 import com.xtm.vpn.ui.platform.appVerticalScroll
 import com.xtm.vpn.ui.spider.Spider
 import com.xtm.vpn.ui.spider.spiderLiquidGlass
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 
 private const val DisabledAlpha = 0.38f
 private val SegmentGap = 2.dp
@@ -623,9 +624,7 @@ fun SettingsEditRow(
             confirmButton = {
                 Button(
                     onClick = save,
-                    modifier = if (Spider.active) {
-                        Modifier.spiderLiquidGlass(ButtonDefaults.shape, Spider.colors.lime)
-                    } else Modifier,
+                    modifier = Modifier.xtmButtonGlass(ButtonDefaults.shape, Spider.colors.lime),
                     colors = if (Spider.active) {
                         ButtonDefaults.buttonColors(
                             containerColor = Color.Transparent,
@@ -637,9 +636,7 @@ fun SettingsEditRow(
             dismissButton = {
                 TextButton(
                     onClick = { showDialog = false },
-                    modifier = if (Spider.active) {
-                        Modifier.spiderLiquidGlass(RoundedCornerShape(18.dp), Spider.colors.surface)
-                    } else Modifier,
+                    modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), Spider.colors.surface),
                 ) {
                     Text(stringResource(Res.string.action_cancel))
                 }

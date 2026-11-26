@@ -47,6 +47,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.unit.dp
 import androidx.graphics.shapes.RoundedPolygon
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import com.xtm.vpn.domain.model.ConnectionState
 import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.*
@@ -122,7 +123,10 @@ internal fun PortalTopBar(
                 }
                 .padding(horizontal = 8.dp, vertical = 6.dp),
         )
-        IconButton(onClick = onShowLogs) {
+        IconButton(
+            onClick = onShowLogs,
+            modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
+        ) {
             Icon(
                 painterResource(Res.drawable.ic_description),
                 contentDescription = stringResource(Res.string.logs_title),

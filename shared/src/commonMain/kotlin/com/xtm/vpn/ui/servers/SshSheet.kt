@@ -2,6 +2,7 @@
 
 package com.xtm.vpn.ui.servers
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import org.jetbrains.compose.resources.StringResource
 
 import androidx.compose.foundation.layout.Arrangement
@@ -100,7 +101,7 @@ fun SshSheet(
                     )
                 },
                 shape = RoundedCornerShape(18.dp),
-                modifier = Modifier.fillMaxWidth().height(54.dp),
+                modifier = Modifier.fillMaxWidth().height(54.dp).xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surface),
             ) { Text(stringResource(Res.string.action_save), fontWeight = FontWeight.SemiBold) }
         }
     }

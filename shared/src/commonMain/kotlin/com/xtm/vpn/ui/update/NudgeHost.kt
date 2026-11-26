@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -198,6 +199,7 @@ fun UpdateDialog(info: UpdateInfo, onDismiss: () -> Unit) {
         },
         confirmButton = {
             Button(
+                modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer),
                 enabled = progress == null,
                 onClick = {
                     if (installable && !failed) {
@@ -219,7 +221,7 @@ fun UpdateDialog(info: UpdateInfo, onDismiss: () -> Unit) {
             }
         },
         dismissButton = {
-            TextButton(enabled = progress == null, onClick = onDismiss) { Text(stringResource(Res.string.update_action_later)) }
+            TextButton(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh), enabled = progress == null, onClick = onDismiss) { Text(stringResource(Res.string.update_action_later)) }
         },
     )
 }
@@ -255,14 +257,14 @@ private fun RateDialog(onDismiss: () -> Unit, onNever: () -> Unit) {
         title = { Text(stringResource(Res.string.rate_prompt_title)) },
         text = { Text(stringResource(Res.string.rate_prompt_body)) },
         confirmButton = {
-            Button(onClick = { platform.openStorePage(); onDismiss() }) {
+            Button(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer), onClick = { platform.openStorePage(); onDismiss() }) {
                 Text(stringResource(Res.string.rate_action_rate))
             }
         },
         dismissButton = {
             Row {
-                TextButton(onClick = onNever) { Text(stringResource(Res.string.rate_action_never)) }
-                TextButton(onClick = onDismiss) { Text(stringResource(Res.string.rate_action_later)) }
+                TextButton(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh), onClick = onNever) { Text(stringResource(Res.string.rate_action_never)) }
+                TextButton(modifier = Modifier.xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.surfaceContainerHigh), onClick = onDismiss) { Text(stringResource(Res.string.rate_action_later)) }
             }
         },
     )

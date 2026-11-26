@@ -63,6 +63,7 @@ import com.xtm.vpn.shared.resources.Res
 import com.xtm.vpn.shared.resources.*
 import com.xtm.vpn.core.VaultImportBus
 import com.xtm.vpn.ui.platform.LocalPlatform
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import com.xtm.vpn.crypto.ZsxSealRequest
 import com.xtm.vpn.data.config.ConfigRepository
 import com.xtm.vpn.domain.config.VpnProfile
@@ -177,7 +178,8 @@ fun VaultScreen(
                     }
                 },
                 shape = RoundedCornerShape(18.dp),
-                modifier = Modifier.fillMaxWidth().height(54.dp),
+                modifier = Modifier.fillMaxWidth().height(54.dp)
+                    .xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer),
             ) {
                 Icon(painterResource(Res.drawable.ic_lock), null, Modifier.size(20.dp))
                 Spacer(Modifier.width(10.dp))
@@ -186,7 +188,8 @@ fun VaultScreen(
             FilledTonalButton(
                 onClick = onImportRequested,
                 shape = RoundedCornerShape(18.dp),
-                modifier = Modifier.fillMaxWidth().height(54.dp),
+                modifier = Modifier.fillMaxWidth().height(54.dp)
+                    .xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.secondaryContainer),
             ) {
                 Icon(painterResource(Res.drawable.ic_ios_share), null, Modifier.size(20.dp))
                 Spacer(Modifier.width(10.dp))
@@ -312,7 +315,10 @@ private fun LockedCard(
                 )
                 Spacer(Modifier.width(4.dp))
             }
-            IconButton(onClick = onDelete) {
+            IconButton(
+                onClick = onDelete,
+                modifier = Modifier.xtmButtonGlass(RoundedCornerShape(50), MaterialTheme.colorScheme.errorContainer),
+            ) {
                 Icon(
                     painterResource(Res.drawable.ic_delete),
                     contentDescription = stringResource(Res.string.action_delete),
@@ -467,7 +473,8 @@ private fun CreateLockedSheet(
 
                 enabled = !sealing && selected.isNotEmpty(),
                 shape = RoundedCornerShape(18.dp),
-                modifier = Modifier.fillMaxWidth().height(54.dp),
+                modifier = Modifier.fillMaxWidth().height(54.dp)
+                    .xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer),
             ) {
                 if (sealing) {
                     CircularProgressIndicator(Modifier.size(22.dp), strokeWidth = 2.5.dp)

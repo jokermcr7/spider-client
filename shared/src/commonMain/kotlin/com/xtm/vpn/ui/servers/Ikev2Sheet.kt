@@ -2,6 +2,7 @@
 
 package com.xtm.vpn.ui.servers
 
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -213,7 +214,7 @@ fun Ikev2Sheet(
 
             Field(name, Res.string.ikev2_profile_name) { name = it }
 
-            TextButton(onClick = { advancedOpen = !advancedOpen }) {
+            TextButton(onClick = { advancedOpen = !advancedOpen }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                 Text(
                     stringResource(
                         if (advancedOpen) Res.string.ikev2_advanced_title else Res.string.ikev2_show_advanced,
@@ -272,7 +273,7 @@ fun Ikev2Sheet(
                     )
                 },
                 enabled = valid,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface),
             ) {
                 Text(stringResource(Res.string.action_save), fontWeight = FontWeight.SemiBold)
             }

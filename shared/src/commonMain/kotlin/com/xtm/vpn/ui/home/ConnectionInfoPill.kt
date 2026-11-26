@@ -41,6 +41,7 @@ import com.xtm.vpn.data.net.NetworkInfo
 import com.xtm.vpn.ui.components.FlagBadge
 import com.xtm.vpn.ui.theme.goodPingColor
 import com.xtm.vpn.ui.theme.SpiderLime
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 
 @Composable
 fun ConnectionInfoPill(
@@ -101,7 +102,10 @@ fun ConnectionInfoPill(
                         )
                     }
                 }
-                IconButton(onClick = onToggle) {
+                IconButton(
+                    onClick = onToggle,
+                    modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
+                ) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_keyboard_arrow_down),
                         contentDescription = stringResource(Res.string.info_details),
@@ -134,7 +138,11 @@ fun ConnectionInfoPill(
                         horizontalArrangement = Arrangement.End,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        IconButton(onClick = onRefresh, enabled = !info.loading) {
+                        IconButton(
+                            onClick = onRefresh,
+                            enabled = !info.loading,
+                            modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
+                        ) {
                             Icon(
                                 painterResource(Res.drawable.ic_sync),
                                 contentDescription = stringResource(Res.string.info_refresh),

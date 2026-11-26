@@ -107,6 +107,7 @@ import com.xtm.vpn.ui.theme.readableOn
 import com.xtm.vpn.ui.theme.SpiderGradients
 import com.xtm.vpn.ui.theme.pingColor
 import com.xtm.vpn.ui.theme.SpiderLime
+import com.xtm.vpn.ui.spider.xtmButtonGlass
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.xtm.vpn.ui.platform.mouseDragScroll
@@ -449,7 +450,7 @@ fun ServersScreen(
         AlertDialog(
             onDismissRequest = { showRealDelayNote = false },
             confirmButton = {
-                TextButton(onClick = { showRealDelayNote = false }) {
+                TextButton(onClick = { showRealDelayNote = false }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                     Text(stringResource(Res.string.action_ok))
                 }
             },
@@ -684,7 +685,8 @@ fun ServersScreen(
                     IconButton(
                         enabled = !testing,
                         onClick = { pingMenu = true },
-                        modifier = Modifier.tourTarget(TourTargets.SERVERS_PING),
+                        modifier = Modifier.tourTarget(TourTargets.SERVERS_PING)
+                            .xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
                     ) {
                         Icon(
                             painterResource(Res.drawable.ic_speed),
@@ -701,7 +703,10 @@ fun ServersScreen(
                 }
 
                 if (testing) {
-                    IconButton(onClick = { PingCoordinator.cancel() }) {
+                    IconButton(
+                        onClick = { PingCoordinator.cancel() },
+                        modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
+                    ) {
                         Icon(
                             painterResource(Res.drawable.ic_close),
                             contentDescription = stringResource(Res.string.ping_stop),
@@ -715,7 +720,11 @@ fun ServersScreen(
                             CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
                         }
                     } else {
-                        IconButton(onClick = { updateSubscription(openSubscription) }, enabled = updatingSubId == null) {
+                        IconButton(
+                            onClick = { updateSubscription(openSubscription) },
+                            enabled = updatingSubId == null,
+                            modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
+                        ) {
                             Icon(
                                 painterResource(Res.drawable.ic_sync),
                                 contentDescription = stringResource(Res.string.subs_update),
@@ -723,7 +732,10 @@ fun ServersScreen(
                         }
                     }
                 } else {
-                    IconButton(onClick = { showRealDelayNote = true }) {
+                    IconButton(
+                        onClick = { showRealDelayNote = true },
+                        modifier = Modifier.xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
+                    ) {
                         Icon(
                             painterResource(Res.drawable.ic_info),
                             contentDescription = stringResource(Res.string.real_delay_note_title),
@@ -732,7 +744,8 @@ fun ServersScreen(
                 }
                 IconButton(
                     onClick = { showSubs = true },
-                    modifier = Modifier.tourTarget(TourTargets.SERVERS_SUBS),
+                    modifier = Modifier.tourTarget(TourTargets.SERVERS_SUBS)
+                        .xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
                 ) {
                     Icon(
                         painterResource(Res.drawable.ic_add_link),
@@ -742,7 +755,8 @@ fun ServersScreen(
                 Box {
                     IconButton(
                         onClick = { overflowOpen = true },
-                        modifier = Modifier.tourTarget(TourTargets.SERVERS_MORE),
+                        modifier = Modifier.tourTarget(TourTargets.SERVERS_MORE)
+                            .xtmButtonGlass(CircleShape, MaterialTheme.colorScheme.surface),
                     ) {
                         Icon(
                             painterResource(Res.drawable.ic_more_vert),
@@ -887,7 +901,7 @@ fun ServersScreen(
                         )
                         TextButton(onClick = {
                             selected = if (selected.size == shownIds.size) emptySet() else shownIds.toSet()
-                        }) {
+                        }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                             Text(
                                 stringResource(
                                     if (selected.size == shownIds.size && shownIds.isNotEmpty()) {
@@ -1290,10 +1304,10 @@ fun ServersScreen(
                 }
             },
             confirmButton = {
-                TextButton(onClick = save) { Text(stringResource(Res.string.action_save)) }
+                TextButton(onClick = save, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.action_save)) }
             },
             dismissButton = {
-                TextButton(onClick = { ovpnPrompt = null }) { Text(stringResource(Res.string.action_cancel)) }
+                TextButton(onClick = { ovpnPrompt = null }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.action_cancel)) }
             },
         )
     }
@@ -1586,10 +1600,10 @@ fun ServersScreen(
                     val n = repository.enableWireguardObfuscation(pending)
                     obfuscateCandidates = emptyList()
                     toastRes(Res.string.wg_obfuscate_done, n)
-                }) { Text(stringResource(Res.string.wg_obfuscate_enable)) }
+                }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.wg_obfuscate_enable)) }
             },
             dismissButton = {
-                TextButton(onClick = { obfuscateCandidates = emptyList() }) {
+                TextButton(onClick = { obfuscateCandidates = emptyList() }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                     Text(stringResource(Res.string.wg_obfuscate_keep))
                 }
             },
@@ -1862,10 +1876,10 @@ fun ServersScreen(
                 )
             },
             confirmButton = {
-                TextButton(onClick = save) { Text(stringResource(Res.string.action_save)) }
+                TextButton(onClick = save, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.action_save)) }
             },
             dismissButton = {
-                TextButton(onClick = { renameTarget = null }) {
+                TextButton(onClick = { renameTarget = null }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                     Text(stringResource(Res.string.action_cancel))
                 }
             },
@@ -1885,10 +1899,10 @@ fun ServersScreen(
                         confirmDeleteInvalid = null
                         toastRes(Res.string.removed_count, repository.removeInvalid())
                     },
-                ) { Text(stringResource(Res.string.action_delete)) }
+                , modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.action_delete)) }
             },
             dismissButton = {
-                TextButton(onClick = { confirmDeleteInvalid = null }) {
+                TextButton(onClick = { confirmDeleteInvalid = null }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                     Text(stringResource(Res.string.action_cancel))
                 }
             },
@@ -1908,10 +1922,10 @@ fun ServersScreen(
                     val removed = servers.size
                     repository.removeAll { !it.isLocked }
                     toastRes(Res.string.removed_count, removed)
-                }) { Text(stringResource(Res.string.action_delete)) }
+                }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.action_delete)) }
             },
             dismissButton = {
-                TextButton(onClick = { confirmDeleteAll = false }) {
+                TextButton(onClick = { confirmDeleteAll = false }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                     Text(stringResource(Res.string.action_cancel))
                 }
             },
@@ -1936,7 +1950,7 @@ fun ServersScreen(
                                 selected = emptySet()
                                 toastRes(Res.string.select_moved, moved)
                             },
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth().xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface),
                         ) {
                             Text(label, modifier = Modifier.weight(1f))
                         }
@@ -1944,7 +1958,7 @@ fun ServersScreen(
                 }
             },
             confirmButton = {
-                TextButton(onClick = { moveSelectionTo = false }) {
+                TextButton(onClick = { moveSelectionTo = false }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                     Text(stringResource(Res.string.action_cancel))
                 }
             },
@@ -1964,10 +1978,10 @@ fun ServersScreen(
                     selecting = false
                     selected = emptySet()
                     toastRes(Res.string.removed_count, n)
-                }) { Text(stringResource(Res.string.action_delete)) }
+                }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.action_delete)) }
             },
             dismissButton = {
-                TextButton(onClick = { confirmDeleteSelection = false }) {
+                TextButton(onClick = { confirmDeleteSelection = false }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                     Text(stringResource(Res.string.action_cancel))
                 }
             },
@@ -1988,7 +2002,7 @@ fun ServersScreen(
                                 repository.moveToGroup(target.id, id)
                                 moveTarget = null
                             },
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth().xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface),
                         ) {
                             Text(
                                 label,
@@ -2000,7 +2014,7 @@ fun ServersScreen(
                 }
             },
             confirmButton = {
-                TextButton(onClick = { moveTarget = null }) { Text(stringResource(Res.string.action_cancel)) }
+                TextButton(onClick = { moveTarget = null }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.action_cancel)) }
             },
         )
     }
@@ -2015,10 +2029,10 @@ fun ServersScreen(
                 TextButton(onClick = {
                     repository.remove(target.id)
                     deleteTarget = null
-                }) { Text(stringResource(Res.string.action_delete)) }
+                }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) { Text(stringResource(Res.string.action_delete)) }
             },
             dismissButton = {
-                TextButton(onClick = { deleteTarget = null }) {
+                TextButton(onClick = { deleteTarget = null }, modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface)) {
                     Text(stringResource(Res.string.action_cancel))
                 }
             },
@@ -2189,7 +2203,10 @@ private fun ServerCard(
                 )
             }
             Box {
-                IconButton(onClick = { menuOpen = true }) {
+                IconButton(
+                    onClick = { menuOpen = true },
+                    modifier = Modifier.xtmButtonGlass(MaterialTheme.shapes.small, MaterialTheme.colorScheme.surface),
+                ) {
                     Icon(
                         painterResource(Res.drawable.ic_more_vert),
                         contentDescription = stringResource(Res.string.servers_actions),
@@ -2547,7 +2564,8 @@ private fun RawJsonSheet(
                 onClick = { saveError = onSave(text.trim()) },
                 enabled = usable,
                 shape = RoundedCornerShape(18.dp),
-                modifier = Modifier.fillMaxWidth().height(54.dp),
+                modifier = Modifier.fillMaxWidth().height(54.dp)
+                    .xtmButtonGlass(RoundedCornerShape(18.dp), MaterialTheme.colorScheme.primaryContainer),
             ) {
                 Text(stringResource(Res.string.action_save), fontWeight = FontWeight.SemiBold)
             }
